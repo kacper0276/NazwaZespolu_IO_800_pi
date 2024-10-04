@@ -1,2 +1,2 @@
-# Inzynieria_Oprogramowania
-Kacper Renkel, Nikodem Gronowski, Tomasz Milanowski, Maciej Dylak
+# Nazwa zespołu
+Kacper Renkel (Szef), Nikodem Gronowski, Tomasz Milanowski, Maciej Dylak
