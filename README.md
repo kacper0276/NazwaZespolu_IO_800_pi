@@ -1,2 +1,2 @@
 # Nazwa zespołu
-Kacper Renkel (Szef), Nikodem Gronowski, Tomasz Milanowski, Maciej Dylak
+Kacper Renkel (Szef), Nikodem Gronowski, Tomasz Milanowski, Maciej Dylak, Karolina Duda
