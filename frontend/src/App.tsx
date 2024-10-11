@@ -7,7 +7,11 @@ function App() {
 
   return (
     <>
-      <div>{treeService.generateTreeSapling()}</div>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: treeService.generateTreeSapling(),
+        }}
+      />
     </>
   );
 }
