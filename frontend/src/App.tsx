@@ -12,6 +12,16 @@ function App() {
           __html: treeService.generateTreeSapling(),
         }}
       />
+      <div
+        dangerouslySetInnerHTML={{
+          __html: treeService.generateTreeWithLeaves(),
+        }}
+      />
+      <div
+        dangerouslySetInnerHTML={{
+          __html: treeService.generateTreeWithoutLeaves(),
+        }}
+      />
     </>
   );
 }
