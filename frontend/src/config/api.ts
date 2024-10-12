@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_URL } from "../App";
 
 export const apiJson = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: `${API_URL}`,
   headers: {
     "Content-Type": "application/json",
   },
@@ -9,7 +10,7 @@ export const apiJson = axios.create({
 });
 
 export const apiMultipart = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: `${API_URL}`,
   headers: {
     "Content-Type": "multipart/form-data",
   },
@@ -17,6 +18,6 @@ export const apiMultipart = axios.create({
 });
 
 export const api = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: `${API_URL}`,
   withCredentials: true,
 });

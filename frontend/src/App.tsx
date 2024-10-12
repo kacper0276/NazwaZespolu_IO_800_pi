@@ -1,6 +1,8 @@
 import "./App.css";
 import TreeService from "./services/treeService";
 
+export const API_URL = "http://localhost:3001";
+
 function App() {
   // Przykład użycia
   const treeService = TreeService.getInstance();
