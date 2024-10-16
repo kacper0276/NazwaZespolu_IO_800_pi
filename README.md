@@ -1,2 +1,2 @@
-# Nazwa zespołu
-Kacper Renkel (Szef), Nikodem Gronowski, Tomasz Milanowski, Maciej Dylak, Karolina Duda
+# Nazwa zespołu - TheForest; aplikacja który pomaga utrzymać postanowienia
+Kacper Renkel (Szef), Nikodem Gronowski, Tomasz Milanowski, Maciej Dylak
