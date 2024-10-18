@@ -1,31 +1,12 @@
-import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import PopUp from "./components/PopUp";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+
+export const API_URL = "http://localhost:3001";
 
 export default function App() {
-  const [showModal, setShowModal] = useState<boolean>(false);
-
-  const showModalFunc = () => {
-    setShowModal(true);
-  };
-
-  const closeModalFunc = () => {
-    setShowModal(false);
-  };
-
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <TouchableOpacity onPress={showModalFunc}>
-        <Text>KLIK</Text>
-      </TouchableOpacity>
-      {showModal && (
-        <PopUp
-          body={<Text>BODY</Text>}
-          header={<Text>Header</Text>}
-          closeModal={closeModalFunc}
-        />
-      )}
+      <Text>Witam</Text>
     </View>
   );
 }
