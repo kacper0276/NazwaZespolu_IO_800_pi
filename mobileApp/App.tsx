@@ -4,7 +4,6 @@ import { RootStackParamList } from "./types/navigation.types";
 import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./screens/HomeScreen";
 import DetailsScreen from "./screens/DetailsScreen";
-import { StyleSheet, View } from "react-native";
 
 export const API_URL = "http://localhost:3001";
 
