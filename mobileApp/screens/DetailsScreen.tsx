@@ -1,13 +1,6 @@
 import React from "react";
-import { RootStackParamList } from "../types/navigation.types";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StyleSheet, Text, View } from "react-native";
 import { COLORS } from "../const/index";
-
-type DetailsScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList,
-  "Details"
->;
 
 export default function DetailsScreen() {
   return (
