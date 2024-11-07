@@ -59,8 +59,7 @@ const ScreenRotateProvider: React.FC<Props> = ({ children }) => {
   );
 };
 
-const useScreenRotateContext = () => {
-  return useContext<IScreenRotateContextType>(ScreenRotateContext);
-};
+const useScreenRotateContext = () =>
+  useContext<IScreenRotateContextType>(ScreenRotateContext);
 
 export { ScreenRotateProvider, ScreenRotateContext, useScreenRotateContext };
