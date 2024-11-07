@@ -5,19 +5,29 @@ import { NavigationContainer } from "@react-navigation/native";
 import HomeScreen from "./screens/HomeScreen";
 import DetailsScreen from "./screens/DetailsScreen";
 import { ScreenRotateProvider } from "./context/screenRotateContext";
+import { AuthProvider, useAuthContext } from "./context/authContext";
+import LoginScreen from "./screens/LoginScreen";
 
 export const API_URL = "http://localhost:3001";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export default function App() {
+const AppNavigator = () => {
+  const { logged } = useAuthContext();
+
   return (
-    <ScreenRotateProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Home"
-          screenOptions={{ headerShown: false }}
-        >
+    <Stack.Navigator
+      initialRouteName={logged ? "Home" : "Login"}
+      screenOptions={{ headerShown: false }}
+    >
+      {!logged ? (
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ title: "Logowanie" }}
+        />
+      ) : (
+        <>
           <Stack.Screen
             name="Home"
             component={HomeScreen}
@@ -28,8 +38,20 @@ export default function App() {
             component={DetailsScreen}
             options={{ title: "Szczegóły" }}
           />
-        </Stack.Navigator>
-      </NavigationContainer>
+        </>
+      )}
+    </Stack.Navigator>
+  );
+};
+
+export default function App() {
+  return (
+    <ScreenRotateProvider>
+      <AuthProvider>
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </AuthProvider>
     </ScreenRotateProvider>
   );
 }
