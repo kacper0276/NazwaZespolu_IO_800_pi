@@ -7,6 +7,9 @@ import DetailsScreen from "./screens/DetailsScreen";
 import { ScreenRotateProvider } from "./context/screenRotateContext";
 import { AuthProvider, useAuthContext } from "./context/authContext";
 import LoginScreen from "./screens/LoginScreen";
+import { SettingsProvider } from "./context/settingsContext";
+import SettingsScreen from "./screens/SettingsScreen";
+import ThemeProviderWrapper from "./theme/ThemeProviderWrapper";
 
 export const API_URL = "http://localhost:3001";
 
@@ -38,6 +41,11 @@ const AppNavigator = () => {
             component={DetailsScreen}
             options={{ title: "Szczegóły" }}
           />
+          <Stack.Screen
+            name="Settings"
+            component={SettingsScreen}
+            options={{ title: "Ustawienia" }}
+          />
         </>
       )}
     </Stack.Navigator>
@@ -47,11 +55,15 @@ const AppNavigator = () => {
 export default function App() {
   return (
     <ScreenRotateProvider>
-      <AuthProvider>
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
-      </AuthProvider>
+      <SettingsProvider>
+        <AuthProvider>
+          <ThemeProviderWrapper>
+            <NavigationContainer>
+              <AppNavigator />
+            </NavigationContainer>
+          </ThemeProviderWrapper>
+        </AuthProvider>
+      </SettingsProvider>
     </ScreenRotateProvider>
   );
 }

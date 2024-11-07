@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { RootStackParamList } from "../types/navigation.types";
 import { COLORS } from "../const/index";
 
@@ -20,6 +20,10 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
       <Text style={styles.link} onPress={() => navigation.navigate("Details")}>
         Idź do szczegółów
       </Text>
+      <Button
+        title="Ustawienia"
+        onPress={() => navigation.navigate("Settings")}
+      />
     </View>
   );
 }
