@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 
+RUN npm install -g yarn@latest --force
+
 RUN yarn install
 
 COPY . .
