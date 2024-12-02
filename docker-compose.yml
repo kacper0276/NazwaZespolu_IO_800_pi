@@ -29,22 +29,17 @@ services:
       - appNetwork
     dns:
       - 8.8.8.8
-    environment:
-      MONGO_URI: ${MONGO_URI}
-      MONGO_USER: ${MONGO_USER}
-      MONGO_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_DATABASE: ${MONGO_DATABASE}
+    env_file:
+      - ./backend/.env
     command: yarn start:dev
 
   mongodb:
     image: mongo:6.0
-    container_name: mongodb
+    container_name: mongodb_1
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    env_file:
+      - ./backend/.env
     networks:
       - appNetwork
 
