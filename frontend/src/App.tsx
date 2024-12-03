@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import TreeService from "./services/treeService";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage"
+import RegisterPage from "./pages/RegisterPage"
 
 export const API_URL = "http://localhost:3001";
 
@@ -13,6 +14,7 @@ const content = (
       {/* Home Page */}
       <Route path="/" element={<h1>Czesc</h1>} />
       <Route path="/Welcome-Page" element={<WelcomePage/>} />
+      <Route path="/Register-Page" element={<RegisterPage/>} />
     </Routes>
   </>
 );
@@ -53,6 +55,10 @@ function App() {
           <Route
             path="/Welcome-Page"
             element={<Layout header={header} content={<WelcomePage/>} footer={footer} hideHeaderFooter />}
+          />
+            <Route
+            path="/Register-Page"
+            element={<Layout header={header} content={<RegisterPage/>} footer={footer} hideHeaderFooter />}
           />
         </Routes>
       </Router>

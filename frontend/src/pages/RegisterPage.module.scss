@@ -1,3 +1,4 @@
+
 @keyframes slideUp {
     from {
         transform: translateY(100vh);
@@ -8,8 +9,6 @@
         opacity: 1;
     }
 }
-
-
 .container {
     position: fixed;
     top: 0;
@@ -38,21 +37,21 @@
     z-index: 1;
 }
 
-.loginBox {
+.registerBox {
     position: relative;
     z-index: 2;
     display: flex;
     width: 800px;
-    height: 450px;
+    height: 600px;
     background-color: white;
     border-radius: 15px;
     overflow: hidden;
-    animation: slideUp 1s ease-out;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    animation: slideUp 1s ease-out;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.loginBox:hover {
+.registerBox:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
 }
@@ -67,15 +66,15 @@
 }
 
 .left {
-    background: white;
+    background: linear-gradient(to right, #45c032, #00957f);
+    color: white;
+    text-align: center;
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
     border-right: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .right {
-    background: linear-gradient(to right,  #45c032, #00957f);
-    color: white;
-    text-align: center;
-    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+    background: white;
 }
 
 h2 {
@@ -93,7 +92,7 @@ h2 {
 .input {
     width: 100%;
     padding: 0.6rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1rem;
@@ -101,18 +100,14 @@ h2 {
 }
 
 .input:focus {
-    border-color: #45c032,;
+    border-color: #45c032;
     box-shadow: 0 0 5px #45c032;
 }
 .input:focus-visible {
-    outline:none
-}
-.check{
-    accent-color:#43dc2c;
-    margin-right: 0.5rem;
+    outline: none;
 }
 
-.signInButton, .signUpButton {
+.signUpButton, .signInButton {
     padding: 0.7rem 1.4rem;
     border: none;
     border-radius: 25px;
@@ -121,20 +116,20 @@ h2 {
     transition: all 0.3s ease;
 }
 
-.signInButton {
+.signUpButton {
     background: linear-gradient(to right, #45c032, #00957f);
     color: white;
     font-weight: bold;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.signInButton:hover {
+.signUpButton:hover {
     background: #00957f;
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
 
-.signUpButton {
+.signInButton {
     background: transparent;
     color: white;
     border: 2px solid white;
@@ -143,22 +138,9 @@ h2 {
     box-shadow: 0 4px 6px rgba(255, 255, 255, 0.2);
 }
 
-.signUpButton:hover {
+.signInButton:hover {
     background: white;
     color: #45c032;
-    border: 2px solid  #00957f;
+    border: 2px solid #00957f;
     box-shadow: 0 8px 12px rgba(255, 255, 255, 0.3);
-}
-
-.link {
-    color:  #00957f;
-    text-decoration: none;
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
-}
-
-.link:hover {
-    color: #00957f;
-    text-decoration: underline;
 }
