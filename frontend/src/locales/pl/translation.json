@@ -1,1 +1,10 @@
-{}
+{
+  "sign-in": "Zaloguj się",
+  "username": "Nazwa użytkownika",
+  "password": "Hasło",
+  "remember-me": "Zapamiętaj mnie",
+  "forgot-password": "Zapomniałeś hasła",
+  "welcome-to-login": "Witaj na stronie logowania",
+  "dontt-have-an-account": "Nie masz jeszcze konta",
+  "sign-up": "Zarejestruj się"
+}
