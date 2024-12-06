@@ -1,1 +1,20 @@
-{}
+{
+  "sign-in": "Zaloguj się",
+  "username": "Nazwa użytkownika",
+  "password": "Hasło",
+  "remember-me": "Zapamiętaj mnie",
+  "forgot-password": "Zapomniałeś hasła",
+  "welcome-to-login": "Witaj na stronie logowania",
+  "dontt-have-an-account": "Nie masz jeszcze konta",
+  "sign-up": "Zarejestruj się",
+
+  "welcome-to-register": "Witamy w rejestracji",
+  "start-your-journey-today": "Rozpocznij swoją podróż już dziś",
+  "join-others-on-their-way-to-improvement": "Dołącz do innych w ich drodze do doskonalenia",
+  "register": "Zarejestruj się",
+  "email": "E-mail",
+  "confirm-password": "Potwierdź hasło",
+  "name": "Imię",
+  "last-name": "Nazwisko",
+  "not-required": "Nieobowiązkowe"
+}

@@ -1,1 +1,20 @@
-{}
+{
+  "sign-in": "Sign in",
+  "username": "Username",
+  "password": "Password",
+  "remember-me": "Remember Me",
+  "forgot-password": "Forgot Password",
+  "welcome-to-login": "Welcome to login",
+  "dontt-have-an-account": "Don't have an account",
+  "sign-up": "Sign up",
+
+  "welcome-to-register": "Welcome to Register",
+  "start-your-journey-today": "Start your journey today",
+  "join-others-on-their-way-to-improvement": "Join others on their way to improvement",
+  "register": "Register",
+  "email": "Email",
+  "confirm-password": "Confirm Password",
+  "name": "Name",
+  "last-name": "Last Name",
+  "not-required": "Not Required"
+}

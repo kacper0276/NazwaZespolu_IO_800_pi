@@ -10,6 +10,7 @@ import LoginScreen from "./screens/LoginScreen";
 import { SettingsProvider } from "./context/settingsContext";
 import SettingsScreen from "./screens/SettingsScreen";
 import ThemeProviderWrapper from "./theme/ThemeProviderWrapper";
+import RegisterScreen from "./screens/RegisterScreen";
 
 export const API_URL = "http://localhost:3001";
 
@@ -24,11 +25,19 @@ const AppNavigator = () => {
       screenOptions={{ headerShown: false }}
     >
       {!logged ? (
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ title: "Logowanie" }}
-        />
+        <>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ title: "Logowanie" }}
+          />
+
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{ title: "Rejestracja" }}
+          />
+        </>
       ) : (
         <>
           <Stack.Screen
