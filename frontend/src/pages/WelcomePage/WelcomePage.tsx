@@ -4,13 +4,40 @@ import styles from "./WelcomePage.module.scss";
 import { useTranslation } from "react-i18next";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { Link } from "react-router-dom";
+import { Lang } from "../../enums/lang.enum";
 
 const WelcomePage: FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   useWebsiteTitle(t("sign-in"));
+
+  const setLang = (lang: Lang) => {
+    i18n.changeLanguage(lang);
+  };
 
   return (
     <div className={styles.container}>
+      <div className={styles.languageBox}>
+        <button
+          onClick={() => setLang(Lang.PL)}
+          className={styles.languageButton}
+        >
+          <img
+            src="src/assets/images/polandFlag.png"
+            alt="Poland flag"
+            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+          />
+        </button>
+        <button
+          onClick={() => setLang(Lang.EN)}
+          className={styles.languageButton}
+        >
+          <img
+            src="src/assets/images/greatBritainFlag.png"
+            alt="UK flag"
+            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+          />
+        </button>
+      </div>
       <div className={styles.overlay}></div>
       <div className={`${styles.loginBox} shadow-lg`}>
         <div className={styles.left}>
