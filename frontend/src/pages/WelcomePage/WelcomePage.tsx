@@ -1,10 +1,12 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import styles from "./WelcomePage.module.scss";
 import { useTranslation } from "react-i18next";
+import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 
 const WelcomePage: FC = () => {
   const { t } = useTranslation();
+  useWebsiteTitle(t("sign-in"));
 
   return (
     <div className={styles.container}>

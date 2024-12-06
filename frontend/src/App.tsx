@@ -1,10 +1,10 @@
 import "./App.scss";
 import Layout from "./layout/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
-import TreeService from "./services/treeService";
+// import TreeService from "./services/treeService";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import WelcomePage from "./pages/WelcomePage";
-import RegisterPage from "./pages/RegisterPage";
+import WelcomePage from "./pages/WelcomePage/WelcomePage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 export const API_URL = "http://localhost:3001";
 
@@ -40,7 +40,7 @@ const footer = (
 );
 
 function App() {
-  const treeService = TreeService.getInstance();
+  // const treeService = TreeService.getInstance();
 
   return (
     <>
