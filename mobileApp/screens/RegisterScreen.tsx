@@ -1,7 +1,13 @@
 import React from "react";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { IRegister } from "../types/auth.interface";
+import RegisterForm from "../components/RegisterForm";
 
 const RegisterScreen: React.FC = () => {
+  const handleRegister = (registerData: IRegister) => {
+    console.log(registerData);
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -9,7 +15,8 @@ const RegisterScreen: React.FC = () => {
         resizeMode="cover"
         style={styles.image}
       />
-      <Text>Rejestracja</Text>
+      <Text style={styles.title}>Register in</Text>
+      <RegisterForm onRegister={handleRegister} />
     </View>
   );
 };
@@ -21,6 +28,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     position: "relative",
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+    color: "#000",
   },
   image: {
     position: "absolute",
