@@ -29,7 +29,9 @@ const SettingsProvider: React.FC<Props> = ({ children }) => {
   };
 
   useEffect(() => {
-    setTheme(systemTheme === "dark" ? "dark" : "light");
+    if (systemTheme) {
+      setTheme(systemTheme === "dark" ? "dark" : "light");
+    }
   }, [systemTheme]);
 
   return (

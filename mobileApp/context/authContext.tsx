@@ -40,11 +40,12 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     const loadUserData = async () => {
       const storedUserData = await AsyncStorage.getItem("user");
 
-      if (storedUserData) {
-        const userData: User = JSON.parse(storedUserData);
-        setUser(userData);
-        setLogged(true);
-      }
+      // TODO: Później odkomentuj
+      // if (storedUserData) {
+      //   const userData: User = JSON.parse(storedUserData);
+      //   setUser(userData);
+      //   setLogged(true);
+      // }
     };
 
     loadUserData();
