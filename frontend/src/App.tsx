@@ -8,16 +8,6 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 export const API_URL = "http://localhost:3001";
 
-const header = (
-  <Header>
-    <Routes>
-      <Route path="/Register-Page" element={<></>} />
-      <Route path="/Welcome-Page" element={<></>} />
-      <Route path="*" element={<Navigation />} />
-    </Routes>
-  </Header>
-);
-
 const content = (
   <>
     <Routes>
@@ -47,14 +37,6 @@ const footer = (
       <Route path="*" element={<h1>Footer</h1>} />
     </Routes>
   </>
-)
-
-const footer=(
-  <Routes>
-    <Route path="/Register-Page" element={<></>} />
-    <Route path="/Welcome-Page" element={<></>} />
-    <Route path="*" element={<Footer />} />
-  </Routes>
 );
 
 function App() {
@@ -84,7 +66,6 @@ function App() {
       </Router>
     </>
   );
-};
-
+}
 
 export default App;
