@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { User } from "../types/user.types";
+import { User } from "../types/user.interface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface IAuthContextType {
@@ -26,7 +26,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const login = async (userData: User) => {
     setUser(userData);
-    setLogged(true);
+    // setLogged(true);
     await AsyncStorage.setItem("user", JSON.stringify(userData));
   };
 

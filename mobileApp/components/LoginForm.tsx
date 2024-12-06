@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, TextInput, View } from "react-native";
+import { ILogin } from "../types/auth.interface";
 
 interface LoginFormProps {
-  onLogin: (email: string, password: string) => void;
+  onLogin: (authData: ILogin) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [authData, setAuthData] = useState<ILogin>({ email: "", password: "" });
 
   const handleLogin = () => {
-    onLogin(email, password);
+    onLogin(authData);
   };
 
   return (
@@ -18,16 +18,20 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
       <TextInput
         style={styles.input}
         placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
+        value={authData.email}
+        onChangeText={(email) => {
+          setAuthData({ ...authData, email });
+        }}
         keyboardType="email-address"
         autoCapitalize="none"
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
+        value={authData.password}
+        onChangeText={(password) => {
+          setAuthData({ ...authData, password });
+        }}
         secureTextEntry
       />
       <Button title="Log in" onPress={handleLogin} />

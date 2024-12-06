@@ -11,6 +11,7 @@ import {
 import LoginForm from "../components/LoginForm";
 import { RootStackParamList } from "../types/navigation.types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ILogin } from "../types/auth.interface";
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -24,9 +25,10 @@ type LoginScreenProps = {
 export default function LoginScreen({ navigation }: LoginScreenProps) {
   const { login } = useAuthContext();
 
-  const handleLogin = (email: string, password: string) => {
-    if (email && password) {
-      const userData = { id: 1, name: "test test", email };
+  const handleLogin = (authData: ILogin) => {
+    console.log(authData);
+    if (authData.email && authData.password) {
+      const userData = { id: 1, name: "test test", email: authData.email };
       // TODO: Create request to backend
       login(userData);
     } else {
