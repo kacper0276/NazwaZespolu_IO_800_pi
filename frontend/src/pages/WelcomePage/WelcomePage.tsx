@@ -37,6 +37,16 @@ const WelcomePage: FC = () => {
             style={{ width: "100%", height: "100%", borderRadius: "50%" }}
           />
         </button>
+        <button
+          onClick={() => setLang(Lang.JP)}
+          className={styles.languageButton}
+        >
+          <img
+            src="src/assets/images/japanFlag.jpg"
+            alt="UK flag"
+            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+          />
+        </button>
       </div>
       <div className={styles.overlay}></div>
       <div className={`${styles.loginBox} shadow-lg`}>
