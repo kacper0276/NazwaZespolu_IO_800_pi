@@ -8,12 +8,12 @@ interface LayoutProps {
   hideHeaderFooter?: boolean; // Nowa opcja
 }
 
-const Layout: React.FC<LayoutProps> = ({ header, content, footer, hideHeaderFooter }) => {
+const Layout: React.FC<LayoutProps> = ({ header,footer,content }) => {
   return (
     <>
-      {!hideHeaderFooter && <header className={`${styles.header}`}>{header}</header>}
-      {content}
-      {!hideHeaderFooter && <footer className={`${styles.footer}`}>{footer}</footer>}
+      <header className={`${styles.header}`}>{header}</header>
+      <>{content}</>
+      <footer className={`${styles.footer}`}>{footer}</footer>
     </>
   );
 };

@@ -2,31 +2,50 @@ import "./App.scss";
 import Layout from "./layout/Layout";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TreeService from "./services/treeService";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import WelcomePage from "./pages/WelcomePage"
-import RegisterPage from "./pages/RegisterPage"
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import { DataProvider } from "./context/DataContext";
+import Header from "./layout/Header/Header";
+import Footer from "./layout/Footer/Footer";
+import WelcomePage from "./pages/WelcomePage";
+import RegisterPage from "./pages/RegisterPage";
+import MainPage from "./pages/MainPage";
+import Navigation from "./layout/UI/Navigation";
 
 export const API_URL = "http://localhost:3001";
+
+const header = (
+  <Header>
+    <Routes>
+      <Route path="/Register-Page" element={<></>} />
+      <Route path="/Welcome-Page" element={<></>} />
+      <Route path="*" element={<Navigation />} />
+    </Routes>
+  </Header>
+);
 
 const content = (
   <>
     <Routes>
-      {/* Home Page */}
-      <Route path="/" element={<h1>Czesc</h1>} />
-      <Route path="/Welcome-Page" element={<WelcomePage/>} />
-      <Route path="/Register-Page" element={<RegisterPage/>} />
+      <Route path="/" element={<MainPage/>}/>
+      <Route path="/Welcome-Page" element={<WelcomePage />} />
+      <Route path="/Register-Page" element={<RegisterPage />}/>
     </Routes>
   </>
-);
-function App() {
-  const treeService = TreeService.getInstance();
+)
 
-  const header = <h1>Header</h1>;
-  const footer = <h1>Footer</h1>;
+const footer=(
+  <Routes>
+    <Route path="/Register-Page" element={<></>} />
+    <Route path="/Welcome-Page" element={<></>} />
+    <Route path="*" element={<Footer />} />
+  </Routes>
+);
+const App = () => {
+  const treeService = TreeService.getInstance();
 
   return (
     <>
-    {/*
+      {/*
       <div
         dangerouslySetInnerHTML={{
           __html: treeService.generateTreeSapling(),
@@ -43,27 +62,14 @@ function App() {
         }}
       />
       */}
-      <Router>
-        <Routes>
-          {/* Strona główna z Headerem i Footerem */}
-          <Route
-            path="/"
-            element={<Layout header={header} content={<h1>Main</h1>} footer={footer} />}
-          />
-
-          {/* Strona bez Headera i Footera */}
-          <Route
-            path="/Welcome-Page"
-            element={<Layout header={header} content={<WelcomePage/>} footer={footer} hideHeaderFooter />}
-          />
-            <Route
-            path="/Register-Page"
-            element={<Layout header={header} content={<RegisterPage/>} footer={footer} hideHeaderFooter />}
-          />
-        </Routes>
-      </Router>
+      <DataProvider>
+        <Router>
+            <Layout header={header} content={content} footer={footer}/>
+        </Router>
+      </DataProvider>
     </>
   );
-}
+};
+
 
 export default App;
