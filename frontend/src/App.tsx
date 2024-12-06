@@ -13,16 +13,34 @@ const content = (
     <Routes>
       {/* Home Page */}
       <Route path="/" element={<h1>Czesc</h1>} />
-      <Route path="/Welcome-Page" element={<WelcomePage />} />
-      <Route path="/Register-Page" element={<RegisterPage />} />
+      <Route path="/welcome-page" element={<WelcomePage />} />
+      <Route path="/register-page" element={<RegisterPage />} />
     </Routes>
   </>
 );
+
+const header = (
+  <>
+    <Routes>
+      <Route path="/welcome-page" element={<></>} />
+      <Route path="/register-page" element={<></>} />
+      <Route path="*" element={<h1>Header</h1>} />
+    </Routes>
+  </>
+);
+
+const footer = (
+  <>
+    <Routes>
+      <Route path="/welcome-page" element={<></>} />
+      <Route path="/register-page" element={<></>} />
+      <Route path="*" element={<h1>Footer</h1>} />
+    </Routes>
+  </>
+);
+
 function App() {
   const treeService = TreeService.getInstance();
-
-  const header = <h1>Header</h1>;
-  const footer = <h1>Footer</h1>;
 
   return (
     <>
@@ -44,39 +62,7 @@ function App() {
       />
       */}
       <Router>
-        <Routes>
-          {/* Strona główna z Headerem i Footerem */}
-          <Route
-            path="/"
-            element={
-              <Layout header={header} content={<h1>Main</h1>} footer={footer} />
-            }
-          />
-
-          {/* Strona bez Headera i Footera */}
-          <Route
-            path="/welcome-page"
-            element={
-              <Layout
-                header={header}
-                content={<WelcomePage />}
-                footer={footer}
-                hideHeaderFooter
-              />
-            }
-          />
-          <Route
-            path="/register-page"
-            element={
-              <Layout
-                header={header}
-                content={<RegisterPage />}
-                footer={footer}
-                hideHeaderFooter
-              />
-            }
-          />
-        </Routes>
+        <Layout header={header} content={content} footer={footer} />
       </Router>
     </>
   );
