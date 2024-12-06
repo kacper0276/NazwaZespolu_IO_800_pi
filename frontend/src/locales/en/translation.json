@@ -1,1 +1,10 @@
-{}
+{
+  "sign-in": "Sign in",
+  "username": "Username",
+  "password": "Password",
+  "remember-me": "Remember Me",
+  "forgot-password": "Forgot Password",
+  "welcome-to-login": "Welcome to login",
+  "dontt-have-an-account": "Don't have an account",
+  "sign-up": "Sign up"
+}
