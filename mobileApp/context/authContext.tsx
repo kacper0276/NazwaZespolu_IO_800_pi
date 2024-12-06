@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { User } from "../types/user.types";
+import { User } from "../types/user.interface";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface IAuthContextType {
@@ -26,7 +26,7 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
 
   const login = async (userData: User) => {
     setUser(userData);
-    setLogged(true);
+    // setLogged(true);
     await AsyncStorage.setItem("user", JSON.stringify(userData));
   };
 
@@ -40,11 +40,12 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     const loadUserData = async () => {
       const storedUserData = await AsyncStorage.getItem("user");
 
-      if (storedUserData) {
-        const userData: User = JSON.parse(storedUserData);
-        setUser(userData);
-        setLogged(true);
-      }
+      // TODO: Później odkomentuj
+      // if (storedUserData) {
+      //   const userData: User = JSON.parse(storedUserData);
+      //   setUser(userData);
+      //   setLogged(true);
+      // }
     };
 
     loadUserData();

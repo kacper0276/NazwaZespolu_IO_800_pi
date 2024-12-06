@@ -17,8 +17,8 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
   const { theme } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Text style={[styles.text, { color: theme.text }]}>
+    <View style={[styles.container, { backgroundColor: theme?.background }]}>
+      <Text style={[styles.text, { color: theme?.text }]}>
         Witam na ekranie głównym!
       </Text>
       <Text style={styles.link} onPress={() => navigation.navigate("Details")}>
