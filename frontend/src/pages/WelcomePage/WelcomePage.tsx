@@ -3,6 +3,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import styles from "./WelcomePage.module.scss";
 import { useTranslation } from "react-i18next";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
+import { Link } from "react-router-dom";
 
 const WelcomePage: FC = () => {
   const { t } = useTranslation();
@@ -57,9 +58,9 @@ const WelcomePage: FC = () => {
         <div className={`${styles.right} shadow-sm`}>
           <h2 className="mb-3">{t("welcome-to-login")}</h2>
           <p>{t("dontt-have-an-account")}?</p>
-          <a href="#" className={`${styles.signUpButton} mt-3`}>
+          <Link to="/register-page" className={`${styles.signUpButton} mt-3`}>
             {t("sign-up")}
-          </a>
+          </Link>
         </div>
       </div>
     </div>
