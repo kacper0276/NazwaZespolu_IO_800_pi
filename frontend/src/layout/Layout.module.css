@@ -1,0 +1,15 @@
+.layoutContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+  .sidebar {
+    overflow-y: auto; /* Jeśli sidebar ma długi content */
+    z-index: 1000;
+  }
+  
+  .content {
+    flex: 1;
+  }
+  

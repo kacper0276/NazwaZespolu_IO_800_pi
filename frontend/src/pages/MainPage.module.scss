@@ -1,39 +1,54 @@
-
-@keyframes slideUp {
-    from {
-        transform: translateY(100vh);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-.container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    background-image: url('../assets/images/ForestBG.jpg');
+.homepage {
+    position: relative;
+    background-image: url("../assets/images/ForestBG.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: -1;
-}
+    padding-left: 15rem;
+  
+    /* Nakładka */
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1; 
+    }
+  
 
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: -1;
-}
+    .postsContainer {
+        position: relative;
+        z-index: 2;
+        padding: 20px;
+        width: 30rem;
+    }
+  
+    .post {
+      .card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+  
+      .card-img-top {
+        width: 100%;
+        aspect-ratio: 4 / 5; 
+        object-fit: cover; 
+      }
+  
+      .card-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+      }
+  
+      .card-text {
+        font-size: 0.9rem;
+        color: #666;
+      }
+    }
+  }
+  

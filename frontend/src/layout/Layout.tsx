@@ -10,13 +10,13 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ header, content, footer, sidebar }) => {
   return (
-    <div>
-      <header>{header}</header>
+    <div className={styles.layoutContainer}>
+      <header className={styles.header}>{header}</header>
       <div className="d-flex">
-        <aside >{sidebar}</aside>
-        <main >{content}</main>
+        <aside className={`${styles.sidebar} position-fixed`}>{sidebar}</aside>
+          <main className={styles.content}>{content}</main>
       </div>
-      <footer >{footer}</footer>
+      <footer className={styles.footer}>{footer}</footer>
     </div>
   );
 };
