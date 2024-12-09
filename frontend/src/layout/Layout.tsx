@@ -5,15 +5,19 @@ interface LayoutProps {
   header: ReactNode;
   content: ReactNode;
   footer: ReactNode;
+  sidebar: ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ header, content, footer }) => {
+const Layout: React.FC<LayoutProps> = ({ header, content, footer, sidebar }) => {
   return (
-    <>
-      <header className={`${styles.header}`}>{header}</header>
-      {content}
-      <footer className={`${styles.footer}`}>{footer}</footer>
-    </>
+    <div>
+      <header>{header}</header>
+      <div className="d-flex">
+        <aside >{sidebar}</aside>
+        <main >{content}</main>
+      </div>
+      <footer >{footer}</footer>
+    </div>
   );
 };
 

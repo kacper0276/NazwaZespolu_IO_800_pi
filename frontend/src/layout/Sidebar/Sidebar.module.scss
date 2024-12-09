@@ -1,0 +1,152 @@
+.sidebar {
+  z-index: 10;
+  background-color: #222;
+  color: #fff;
+  width: 250px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.3s ease-in-out;
+
+  &.minimized {
+    width: 80px;
+    overflow: hidden; 
+    
+    .profileDetails, .navSpan {
+      display: none;
+    }
+  }
+
+  * {
+    box-sizing: border-box; 
+  }
+}
+
+.dynamicPanel {
+  z-index: 0;
+  background-color: #333;
+  width: 400px;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
+  &.panelVisible {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  &.panelHidden {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.notificationsContainer {
+  ul {
+    word-wrap: break-word; 
+  }
+}
+
+.profileSection {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  .profilePicture {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .profileDetails {
+    margin-top: 0.5rem;
+
+    .profileName {
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .profileLink {
+      font-size: 0.8rem;
+      color: #ddd;
+      text-decoration: none;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+}
+
+.navSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .navButton {
+    color: #ccc;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-decoration: none;
+    transition: background 0.3s;
+
+    .navSpan {
+      margin-left: 10px;
+    }
+
+    &:hover,
+    &.active {
+      background-color: #444;
+      color: #fff;
+      border-radius: 8px;
+    }
+
+    i {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.settingsSection {
+  text-align: center;
+  margin-bottom: 1rem;
+
+  .settingsButton {
+    color: #ccc;
+    padding: 15px;
+    font-size: 1.2rem;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+.searchBox {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  background-color: #444;
+  color: #fff;
+
+  &:focus {
+    outline: none;
+    border-color: #888;
+  }
+}
+
+.notificationsContainer {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+
+  li {
+    margin: 2px 0;
+    font-size: 0.9rem;
+  }
+}
