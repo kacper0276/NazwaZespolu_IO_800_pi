@@ -6,6 +6,7 @@ import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { Lang } from "../../enums/lang.enum";
 import { apiJson } from "../../config/api";
 import { UserData } from "../../types/user.types";
+import { ApiResponse } from "../../types/api.types";
 
 const RegisterPage: React.FC = () => {
   const [registerData, setRegisterData] = useState<UserData>({
@@ -28,8 +29,11 @@ const RegisterPage: React.FC = () => {
     try {
       console.log(registerData);
 
-      const res = await apiJson.post("users/register", registerData);
-      console.log("Response:", res.data);
+      const res = await apiJson.post<ApiResponse>(
+        "users/register",
+        registerData
+      );
+      console.log("Response:", res);
     } catch (err: any) {
       console.error("Error:", err.response?.data || err.message);
     }
