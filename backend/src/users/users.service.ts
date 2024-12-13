@@ -1,6 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { User } from './entities/user.entity';
+import * as bcrypt from 'bcrypt';
+import { UserData } from './types/user.type';
+import { Role } from 'src/enums/role.enum';
+import { userData } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -14,7 +18,28 @@ export class UsersService {
     return this.usersRepository.delete(id);
   }
 
-  async registerUser(user: Partial<User>): Promise<User | null> {
-    return this.usersRepository.create(user);
+  async registerUser(registerData: Partial<UserData>): Promise<User | null> {
+    const saltOrRounds = 10;
+
+    const someUser = await this.usersRepository.findByEmail(registerData.email);
+
+    if (registerData.password !== registerData.repeat_password) {
+      throw new BadRequestException('Hasła się nie zgadzają');
+    }
+
+    if (someUser) {
+      throw new BadRequestException('Użytkownik o tym e-mailu już istnieje');
+    }
+
+    const hash = await bcrypt.hashSync(registerData.password, saltOrRounds);
+
+    const registerUserData: userData = {
+      email: registerData.email,
+      password: hash,
+      role: Role.USER,
+      isActivated: false,
+    };
+
+    return this.usersRepository.create(registerUserData);
   }
 }

@@ -1,15 +1,43 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { userData } from './dto/user.dto';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpStatus,
+  Post,
+  Res,
+} from '@nestjs/common';
+import { UserData } from './types/user.type';
+import { UsersService } from './users.service';
+import { Response } from 'express';
 
 @Controller('users')
 export class UsersController {
+  constructor(private readonly userService: UsersService) {}
+
   @Post('login')
-  login(@Body() userData: userData) {
+  login(@Body() userData: UserData) {
     console.log(userData);
   }
 
   @Post('register')
-  register(@Body() userData: userData) {
-    console.log(userData);
+  async register(@Body() userData: UserData, @Res() response: Response) {
+    try {
+      const userCreateResponse = await this.userService.registerUser(userData);
+      console.log(userCreateResponse);
+
+      response.status(HttpStatus.CREATED).send({
+        message: 'Zarejestrowano użytkownika',
+      });
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        response.status(HttpStatus.BAD_REQUEST).send({
+          message: error.message,
+        });
+      } else {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+          message: 'Wystąpił błąd serwera',
+        });
+      }
+    }
   }
 }
