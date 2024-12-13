@@ -7,6 +7,8 @@ import { Lang } from "../../enums/lang.enum";
 import { apiJson } from "../../config/api";
 import { UserData } from "../../types/user.types";
 import { ApiResponse } from "../../types/api.types";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage: React.FC = () => {
   const [registerData, setRegisterData] = useState<UserData>({
@@ -16,6 +18,7 @@ const RegisterPage: React.FC = () => {
     lastname: "",
     repeat_password: "",
   });
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   useWebsiteTitle(t("register"));
 
@@ -27,15 +30,17 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      console.log(registerData);
-
       const res = await apiJson.post<ApiResponse>(
         "users/register",
         registerData
       );
-      console.log("Response:", res);
+
+      toast.success(res.data.message);
+      // toast.info()
+
+      navigate("/welcome-page");
     } catch (err: any) {
-      console.error("Error:", err.response?.data || err.message);
+      toast.error(err.response?.data.message || err.message);
     }
   };
 
