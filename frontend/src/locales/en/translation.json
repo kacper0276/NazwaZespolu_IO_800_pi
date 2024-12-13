@@ -16,5 +16,10 @@
   "confirm-password": "Confirm Password",
   "name": "Name",
   "last-name": "Last Name",
-  "not-required": "Not Required"
+  "not-required": "Not Required",
+
+  "a-server-error-occurred": "A server error occurred",
+  "passwords-do-not-match": "Passwords do not match",
+  "a-user-with-this-email-already-exists": "A user with this email already exists",
+  "user-registered": "User registered"
 }

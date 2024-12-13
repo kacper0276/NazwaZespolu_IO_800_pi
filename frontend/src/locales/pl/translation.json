@@ -16,5 +16,10 @@
   "confirm-password": "Potwierdź hasło",
   "name": "Imię",
   "last-name": "Nazwisko",
-  "not-required": "Nieobowiązkowe"
+  "not-required": "Nieobowiązkowe",
+
+  "a-server-error-occurred": "Wystąpił błąd serwera",
+  "passwords-do-not-match": "Hasła się nie zgadzają",
+  "a-user-with-this-email-already-exists": "Użytkownik o tym e-mailu już istnieje",
+  "user-registered": "Zarejestrowano użytkownika"
 }
