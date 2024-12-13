@@ -13,4 +13,8 @@ export class UsersService {
   async deleteUser(id: string): Promise<User | null> {
     return this.usersRepository.delete(id);
   }
+
+  async registerUser(user: Partial<User>): Promise<User | null> {
+    return this.usersRepository.create(user);
+  }
 }
