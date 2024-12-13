@@ -1,16 +1,14 @@
 import "./App.scss";
 import Layout from "./layout/Layout";
 import "bootstrap/dist/css/bootstrap.min.css";
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 // import TreeService from "./services/treeService";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage/WelcomePage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
-import MainPage from "./pages/MainPage"
+import MainPage from "./pages/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
 
-
-export const API_URL = "http://localhost:3001";
 const user = {
   name: "Louis Carter",
   profilePicture: "https://via.placeholder.com/80",
@@ -20,7 +18,7 @@ const content = (
   <>
     <Routes>
       {/* Home Page */}
-      <Route path="/" element={<MainPage/>} />
+      <Route path="/" element={<MainPage />} />
       <Route path="/welcome-page" element={<WelcomePage />} />
       <Route path="/register-page" element={<RegisterPage />} />
     </Routes>
@@ -42,8 +40,7 @@ const sidebar = (
     <Route path="/register-page" element={<></>} />
     <Route path="*" element={<Sidebar user={user} />} />
   </Routes>
-    
-)
+);
 
 const footer = (
   <>
@@ -78,7 +75,12 @@ function App() {
       />
       */}
       <Router>
-        <Layout header={header} content={content} sidebar={sidebar} footer={footer} />
+        <Layout
+          header={header}
+          content={content}
+          sidebar={sidebar}
+          footer={footer}
+        />
       </Router>
     </>
   );

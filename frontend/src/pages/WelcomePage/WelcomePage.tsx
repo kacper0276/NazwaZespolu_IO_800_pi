@@ -43,7 +43,7 @@ const WelcomePage: FC = () => {
         >
           <img
             src="src/assets/images/japanFlag.jpg"
-            alt="UK flag"
+            alt="Japan flag"
             style={{ width: "100%", height: "100%", borderRadius: "50%" }}
           />
         </button>
