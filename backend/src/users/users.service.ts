@@ -24,11 +24,11 @@ export class UsersService {
     const someUser = await this.usersRepository.findByEmail(registerData.email);
 
     if (registerData.password !== registerData.repeat_password) {
-      throw new BadRequestException('Hasła się nie zgadzają');
+      throw new BadRequestException('passwords-do-not-match');
     }
 
     if (someUser) {
-      throw new BadRequestException('Użytkownik o tym e-mailu już istnieje');
+      throw new BadRequestException('a-user-with-this-email-already-exists');
     }
 
     const hash = await bcrypt.hashSync(registerData.password, saltOrRounds);

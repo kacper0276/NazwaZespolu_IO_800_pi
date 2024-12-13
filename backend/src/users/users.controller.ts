@@ -22,11 +22,10 @@ export class UsersController {
   @Post('register')
   async register(@Body() userData: UserData, @Res() response: Response) {
     try {
-      const userCreateResponse = await this.userService.registerUser(userData);
-      console.log(userCreateResponse);
+      await this.userService.registerUser(userData);
 
       response.status(HttpStatus.CREATED).send({
-        message: 'Zarejestrowano użytkownika',
+        message: 'user-registered',
       });
     } catch (error) {
       if (error instanceof BadRequestException) {
@@ -35,7 +34,7 @@ export class UsersController {
         });
       } else {
         response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
-          message: 'Wystąpił błąd serwera',
+          message: 'a-server-error-occurred',
         });
       }
     }
