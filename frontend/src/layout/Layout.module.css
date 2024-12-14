@@ -5,7 +5,7 @@
   
   
   .sidebar {
-    overflow-y: auto; /* Jeśli sidebar ma długi content */
+    overflow-y: auto;
     z-index: 1000;
   }
   
@@ -13,3 +13,7 @@
     flex: 1;
   }
   
+header:empty,
+footer:empty {
+  display: none;
+}
