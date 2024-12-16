@@ -24,5 +24,6 @@
   "user-registered": "Zarejestrowano użytkownika",
 
   "successfully-logged-in": "Pomyślnie zalogowano",
-  "invalid-user-data": "Nieprawidłowe dane użytkownika"
+  "invalid-user-data": "Nieprawidłowe dane użytkownika",
+  "your-account-has-been-successfully-activated": "Twoje konto zostało aktywowane"
 }

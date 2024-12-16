@@ -12,6 +12,7 @@ import Sidebar from "./layout/Sidebar/Sidebar";
 import { UserProvider } from "./context/UserContext";
 import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
 import NoAuthenticatedRoute from "./hoc/NoAuthenticatedRoute";
+import ActivateAccount from "./pages/ActivateAccount/ActivateAccount";
 
 const user = {
   name: "Louis Carter",
@@ -54,6 +55,14 @@ const content = (
           </AuthenticatedRoute>
         }
       />
+      <Route
+        path="/activate-account/:userEmail"
+        element={
+          <NoAuthenticatedRoute>
+            <ActivateAccount />
+          </NoAuthenticatedRoute>
+        }
+      />
     </Routes>
   </>
 );
@@ -72,6 +81,7 @@ const sidebar = (
   <Routes>
     <Route path="/welcome-page" element={<></>} />
     <Route path="/register-page" element={<></>} />
+    <Route path="/activate-account/:userEmail" element={<></>} />
     <Route path="*" element={<Sidebar user={user} />} />
   </Routes>
 );
