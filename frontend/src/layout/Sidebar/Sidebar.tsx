@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Sidebar.module.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { NavLink } from 'react-router-dom';
@@ -14,15 +14,27 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ user }) => {
   const [isMinimized, setIsMinimized] = useState(false);
   const [activePanel, setActivePanel] = useState<"search" | "notifications" | null>(null);
+  const [isHidden, setIsHidden] = useState(true); // Nowy stan do zarządzania widocznością
 
   const togglePanel = (panel: "search" | "notifications") => {
     if (activePanel === panel) {
-      setActivePanel(null); // Zamknij panel
+      // Zamknij panel
+      setActivePanel(null);
+      setTimeout(() => setIsHidden(true), 300); // Ustaw display: none po animacji
     } else {
-      setActivePanel(panel); // Otwórz nowy panel
+      // Otwórz nowy panel
+
+      setActivePanel(panel);
+      setIsHidden(false); // Ustaw display: block przed animacją
     }
     setIsMinimized(!activePanel || activePanel !== panel); // Zminimalizuj sidebar
   };
+
+  useEffect(() => {
+    if (activePanel) {
+      setIsHidden(false); // Otwórz panel, zdejmij display: none
+    }
+  }, [activePanel]);
 
   return (
     <div className="d-flex">
@@ -112,7 +124,7 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
       <div
         className={`${styles.dynamicPanel} ${
           activePanel ? styles.panelVisible : styles.panelHidden
-        }`}
+        } ${isHidden ? styles.hidden : ''}`} // Dodaj hidden na podstawie stanu
       >
         <div className="p-3 w-100 text-white text-wrap">
           {activePanel === "search" && (

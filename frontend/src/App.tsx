@@ -6,6 +6,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage/WelcomePage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import MainPage from "./pages/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
 import { UserProvider } from "./context/UserContext";
@@ -22,6 +23,7 @@ const content = (
       <Route path="/" element={<MainPage />} />
       <Route path="/welcome-page" element={<WelcomePage />} />
       <Route path="/register-page" element={<RegisterPage />} />
+      <Route path="/profile-page" element={<ProfilePage />} />
     </Routes>
   </>
 );
@@ -31,6 +33,7 @@ const header = (
     <Routes>
       <Route path="/welcome-page" element={<></>} />
       <Route path="/register-page" element={<></>} />
+      <Route path="/profile-page" element={<></>} />
       <Route path="*" element={<></>} />
     </Routes>
   </>
@@ -48,6 +51,7 @@ const footer = (
     <Routes>
       <Route path="/welcome-page" element={<></>} />
       <Route path="/register-page" element={<></>} />
+      <Route path="/profile-page" element={<></>} />
       <Route path="*" element={<></>} />
     </Routes>
   </>
