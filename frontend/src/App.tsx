@@ -10,6 +10,9 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import MainPage from "./pages/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
 import { UserProvider } from "./context/UserContext";
+import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
+import NoAuthenticatedRoute from "./hoc/NoAuthenticatedRoute";
+import ActivateAccount from "./pages/ActivateAccount/ActivateAccount";
 
 const user = {
   name: "Louis Carter",
@@ -20,10 +23,46 @@ const content = (
   <>
     <Routes>
       {/* Home Page */}
-      <Route path="/" element={<MainPage />} />
-      <Route path="/welcome-page" element={<WelcomePage />} />
-      <Route path="/register-page" element={<RegisterPage />} />
-      <Route path="/profile-page" element={<ProfilePage />} />
+      <Route
+        path="/"
+        element={
+          <AuthenticatedRoute>
+            <MainPage />
+          </AuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/welcome-page"
+        element={
+          <NoAuthenticatedRoute>
+            <WelcomePage />
+          </NoAuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/register-page"
+        element={
+          <NoAuthenticatedRoute>
+            <RegisterPage />
+          </NoAuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/profile-page"
+        element={
+          <AuthenticatedRoute>
+            <ProfilePage />
+          </AuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/activate-account/:userEmail"
+        element={
+          <NoAuthenticatedRoute>
+            <ActivateAccount />
+          </NoAuthenticatedRoute>
+        }
+      />
     </Routes>
   </>
 );
@@ -42,6 +81,7 @@ const sidebar = (
   <Routes>
     <Route path="/welcome-page" element={<></>} />
     <Route path="/register-page" element={<></>} />
+    <Route path="/activate-account/:userEmail" element={<></>} />
     <Route path="*" element={<Sidebar user={user} />} />
   </Routes>
 );

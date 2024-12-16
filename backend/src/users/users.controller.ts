@@ -3,7 +3,9 @@ import {
   Body,
   Controller,
   HttpStatus,
+  Patch,
   Post,
+  Query,
   Res,
 } from '@nestjs/common';
 import { UserData } from './types/user.type';
@@ -43,6 +45,30 @@ export class UsersController {
 
       response.status(HttpStatus.CREATED).send({
         message: 'user-registered',
+      });
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        response.status(HttpStatus.BAD_REQUEST).send({
+          message: error.message,
+        });
+      } else {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+          message: 'a-server-error-occurred',
+        });
+      }
+    }
+  }
+
+  @Patch('activate-account')
+  async activateAccount(
+    @Query('userEmail') userEmail: string,
+    @Res() response: Response,
+  ) {
+    console.log(userEmail);
+    try {
+      await this.userService.activateAccount(userEmail);
+      response.status(HttpStatus.OK).send({
+        message: 'your-account-has-been-successfully-activated',
       });
     } catch (error) {
       if (error instanceof BadRequestException) {

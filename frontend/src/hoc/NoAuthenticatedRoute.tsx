@@ -2,16 +2,16 @@ import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 
-const AuthenticatedRoute: React.FC<{ children: ReactNode }> = ({
+const NoAuthenticatedRoute: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const userData = useUser().user;
 
-  if (userData) {
+  if (!userData) {
     return <>{children}</>;
   } else {
-    return <Navigate to={"/welcome-page"} />;
+    return <Navigate to={"/"} />;
   }
 };
 
-export default AuthenticatedRoute;
+export default NoAuthenticatedRoute;

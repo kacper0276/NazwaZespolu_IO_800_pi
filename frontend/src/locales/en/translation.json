@@ -24,5 +24,6 @@
   "user-registered": "User registered",
 
   "successfully-logged-in": "Successfully logged in",
-  "invalid-user-data": "Invalid user data"
+  "invalid-user-data": "Invalid user data",
+  "your-account-has-been-successfully-activated": "Your account has been successfully activated"
 }
