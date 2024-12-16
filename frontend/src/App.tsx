@@ -11,6 +11,7 @@ import MainPage from "./pages/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
 import { UserProvider } from "./context/UserContext";
 import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
+import NoAuthenticatedRoute from "./hoc/NoAuthenticatedRoute";
 
 const user = {
   name: "Louis Carter",
@@ -29,8 +30,22 @@ const content = (
           </AuthenticatedRoute>
         }
       />
-      <Route path="/welcome-page" element={<WelcomePage />} />
-      <Route path="/register-page" element={<RegisterPage />} />
+      <Route
+        path="/welcome-page"
+        element={
+          <NoAuthenticatedRoute>
+            <WelcomePage />
+          </NoAuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/register-page"
+        element={
+          <NoAuthenticatedRoute>
+            <RegisterPage />
+          </NoAuthenticatedRoute>
+        }
+      />
       <Route
         path="/profile-page"
         element={
