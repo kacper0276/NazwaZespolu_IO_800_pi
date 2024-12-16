@@ -1,23 +1,17 @@
-import axios from "axios";
-import { API_URL } from "../App";
+import axios, { AxiosInstance } from "axios";
 
-export const apiJson = axios.create({
-  baseURL: `${API_URL}`,
-  headers: {
-    "Content-Type": "application/json",
-  },
-  withCredentials: true,
-});
+export const API_URL = "http://localhost:3001/api/";
 
-export const apiMultipart = axios.create({
-  baseURL: `${API_URL}`,
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-  withCredentials: true,
-});
+const createApiInstance = (contentType: string): AxiosInstance => {
+  return axios.create({
+    baseURL: API_URL,
+    headers: {
+      "Content-Type": contentType,
+    },
+    // withCredentials: true,
+  });
+};
 
-export const api = axios.create({
-  baseURL: `${API_URL}`,
-  withCredentials: true,
-});
+export const apiJson = createApiInstance("application/json");
+export const apiMultipart = createApiInstance("multipart/form-data");
+export const api = createApiInstance("");

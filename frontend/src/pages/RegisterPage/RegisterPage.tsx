@@ -1,16 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import styles from "./RegisterPage.module.scss";
 import { useTranslation } from "react-i18next";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { Lang } from "../../enums/lang.enum";
+import { apiJson } from "../../config/api";
+import { ApiResponse } from "../../types/api.types";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { UserRegisterData } from "../../types/IUser";
 
 const RegisterPage: React.FC = () => {
   const { t, i18n } = useTranslation();
   useWebsiteTitle(t("register"));
+  const navigate = useNavigate();
+  const [registerData, setRegisterData] = useState<UserRegisterData>({
+    email: "",
+    password: "",
+    firstname: "",
+    lastname: "",
+    repeat_password: "",
+  });
 
   const setLang = (lang: Lang) => {
     i18n.changeLanguage(lang);
+  };
+
+  const register = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const res = await apiJson.post<ApiResponse>(
+        "users/register",
+        registerData
+      );
+
+      toast.success(t(res.data.message));
+      // toast.info()
+
+      navigate("/welcome-page");
+    } catch (err: any) {
+      toast.error(t(err.response?.data.message || err.message));
+    }
   };
 
   return (
@@ -43,7 +74,7 @@ const RegisterPage: React.FC = () => {
         >
           <img
             src="src/assets/images/japanFlag.jpg"
-            alt="UK flag"
+            alt="Japan flag"
             style={{ width: "100%", height: "100%", borderRadius: "50%" }}
           />
         </button>
@@ -58,13 +89,16 @@ const RegisterPage: React.FC = () => {
         </div>
         <div className={styles.right}>
           <h2 className="text-secondary mb-2">{t("register")}</h2>
-          <form>
+          <form onSubmit={register}>
             <label className={styles.label}>{t("email")}</label>
             <input
               type="email"
               id="email"
               placeholder={t("email")}
               className={`${styles.input} form-control`}
+              onChange={(e) =>
+                setRegisterData({ ...registerData, email: e.target.value })
+              }
             />
 
             <label htmlFor="password" className={styles.label}>
@@ -75,6 +109,9 @@ const RegisterPage: React.FC = () => {
               id="password"
               placeholder={t("password")}
               className={`${styles.input} form-control`}
+              onChange={(e) =>
+                setRegisterData({ ...registerData, password: e.target.value })
+              }
             />
 
             <label className={styles.label}>{t("confirm-password")}</label>
@@ -83,14 +120,23 @@ const RegisterPage: React.FC = () => {
               id="confirmPassword"
               placeholder={t("confirm-password")}
               className={`${styles.input} form-control`}
+              onChange={(e) =>
+                setRegisterData({
+                  ...registerData,
+                  repeat_password: e.target.value,
+                })
+              }
             />
 
             <label className={styles.label}>{t("name")}</label>
             <input
               type="text"
-              id="confirmPassword"
+              id="firstname"
               placeholder={t("name")}
               className={`${styles.input} form-control`}
+              onChange={(e) =>
+                setRegisterData({ ...registerData, firstname: e.target.value })
+              }
             />
 
             <label className={styles.label}>{`${t("last-name")}(${t(
@@ -98,9 +144,12 @@ const RegisterPage: React.FC = () => {
             )})`}</label>
             <input
               type="text"
-              id="confirmPassword"
+              id="lastname"
               placeholder={t("last-name")}
               className={`${styles.input} form-control`}
+              onChange={(e) =>
+                setRegisterData({ ...registerData, lastname: e.target.value })
+              }
             />
 
             <button type="submit" className={`${styles.signUpButton} mt-4`}>

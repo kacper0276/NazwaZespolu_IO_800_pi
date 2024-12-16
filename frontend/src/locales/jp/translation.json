@@ -16,5 +16,10 @@
   "confirm-password": "ポトウィアードズ・ハスロー",
   "name": "イミー",
   "last-name": "ナズウィスコー",
-  "not-required": "ナイオーボーウィアズコーウー"
+  "not-required": "ナイオーボーウィアズコーウー",
+
+  "a-server-error-occurred": "ワイスタピル・ブラッド・サーワーラー",
+  "passwords-do-not-match": "ハスラー・シー・ニー・ズギャドザッジャー",
+  "a-user-with-this-email-already-exists": "アジトコーニック・オー・ティム・イー・マイルー・ジャズ・イストニエッジ",
+  "user-registered": "ゼーレジェストロワノー・アジトコーニカー"
 }
