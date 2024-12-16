@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./ActivateAccount.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiJson } from "../../config/api";
@@ -33,11 +33,13 @@ const ActivateAccount: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    activateAccount();
+  }, []);
+
   return (
     <div className={styles.container}>
-      <h1>Aktywuj konto</h1>
-      <p>Aby aktywować konto naciśnij przycisk</p>
-      <button onClick={activateAccount}>Klik</button>
+      <h1>Trwa aktywacja konta</h1>
     </div>
   );
 };
