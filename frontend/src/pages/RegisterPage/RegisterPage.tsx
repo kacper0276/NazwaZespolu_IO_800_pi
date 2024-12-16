@@ -5,22 +5,22 @@ import { useTranslation } from "react-i18next";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { Lang } from "../../enums/lang.enum";
 import { apiJson } from "../../config/api";
-import { UserData } from "../../types/user.types";
 import { ApiResponse } from "../../types/api.types";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { UserRegisterData } from "../../types/IUser";
 
 const RegisterPage: React.FC = () => {
-  const [registerData, setRegisterData] = useState<UserData>({
+  const { t, i18n } = useTranslation();
+  useWebsiteTitle(t("register"));
+  const navigate = useNavigate();
+  const [registerData, setRegisterData] = useState<UserRegisterData>({
     email: "",
     password: "",
     firstname: "",
     lastname: "",
     repeat_password: "",
   });
-  const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
-  useWebsiteTitle(t("register"));
 
   const setLang = (lang: Lang) => {
     i18n.changeLanguage(lang);

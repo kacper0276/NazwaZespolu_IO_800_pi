@@ -8,6 +8,7 @@ import WelcomePage from "./pages/WelcomePage/WelcomePage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import MainPage from "./pages/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
+import { UserProvider } from "./context/UserContext";
 
 const user = {
   name: "Louis Carter",
@@ -55,9 +56,8 @@ const footer = (
 function App() {
   // const treeService = TreeService.getInstance();
 
-  return (
-    <>
-      {/*
+  {
+    /*
       <div
         dangerouslySetInnerHTML={{
           __html: treeService.generateTreeSapling(),
@@ -73,7 +73,11 @@ function App() {
           __html: treeService.generateTreeWithoutLeaves(),
         }}
       />
-      */}
+      */
+  }
+
+  return (
+    <UserProvider>
       <Router>
         <Layout
           header={header}
@@ -82,7 +86,7 @@ function App() {
           footer={footer}
         />
       </Router>
-    </>
+    </UserProvider>
   );
 }
 

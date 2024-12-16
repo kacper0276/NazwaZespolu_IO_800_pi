@@ -21,5 +21,8 @@
   "a-server-error-occurred": "A server error occurred",
   "passwords-do-not-match": "Passwords do not match",
   "a-user-with-this-email-already-exists": "A user with this email already exists",
-  "user-registered": "User registered"
+  "user-registered": "User registered",
+
+  "successfully-logged-in": "Successfully logged in",
+  "invalid-user-data": "Invalid user data"
 }

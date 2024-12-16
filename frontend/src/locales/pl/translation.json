@@ -21,5 +21,8 @@
   "a-server-error-occurred": "Wystąpił błąd serwera",
   "passwords-do-not-match": "Hasła się nie zgadzają",
   "a-user-with-this-email-already-exists": "Użytkownik o tym e-mailu już istnieje",
-  "user-registered": "Zarejestrowano użytkownika"
+  "user-registered": "Zarejestrowano użytkownika",
+
+  "successfully-logged-in": "Pomyślnie zalogowano",
+  "invalid-user-data": "Nieprawidłowe dane użytkownika"
 }
