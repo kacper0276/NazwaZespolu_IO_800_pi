@@ -42,4 +42,23 @@ export class UsersService {
 
     return this.usersRepository.create(registerUserData);
   }
+
+  async loginUser(loginData: Partial<UserData>): Promise<User | null> {
+    const someUser = await this.usersRepository.findByEmail(loginData.email);
+
+    if (someUser) {
+      const comparePassword = await bcrypt.compare(
+        loginData.password,
+        someUser.password,
+      );
+
+      if (comparePassword) {
+        return someUser;
+      }
+
+      throw new BadRequestException('invalid-user-data');
+    }
+
+    throw new BadRequestException('invalid-user-data');
+  }
 }
