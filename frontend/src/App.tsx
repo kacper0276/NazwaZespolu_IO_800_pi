@@ -10,6 +10,7 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import MainPage from "./pages/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
 import { UserProvider } from "./context/UserContext";
+import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
 
 const user = {
   name: "Louis Carter",
@@ -20,10 +21,24 @@ const content = (
   <>
     <Routes>
       {/* Home Page */}
-      <Route path="/" element={<MainPage />} />
+      <Route
+        path="/"
+        element={
+          <AuthenticatedRoute>
+            <MainPage />
+          </AuthenticatedRoute>
+        }
+      />
       <Route path="/welcome-page" element={<WelcomePage />} />
       <Route path="/register-page" element={<RegisterPage />} />
-      <Route path="/profile-page" element={<ProfilePage />} />
+      <Route
+        path="/profile-page"
+        element={
+          <AuthenticatedRoute>
+            <ProfilePage />
+          </AuthenticatedRoute>
+        }
+      />
     </Routes>
   </>
 );
