@@ -61,7 +61,9 @@ export class UsersService {
   }
 
   async loginUser(loginData: Partial<UserData>): Promise<User | null> {
-    const someUser = await this.usersRepository.findByEmail(loginData.email);
+    const someUser = await this.usersRepository.findActivateAccountByEmail(
+      loginData.email,
+    );
 
     if (someUser) {
       const comparePassword = await bcrypt.compare(
@@ -77,5 +79,17 @@ export class UsersService {
     }
 
     throw new BadRequestException('invalid-user-data');
+  }
+
+  async activateAccount(userEmail: string): Promise<User> {
+    const someUser = await this.usersRepository.findByEmail(userEmail);
+
+    if (!someUser) {
+      throw new BadRequestException('invalid-user-data');
+    }
+
+    someUser.isActivated = true;
+
+    return await this.usersRepository.update(someUser.id, someUser);
   }
 }

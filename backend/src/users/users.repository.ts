@@ -18,6 +18,10 @@ export class UsersRepository {
     return this.userModel.findOne({ email }).exec();
   }
 
+  async findActivateAccountByEmail(email: string): Promise<User | null> {
+    return this.userModel.findOne({ email: email, isActivated: true }).exec();
+  }
+
   async update(id: string, updates: Partial<User>): Promise<User | null> {
     return this.userModel.findByIdAndUpdate(id, updates, { new: true }).exec();
   }
