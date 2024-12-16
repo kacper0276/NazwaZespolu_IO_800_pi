@@ -1,4 +1,7 @@
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export const mailerConfig: any = {
   transport: {
@@ -8,10 +11,11 @@ export const mailerConfig: any = {
     auth: {
       user: process.env.EMAIL_LOGIN,
       pass: process.env.EMAIL_PASSWORD,
+      method: 'LOGIN',
     },
   },
   defaults: {
-    from: '"Adminisjtracja serwisu" <no-reply@theforest.pl>',
+    from: '"Adminisjtracja serwisu" <kacper4312@op.pl>',
   },
   template: {
     dir: process.cwd() + '/template/',
