@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
@@ -6,9 +6,12 @@ import { UserData } from './types/user.type';
 import { Role } from 'src/enums/role.enum';
 import { userData } from './dto/user.dto';
 import { MailerService } from '@nestjs-modules/mailer';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class UsersService {
+  private readonly logger = new Logger(UsersService.name);
+
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly mailerService: MailerService,
@@ -91,5 +94,15 @@ export class UsersService {
     someUser.isActivated = true;
 
     return await this.usersRepository.update(someUser.id, someUser);
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async handleDeleteInactiveUsers() {
+    this.logger.log(
+      'Rozpoczynanie zadania cron: usuwanie nieaktywnych użytkowników.',
+    );
+
+    const deletedCount = await this.usersRepository.deleteInactiveUsers();
+    this.logger.log(`Usunięto ${deletedCount} nieaktywnych użytkowników.`);
   }
 }

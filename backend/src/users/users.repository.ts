@@ -33,4 +33,11 @@ export class UsersRepository {
   async findAll(): Promise<User[]> {
     return this.userModel.find().exec();
   }
+
+  async deleteInactiveUsers(): Promise<number> {
+    const result = await this.userModel
+      .deleteMany({ isActivated: false })
+      .exec();
+    return result.deletedCount;
+  }
 }
