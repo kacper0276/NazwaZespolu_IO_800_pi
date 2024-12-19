@@ -75,7 +75,7 @@ const Messages: React.FC = () => {
         userData.email,
         selectedUser.email
       );
-      WebSocketService.sendMessage(username, message, room);
+      WebSocketService.sendMessage(userData.email, message, room);
       setMessage("");
     }
   };

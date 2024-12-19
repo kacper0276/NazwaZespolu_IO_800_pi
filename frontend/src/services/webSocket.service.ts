@@ -8,8 +8,6 @@ class WebSocketService {
   }
 
   joinRoom(room: string) {
-    console.log(room);
-
     this.socket.emit("joinRoom", room);
   }
 
@@ -26,7 +24,8 @@ class WebSocketService {
   }
 
   generateRoomId(user1: string, user2: string): string {
-    return `${user1}-${user2}`;
+    const sortedUsers = [user1, user2].sort();
+    return sortedUsers.join("-");
   }
 }
 
