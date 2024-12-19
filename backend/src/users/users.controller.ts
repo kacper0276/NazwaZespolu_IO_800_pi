@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   HttpStatus,
   Patch,
   Post,
@@ -64,11 +65,32 @@ export class UsersController {
     @Query('userEmail') userEmail: string,
     @Res() response: Response,
   ) {
-    console.log(userEmail);
     try {
       await this.userService.activateAccount(userEmail);
       response.status(HttpStatus.OK).send({
         message: 'your-account-has-been-successfully-activated',
+      });
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        response.status(HttpStatus.BAD_REQUEST).send({
+          message: error.message,
+        });
+      } else {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+          message: 'a-server-error-occurred',
+        });
+      }
+    }
+  }
+
+  @Get('search')
+  async searchUsers(@Query('query') query: string, @Res() response: Response) {
+    try {
+      const users = await this.userService.searchUsers(query);
+
+      response.status(HttpStatus.OK).send({
+        message: 'search-results',
+        data: users,
       });
     } catch (error) {
       if (error instanceof BadRequestException) {

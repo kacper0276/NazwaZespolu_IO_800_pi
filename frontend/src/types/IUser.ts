@@ -15,4 +15,6 @@ export interface UserType {
   password: string;
   role: string;
   _id: string;
+  firstname: string | null;
+  lastname: string | null;
 }

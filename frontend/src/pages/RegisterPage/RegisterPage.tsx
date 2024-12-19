@@ -30,7 +30,7 @@ const RegisterPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const res = await apiJson.post<ApiResponse>(
+      const res = await apiJson.post<ApiResponse<string>>(
         "users/register",
         registerData
       );
