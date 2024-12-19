@@ -15,7 +15,7 @@ export const mailerConfig: any = {
     },
   },
   defaults: {
-    from: '"Adminisjtracja serwisu" <inzynieria-uwm@op.pl>',
+    from: '"Adminisjtracja serwisu" <kacper4312@op.pl>',
   },
   template: {
     dir: process.cwd() + '/template/',

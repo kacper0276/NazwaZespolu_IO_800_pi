@@ -45,6 +45,8 @@ export class UsersService {
       password: hash,
       role: Role.USER,
       isActivated: false,
+      firstname: registerData.firstname,
+      lastname: registerData.lastname,
     };
 
     const registeredUserData =
@@ -52,7 +54,7 @@ export class UsersService {
 
     this.mailerService.sendMail({
       to: `${registeredUserData.email}`,
-      from: `"Adminisjtracja serwisu" <inzynieria-uwm@op.pl>`,
+      from: `"Adminisjtracja serwisu" <kacper4312@op.pl>`,
       subject: 'Potwierdzenie utworzenia konta',
       text: `Witaj, ${registerData.email} \n Kliknij w link, aby aktywować konto: http://localhost:5173/activate-account/${registerData.email}`,
       html: `Witaj, ${registerData.email} \n Kliknij w link, aby aktywować konto: <a href="http://localhost:5173/activate-account/${registerData.email}"> LINK </a>`,
@@ -94,6 +96,14 @@ export class UsersService {
     someUser.isActivated = true;
 
     return await this.usersRepository.update(someUser.id, someUser);
+  }
+
+  async searchUsers(query: string): Promise<User[]> {
+    if (!query) {
+      throw new BadRequestException('search-query-cannot-be-empty');
+    }
+
+    return this.usersRepository.searchUsersByQuery(query);
   }
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)

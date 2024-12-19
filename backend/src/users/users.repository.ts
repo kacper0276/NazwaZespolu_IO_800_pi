@@ -40,4 +40,17 @@ export class UsersRepository {
       .exec();
     return result.deletedCount;
   }
+
+  async searchUsersByQuery(query: string): Promise<User[]> {
+    const searchRegex = new RegExp(query, 'i');
+    return this.userModel
+      .find({
+        $or: [
+          { email: searchRegex },
+          { firstName: searchRegex },
+          { lastName: searchRegex },
+        ],
+      })
+      .exec();
+  }
 }
