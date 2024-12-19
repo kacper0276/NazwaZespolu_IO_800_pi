@@ -13,7 +13,7 @@ const ActivateAccount: React.FC = () => {
 
   const activateAccount = async () => {
     try {
-      const res = await apiJson.patch<ApiResponse>(
+      const res = await apiJson.patch<ApiResponse<string>>(
         `users/activate-account`,
         {},
         {

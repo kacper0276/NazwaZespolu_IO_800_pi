@@ -13,6 +13,7 @@ import { UserProvider } from "./context/UserContext";
 import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
 import NoAuthenticatedRoute from "./hoc/NoAuthenticatedRoute";
 import ActivateAccount from "./pages/ActivateAccount/ActivateAccount";
+import Messages from "./pages/Messages/Messages";
 
 const user = {
   name: "Louis Carter",
@@ -52,6 +53,14 @@ const content = (
         element={
           <AuthenticatedRoute>
             <ProfilePage />
+          </AuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/messages"
+        element={
+          <AuthenticatedRoute>
+            <Messages />
           </AuthenticatedRoute>
         }
       />

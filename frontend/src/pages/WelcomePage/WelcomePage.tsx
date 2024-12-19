@@ -30,7 +30,10 @@ const WelcomePage: FC = () => {
     e.preventDefault();
 
     try {
-      const res = await apiJson.post<ApiResponse>("users/login", loginData);
+      const res = await apiJson.post<ApiResponse<any>>(
+        "users/login",
+        loginData
+      );
 
       const userData = res.data.data;
 
