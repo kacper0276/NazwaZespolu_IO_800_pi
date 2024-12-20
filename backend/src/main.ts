@@ -11,7 +11,6 @@ async function bootstrap() {
     .setTitle('Inżynieria - Swagger')
     .setDescription('Swagger przygotowany dla testowania API')
     .setVersion('1.0')
-    .addTag('Inżynieria oprogramowania')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
