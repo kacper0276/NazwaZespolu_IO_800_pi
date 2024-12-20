@@ -13,11 +13,13 @@ export class MessageRepository {
     sender: string;
     receiver: string;
     message: string;
+    room: string;
   }) {
     const newMessage = new this.messageModel({
       sender: data.sender,
       receiver: data.receiver,
       message: data.message,
+      roomId: data.room,
       createdAt: new Date(),
     });
     return newMessage.save();
@@ -27,5 +29,9 @@ export class MessageRepository {
     return this.messageModel
       .find({ $or: [{ sender: userId }, { receiver: userId }] })
       .sort({ createdAt: 1 });
+  }
+
+  async findMessageForRoomId(roomId: string) {
+    return this.messageModel.find({ roomId }).sort({ createdAt: 1 });
   }
 }

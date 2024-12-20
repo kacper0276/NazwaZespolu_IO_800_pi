@@ -28,15 +28,24 @@ export class MessagesGateway
   @SubscribeMessage('sendMessage')
   async handleMessage(
     client: Socket,
-    payload: { sender: string; receiver: string; message: string },
+    payload: {
+      sender: string;
+      receiver: string;
+      message: string;
+      room: string;
+    },
   ) {
     const savedMessage = await this.messageService.saveMessage(payload);
-    this.server.to(payload.receiver).emit('receiveMessage', savedMessage);
+    this.server.to(payload.room).emit('receiveMessage', savedMessage);
   }
 
   @SubscribeMessage('joinRoom')
   async handleJoinRoom(client: Socket, room: string) {
     client.join(room);
     console.log(`Client ${client.id} joined room: ${room}`);
+    const messages = await this.messageService.getMessagesForRoom(room);
+    console.log(messages);
+
+    this.server.to(room).emit('receiveMessage', messages);
   }
 }
