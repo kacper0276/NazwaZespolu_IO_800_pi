@@ -75,7 +75,12 @@ const Messages: React.FC = () => {
         userData.email,
         selectedUser.email
       );
-      WebSocketService.sendMessage(userData.email, message, room);
+      WebSocketService.sendMessage(
+        userData.email,
+        selectedUser.email,
+        message,
+        room
+      );
       setMessage("");
     }
   };
@@ -83,7 +88,9 @@ const Messages: React.FC = () => {
   useEffect(() => {
     if (selectedUser) {
       WebSocketService.onMessage((msg) => {
-        setMessages((prevMessages) => [...prevMessages, msg]);
+        console.log(msg);
+
+        setMessages((prevMessages) => [...prevMessages, ...msg]);
       });
     }
   }, [selectedUser]);

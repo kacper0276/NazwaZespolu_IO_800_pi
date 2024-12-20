@@ -11,8 +11,8 @@ class WebSocketService {
     this.socket.emit("joinRoom", room);
   }
 
-  sendMessage(sender: string, message: string, room: string) {
-    this.socket.emit("sendMessage", { sender, receiver: room, message });
+  sendMessage(sender: string, receiver: string, message: string, room: string) {
+    this.socket.emit("sendMessage", { sender, receiver, message, room });
   }
 
   onMessage(callback: (message: any) => void) {
