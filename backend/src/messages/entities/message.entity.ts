@@ -14,6 +14,9 @@ export class Message extends Document {
   @Prop({ required: true })
   message: string;
 
+  @Prop({ required: true })
+  roomId: string;
+
   @Prop({ default: Date.now })
   createdAt: Date;
 }
