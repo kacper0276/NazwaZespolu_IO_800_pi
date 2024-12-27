@@ -4,19 +4,18 @@ import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { useApiJson } from "../../config/api";
 import { ApiResponse } from "../../types/api.types";
 import { UserType } from "../../types/IUser";
-import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import WebSocketService from "../../services/webSocket.service";
 import localStorageService from "../../services/localStorage.service";
+import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Messages: React.FC = () => {
   useWebsiteTitle("Wiadomości");
   const { t } = useTranslation();
   const apiJson = useApiJson();
-  const [username, setUsername] = useState<string>("");
-  const [debouncedUsername, setDebouncedUsername] = useState<string>("");
-  const [results, setResults] = useState<UserType[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const location = useLocation();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
   const [messages, setMessages] = useState<
     { sender: string; message: string }[]
@@ -25,42 +24,51 @@ const Messages: React.FC = () => {
   const userData: UserType | null = localStorageService.getItem("user");
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedUsername(username);
-    }, 500);
+    const userEmail = new URLSearchParams(location.search).get("useremail");
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [username]);
-
-  useEffect(() => {
-    if (debouncedUsername.trim()) {
-      fetchUsers(debouncedUsername);
-    } else {
-      setResults([]);
-    }
-  }, [debouncedUsername]);
-
-  const fetchUsers = async (query: string) => {
-    setIsLoading(true);
-    try {
-      const response = await apiJson.get<ApiResponse<UserType[]>>(
-        "users/search",
-        {
-          params: { query },
-        }
-      );
-
-      const users = response.data.data ?? [];
-      setResults(users);
-    } catch (error) {
-      toast.error(t("error-fetching-users"));
-      setResults([]);
-    } finally {
+    if (!userEmail) {
+      toast.error("User email is missing in query params");
       setIsLoading(false);
+      return;
     }
-  };
+
+    const fetchUser = async () => {
+      try {
+        setIsLoading(true);
+
+        if (selectedUser && userData) {
+          const prevRoom = WebSocketService.generateRoomId(
+            userData.email,
+            selectedUser.email
+          );
+          WebSocketService.leaveRoom(prevRoom);
+        }
+
+        const response = await apiJson.get<ApiResponse<UserType[]>>(
+          "users/search",
+          {
+            params: { query: userEmail },
+          }
+        );
+
+        const users = response.data.data ?? [];
+
+        if (users.length === 0) {
+          toast.error("No user found with this email.");
+        } else {
+          setMessages([]);
+          startChat(users[0]);
+        }
+      } catch (error) {
+        toast.error("Error fetching user data.");
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [location.search]);
 
   const startChat = (user: UserType) => {
     setSelectedUser(user);
@@ -82,6 +90,7 @@ const Messages: React.FC = () => {
         message,
         room
       );
+
       setMessage("");
     }
   };
@@ -97,44 +106,29 @@ const Messages: React.FC = () => {
     }
   }, [selectedUser]);
 
+  if (isLoading) {
+    return <p>Loading user data...</p>;
+  }
+
   return (
     <div className={`${styles.mainContainer} container-fluid`}>
-      <div className={styles.containerHeader}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Szukaj użytkownika"
-        />
-      </div>
-
-      {(debouncedUsername || isLoading) && (
-        <div className={styles.resultsContainer}>
-          {isLoading && <p>Ładowanie wyników...</p>}
-          {!isLoading && results.length === 0 && debouncedUsername && (
-            <p>Brak wyników dla "{debouncedUsername}"</p>
-          )}
-          <ul>
-            {results.map((user) => (
-              <li
-                key={user._id}
-                className={styles.resultItem}
-                onClick={() => startChat(user)}
-              >
-                <strong>{user.email}</strong> - {user.firstname} {user.lastname}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
       {selectedUser && (
         <div className={styles.chatContainer}>
           <div className={styles.messagesContainer}>
             <ul>
               {messages.map((msg, index) => (
-                <li key={index}>
-                  <strong>{msg.sender}:</strong> {msg.message}
+                <li
+                  key={index}
+                  className={
+                    msg.sender === userData?.email
+                      ? styles.myMessage
+                      : styles.otherMessage
+                  }
+                >
+                  <strong>
+                    {msg.sender === userData?.email ? "You" : msg.sender}:
+                  </strong>{" "}
+                  {msg.message}
                 </li>
               ))}
             </ul>
