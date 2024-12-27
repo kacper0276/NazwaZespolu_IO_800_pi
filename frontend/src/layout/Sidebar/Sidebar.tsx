@@ -3,7 +3,7 @@ import styles from './Sidebar.module.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
-import { apiJson } from '../../config/api';
+import { useApiJson} from '../../config/api';
 import { ApiResponse } from '../../types/api.types';
 import { UserType } from '../../types/IUser';
 import { toast } from 'react-toastify';
@@ -20,6 +20,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ user }) => {
   const { t } = useTranslation();
+  const api = useApiJson();
   const [isMinimized, setIsMinimized] = useState(false);
   const [activePanel, setActivePanel] = useState<'search' | 'notifications' | 'messages' | null>(null);
   const [isHidden, setIsHidden] = useState(true);
@@ -66,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
   const fetchUsers = async (query: string) => {
     setIsLoading(true);
     try {
-      const response = await apiJson.get<ApiResponse<UserType[]>>('users/search', {
+      const response = await api.get<ApiResponse<UserType[]>>('users/search', {
         params: { query },
       });
 
