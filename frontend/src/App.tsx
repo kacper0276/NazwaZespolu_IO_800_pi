@@ -59,9 +59,9 @@ const content = (
       <Route
         path="/messages"
         element={
-          <AuthenticatedRoute>
+          //<AuthenticatedRoute>
             <Messages />
-          </AuthenticatedRoute>
+          //</AuthenticatedRoute>
         }
       />
       <Route
