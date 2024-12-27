@@ -89,9 +89,10 @@ const Messages: React.FC = () => {
   useEffect(() => {
     if (selectedUser) {
       WebSocketService.onMessage((msg) => {
-        console.log(msg);
-
-        setMessages((prevMessages) => [...prevMessages, ...msg]);
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          ...(Array.isArray(msg) ? msg : [msg]),
+        ]);
       });
     }
   }, [selectedUser]);
