@@ -1,17 +1,66 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
+import { useUser } from "../context/UserContext";
 
 export const API_URL = "http://localhost:3001/api/";
 
-const createApiInstance = (contentType: string): AxiosInstance => {
-  return axios.create({
+const useApiInstance = (contentType: string): AxiosInstance => {
+  const { token, refreshToken, login, logout, user } = useUser();
+
+  const instance = axios.create({
     baseURL: API_URL,
     headers: {
       "Content-Type": contentType,
     },
-    // withCredentials: true,
   });
+
+  instance.interceptors.request.use(
+    (config) => {
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
+  instance.interceptors.response.use(
+    (response) => response,
+    async (error: AxiosError) => {
+      const originalRequest = error.config as AxiosRequestConfig | undefined;
+
+      if (
+        (error.response?.status === 401 || error.response?.status === 403) &&
+        originalRequest
+      ) {
+        try {
+          const refreshResponse = await axios.post(`${API_URL}/auth/refresh`, {
+            refreshToken,
+          });
+
+          const { token: newToken, refreshToken: newRefreshToken } =
+            refreshResponse.data;
+
+          login({ ...user! }, newToken, newRefreshToken);
+
+          originalRequest.headers = {
+            ...originalRequest.headers,
+            Authorization: `Bearer ${newToken}`,
+          };
+
+          return axios(originalRequest);
+        } catch (refreshError) {
+          logout();
+          return Promise.reject(refreshError);
+        }
+      }
+
+      return Promise.reject(error);
+    }
+  );
+
+  return instance;
 };
 
-export const apiJson = createApiInstance("application/json");
-export const apiMultipart = createApiInstance("multipart/form-data");
-export const api = createApiInstance("");
+export const useApiJson = () => useApiInstance("application/json");
+export const useApiMultipart = () => useApiInstance("multipart/form-data");
+export const useApi = () => useApiInstance("");

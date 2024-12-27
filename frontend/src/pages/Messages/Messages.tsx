@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Messages.module.scss";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
-import { apiJson } from "../../config/api";
+import { useApiJson } from "../../config/api";
 import { ApiResponse } from "../../types/api.types";
 import { UserType } from "../../types/IUser";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ import localStorageService from "../../services/localStorage.service";
 const Messages: React.FC = () => {
   useWebsiteTitle("Wiadomości");
   const { t } = useTranslation();
+  const apiJson = useApiJson();
   const [username, setUsername] = useState<string>("");
   const [debouncedUsername, setDebouncedUsername] = useState<string>("");
   const [results, setResults] = useState<UserType[]>([]);
