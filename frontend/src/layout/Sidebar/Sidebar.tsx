@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Sidebar.module.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import { apiJson } from '../../config/api';
+import { ApiResponse } from '../../types/api.types';
+import { UserType } from '../../types/IUser';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+import ProfilePicPlaceholder from '../../assets/images/ProfilePic.jpg';
 
 interface SidebarProps {
   user: {
@@ -12,29 +19,66 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ user }) => {
+  const { t } = useTranslation();
   const [isMinimized, setIsMinimized] = useState(false);
-  const [activePanel, setActivePanel] = useState<"search" | "notifications" | null>(null);
-  const [isHidden, setIsHidden] = useState(true); // Nowy stan do zarządzania widocznością
+  const [activePanel, setActivePanel] = useState<'search' | 'notifications' | 'messages' | null>(null);
+  const [isHidden, setIsHidden] = useState(true);
 
-  const togglePanel = (panel: "search" | "notifications") => {
+  const [username, setUsername] = useState<string>('');
+  const [debouncedUsername, setDebouncedUsername] = useState<string>('');
+  const [results, setResults] = useState<UserType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+
+  const startChat = (user: UserType) => {
+    navigate(`/messages`);
+  };
+  const togglePanel = (panel: 'search' | 'notifications' | 'messages') => {
     if (activePanel === panel) {
-      // Zamknij panel
       setActivePanel(null);
-      setTimeout(() => setIsHidden(true), 300); // Ustaw display: none po animacji
+      setTimeout(() => setIsHidden(true), 300);
     } else {
-      // Otwórz nowy panel
-
       setActivePanel(panel);
-      setIsHidden(false); // Ustaw display: block przed animacją
+      setIsHidden(false);
     }
-    setIsMinimized(!activePanel || activePanel !== panel); // Zminimalizuj sidebar
+    setIsMinimized(!activePanel || activePanel !== panel);
   };
 
   useEffect(() => {
-    if (activePanel) {
-      setIsHidden(false); // Otwórz panel, zdejmij display: none
+    const handler = setTimeout(() => {
+      setDebouncedUsername(username);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [username]);
+
+  useEffect(() => {
+    if (debouncedUsername.trim()) {
+      fetchUsers(debouncedUsername);
+    } else {
+      setResults([]);
     }
-  }, [activePanel]);
+  }, [debouncedUsername]);
+
+  const fetchUsers = async (query: string) => {
+    setIsLoading(true);
+    try {
+      const response = await apiJson.get<ApiResponse<UserType[]>>('users/search', {
+        params: { query },
+      });
+
+      const users = response.data.data ?? [];
+      setResults(users);
+    } catch (error) {
+      toast.error(t('error-fetching-users'));
+      setResults([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="d-flex">
@@ -61,8 +105,8 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
         <nav className={styles.navSection}>
           {/* Search */}
           <div
-            className={`${styles.navButton} ${activePanel === "search" ? "active" : ""}`}
-            onClick={() => togglePanel("search")}
+            className={`${styles.navButton} ${activePanel === 'search' ? 'active' : ''}`}
+            onClick={() => togglePanel('search')}
           >
             <i className="bi bi-search"></i>
             {!isMinimized && <span className={styles.navSpan}>Search</span>}
@@ -70,11 +114,20 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
 
           {/* Notifications */}
           <div
-            className={`${styles.navButton} ${activePanel === "notifications" ? "active" : ""}`}
-            onClick={() => togglePanel("notifications")}
+            className={`${styles.navButton} ${activePanel === 'notifications' ? 'active' : ''}`}
+            onClick={() => togglePanel('notifications')}
           >
             <i className="bi bi-bell"></i>
             {!isMinimized && <span className={styles.navSpan}>Notifications</span>}
+          </div>
+
+          {/* Messages */}
+          <div
+            className={`${styles.navButton} ${activePanel === 'messages' ? 'active' : ''}`}
+            onClick={() => togglePanel('messages')}
+          >
+            <i className="bi bi-chat-dots"></i>
+            {!isMinimized && <span className={styles.navSpan}>Messages</span>}
           </div>
 
           {/* Home */}
@@ -98,17 +151,6 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
             <i className="bi bi-star"></i>
             {!isMinimized && <span className={styles.navSpan}>Premium</span>}
           </NavLink>
-
-          {/* Messages */}
-          <NavLink
-            to="/messages"
-            className={({ isActive }) =>
-              isActive ? `${styles.navButton} active` : styles.navButton
-            }
-          >
-            <i className="bi bi-chat-dots"></i>
-            {!isMinimized && <span className={styles.navSpan}>Messages</span>}
-          </NavLink>
         </nav>
 
         {/* Settings */}
@@ -124,10 +166,10 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
       <div
         className={`${styles.dynamicPanel} ${
           activePanel ? styles.panelVisible : styles.panelHidden
-        } ${isHidden ? styles.hidden : ''}`} // Dodaj hidden na podstawie stanu
+        } ${isHidden ? styles.hidden : ''}`}
       >
         <div className="p-3 w-100 text-white text-wrap">
-          {activePanel === "search" && (
+          {activePanel === 'search' && (
             <>
               <h5>Search</h5>
               <input
@@ -137,7 +179,7 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
               />
             </>
           )}
-          {activePanel === "notifications" && (
+          {activePanel === 'notifications' && (
             <>
               <h5>Notifications</h5>
               <ul className="list-unstyled">
@@ -145,6 +187,39 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
                 <li>🔔 Notification 2: Your premium plan expires soon.</li>
                 <li>🔔 Notification 3: Don't miss our latest updates!</li>
               </ul>
+            </>
+          )}
+          {activePanel === 'messages' && (
+            <>
+              <h5>Messages</h5>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Search user by email..."
+                className={styles.searchBox}
+              />
+              <div className={styles.resultsContainer}>
+                {isLoading && <p>Loading results...</p>}
+                {!isLoading && results.length === 0 && debouncedUsername && (
+                  <p>No results for "{debouncedUsername}"</p>
+                )}
+                <ul>
+                  {results.map((user) => (
+                    <li
+                    key={user._id}
+                    className={styles.resultItem}
+                    onClick={() => startChat(user)} // Funkcja otwierająca chat z użytkownikiem
+                  >
+                    <img
+                      src={ProfilePicPlaceholder}
+                      className={styles.userAvatar}
+                    />
+                    <strong>{user.firstname} {user.lastname}</strong> - {user.email}
+                  </li>
+                  ))}
+                </ul>
+              </div>
             </>
           )}
         </div>
