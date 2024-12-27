@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Lang } from "../../enums/lang.enum";
 import { UserLoginData } from "../../types/IUser";
 import { toast } from "react-toastify";
-import { apiJson } from "../../config/api";
+import { useApiJson } from "../../config/api";
 import { ApiResponse } from "../../types/api.types";
 import { useUser } from "../../context/UserContext";
 import localStorageService from "../../services/localStorage.service";
@@ -16,6 +16,7 @@ const WelcomePage: FC = () => {
   const { t, i18n } = useTranslation();
   const userContext = useUser();
   const navigate = useNavigate();
+  const apiJson = useApiJson();
   useWebsiteTitle(t("sign-in"));
   const [loginData, setLoginData] = useState<UserLoginData>({
     email: "",
@@ -30,16 +31,21 @@ const WelcomePage: FC = () => {
     e.preventDefault();
 
     try {
-      const res = await apiJson.post<ApiResponse<any>>(
-        "users/login",
-        loginData
+      const res = await apiJson.post<ApiResponse<any>>("auth/login", loginData);
+
+      const loginDataRes = res.data.data;
+
+      console.log(loginDataRes);
+
+      localStorageService.setItem("user", loginDataRes.user);
+      localStorageService.setItem("accessToken", loginDataRes.accessToken);
+      localStorageService.setItem("refreshToken", loginDataRes.refreshToken);
+
+      userContext.login(
+        loginDataRes.user,
+        loginDataRes.accessToken,
+        loginDataRes.refreshToken
       );
-
-      const userData = res.data.data;
-
-      localStorageService.setItem("user", userData);
-
-      userContext.login(userData);
 
       toast.success(t(res.data.message));
 

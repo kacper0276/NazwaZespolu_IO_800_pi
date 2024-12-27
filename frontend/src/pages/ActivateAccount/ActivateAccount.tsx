@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import styles from "./ActivateAccount.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiJson } from "../../config/api";
 import { ApiResponse } from "../../types/api.types";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useApiJson } from "../../config/api";
 
 const ActivateAccount: React.FC = () => {
   const { t } = useTranslation();
   const params = useParams();
   const navigate = useNavigate();
+  const apiJson = useApiJson();
 
   const activateAccount = async () => {
     try {
