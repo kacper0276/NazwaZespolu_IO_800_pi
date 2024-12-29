@@ -15,6 +15,7 @@ import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
 import NoAuthenticatedRoute from "./hoc/NoAuthenticatedRoute";
 import ActivateAccount from "./pages/ActivateAccount/ActivateAccount";
 import Messages from "./pages/Messages/Messages";
+import Settings from "./pages/Settings/Settings";
 
 const user = {
   name: "Louis Carter",
@@ -68,9 +69,9 @@ const content = (
       <Route
         path="/messages"
         element={
-          //<AuthenticatedRoute>
+          <AuthenticatedRoute>
             <Messages />
-          //</AuthenticatedRoute>
+          </AuthenticatedRoute>
         }
       />
       <Route
@@ -79,6 +80,14 @@ const content = (
           <NoAuthenticatedRoute>
             <ActivateAccount />
           </NoAuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <AuthenticatedRoute>
+            <Settings />
+          </AuthenticatedRoute>
         }
       />
     </Routes>
