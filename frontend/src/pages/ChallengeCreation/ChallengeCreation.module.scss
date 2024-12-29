@@ -127,4 +127,80 @@
     border: 3px solid;
     border-image: linear-gradient(90deg, #45c032, #00957f) 1;
   }
+  .tagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .tag {
+    background-color: #45c032;
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  
+  .removeTagButton {
+    background: none;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+  }
+  .errorMessage{
+    color: rgb(157, 0, 0);
+  }
+  .skinPreview {
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  .skinGif {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .placeholderPreview {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .placeholderImage {
+    max-width: 80%;
+    height: auto;
+    border-radius: 8px;
+  }
+  .select {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #f8f9fa;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  
+    &:hover {
+      border-color: #45c032;
+    }
+  
+    &:focus {
+      outline: none;
+      border-color: #45c032;
+      box-shadow: 0 0 5px rgba(69, 192, 50, 0.5);
+    }
+  
+    option {
+      background-color: #1e1e1e;
+      color: #f8f9fa;
+    }
+  }
+  
   
