@@ -5,9 +5,11 @@ import styles from "./Settings.module.scss";
 import AccountForm from "../../components/AccountForm/AccountForm";
 import PrivacyForm from "../../components/PrivacyForm/PrivacyForm";
 import ContactSupportForm from "../../components/ContactSupportForm/ContactSupportForm";
+import { useUser } from "../../context/UserContext";
 
 const Settings: React.FC = () => {
   const { t } = useTranslation();
+  const user = useUser();
   useWebsiteTitle(t("settings"));
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
@@ -58,6 +60,15 @@ const Settings: React.FC = () => {
             >
               {t("contact_support")}
             </button>
+
+            {user.user?.role === "admin" ? (
+              <button
+                className={styles.settingsButton}
+                onClick={() => setActiveSection("contact")}
+              >
+                {t("admin_settings")}
+              </button>
+            ) : null}
           </>
         )}
       </div>
