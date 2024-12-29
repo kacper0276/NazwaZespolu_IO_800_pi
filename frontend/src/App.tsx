@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage/WelcomePage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import ChallengeCreation from "./pages/ChallengeCreation/ChallengeCreation"
 import MainPage from "./pages/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
 import { UserProvider } from "./context/UserContext";
@@ -14,6 +15,7 @@ import AuthenticatedRoute from "./hoc/AuthenticatedRoute";
 import NoAuthenticatedRoute from "./hoc/NoAuthenticatedRoute";
 import ActivateAccount from "./pages/ActivateAccount/ActivateAccount";
 import Messages from "./pages/Messages/Messages";
+import Settings from "./pages/Settings/Settings";
 
 const user = {
   name: "Louis Carter",
@@ -40,6 +42,14 @@ const content = (
           </NoAuthenticatedRoute>
         }
       />
+            <Route
+        path="/create-challenge"
+        element={
+          <NoAuthenticatedRoute>
+            <ChallengeCreation/>
+          </NoAuthenticatedRoute>
+        }
+      />
       <Route
         path="/register-page"
         element={
@@ -59,9 +69,9 @@ const content = (
       <Route
         path="/messages"
         element={
-          //<AuthenticatedRoute>
+          <AuthenticatedRoute>
             <Messages />
-          //</AuthenticatedRoute>
+          </AuthenticatedRoute>
         }
       />
       <Route
@@ -70,6 +80,14 @@ const content = (
           <NoAuthenticatedRoute>
             <ActivateAccount />
           </NoAuthenticatedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <AuthenticatedRoute>
+            <Settings />
+          </AuthenticatedRoute>
         }
       />
     </Routes>

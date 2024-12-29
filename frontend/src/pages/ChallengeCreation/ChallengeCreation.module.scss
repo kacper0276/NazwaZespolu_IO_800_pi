@@ -1,0 +1,130 @@
+.formContainer {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: url("../../assets/images/ForestBG.jpg") center/cover fixed;
+    padding: 2rem;
+    position: relative;
+  
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 0;
+    }
+  }
+  
+  .form {
+    z-index: 1;
+    background-color: #1e1e1e;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .title {
+    color: #f8f9fa;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .inputGroup,
+  .radioGroup,
+  .checkboxGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .label {
+    color: #e9ecef;
+    font-weight: bold;
+    display: block;
+  }
+  
+  .input,
+  .textarea {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #f8f9fa;
+  
+    &:focus {
+      outline: none;
+      border-color: #45c032; /* Gradient color */
+      box-shadow: 0 0 5px rgba(69, 192, 50, 0.5);
+    }
+  }
+  
+  .checkbox,
+  .radio {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    accent-color: #45c032; 
+  }
+  
+  .checkbox:checked,
+  .radio:checked {
+    background-color: #45c032; /* Checkbox/radio background */
+    border-color: #45c032;
+  }
+  
+  .checkboxLabel,
+  .radioLabel {
+    color: #e9ecef;
+  }
+  
+  .submitButton {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(90deg, #45c032, #00957f);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+  
+    &:hover {
+      background: linear-gradient(90deg, #00957f, #45c032);
+    }
+  }
+  
+  .checkboxGroup input:focus,
+  .radioGroup input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(69, 192, 50, 0.5); /* Green glow on focus */
+  }
+  
+  .checkboxGroup,
+  .radioGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+  
+  .checkboxGroup input,
+  .radioGroup input {
+    width: 15px;
+    height: 15px;
+  }
+  
+  .difficultyDisplay {
+    text-align: center;
+    color: #fff;
+    padding: 0.5rem;
+    border-radius: 5px;
+    background-color: #2c2c2c;
+    font-weight: bold;
+    margin-top: 0.5rem;
+  }
+  
+  .difficultyBorder {
+    border: 3px solid;
+    border-image: linear-gradient(90deg, #45c032, #00957f) 1;
+  }
+  
