@@ -1,0 +1,9 @@
+.mainContainer {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: url("../../assets/images/ForestBG.jpg") center/cover fixed;
+  padding: 2rem;
+  position: relative;
+}
