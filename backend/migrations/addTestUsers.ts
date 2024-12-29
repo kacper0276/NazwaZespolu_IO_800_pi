@@ -33,7 +33,7 @@ async function createTestUsers() {
     const newUser = new User({
       email: testEmail,
       password: hashedPassword,
-      role: Role.USER,
+      role: i % 2 === 0 ? Role.ADMIN : Role.USER,
       isActivated: true,
     });
 
