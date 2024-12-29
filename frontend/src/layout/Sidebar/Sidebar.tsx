@@ -9,6 +9,8 @@ import { UserType } from "../../types/IUser";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import ProfilePicPlaceholder from "../../assets/images/ProfilePic.jpg";
+import { useUser } from "../../context/UserContext";
+import LocalStorageService from "../../services/localStorage.service";
 
 interface SidebarProps {
   user: {
@@ -21,6 +23,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ user }) => {
   const { t } = useTranslation();
   const api = useApiJson();
+  const userHook = useUser();
   const [isMinimized, setIsMinimized] = useState(false);
   const [activePanel, setActivePanel] = useState<
     "search" | "notifications" | "messages" | null
@@ -86,6 +89,12 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
     }
   };
 
+  const logout = () => {
+    userHook.logout();
+    LocalStorageService.clear();
+    navigate("/welcome-page");
+  };
+
   return (
     <div className="d-flex">
       {/* Sidebar */}
@@ -105,6 +114,9 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
               <a href={user.profileLink} className={styles.profileLink}>
                 View Profile
               </a>
+              <button onClick={logout} className={styles.logoutButton}>
+                Wyloguj się
+              </button>
             </div>
           )}
         </div>
