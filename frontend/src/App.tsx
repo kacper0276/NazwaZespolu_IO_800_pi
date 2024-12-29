@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WelcomePage from "./pages/WelcomePage/WelcomePage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
-import ChallengeCreation from "./pages/ChallengeCreation/ChallengeCreation"
+import ChallengeCreation from "./pages/ChallengeCreation/ChallengeCreation";
 import MainPage from "./pages/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
 import { UserProvider } from "./context/UserContext";
@@ -16,6 +16,7 @@ import NoAuthenticatedRoute from "./hoc/NoAuthenticatedRoute";
 import ActivateAccount from "./pages/ActivateAccount/ActivateAccount";
 import Messages from "./pages/Messages/Messages";
 import Settings from "./pages/Settings/Settings";
+import { isMobile, isTablet } from "react-device-detect";
 
 const user = {
   name: "Louis Carter",
@@ -42,11 +43,11 @@ const content = (
           </NoAuthenticatedRoute>
         }
       />
-            <Route
+      <Route
         path="/create-challenge"
         element={
           <NoAuthenticatedRoute>
-            <ChallengeCreation/>
+            <ChallengeCreation />
           </NoAuthenticatedRoute>
         }
       />
@@ -145,6 +146,23 @@ function App() {
         }}
       />
       */
+  }
+
+  if (isMobile || isTablet) {
+    return (
+      <div className="mobile-placeholder">
+        <h1>Skorzystaj z naszej aplikacji mobilnej</h1>
+        <p>Pobierz aplikację mobilną lub odwiedź naszą stronę na komputerze.</p>
+        <a
+          href="https://play.google.com/store"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn btn-primary"
+        >
+          Pobierz aplikację
+        </a>
+      </div>
+    );
   }
 
   return (
