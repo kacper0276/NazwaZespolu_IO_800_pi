@@ -55,7 +55,7 @@
   
     &:focus {
       outline: none;
-      border-color: #45c032; /* Gradient color */
+      border-color: #45c032; 
       box-shadow: 0 0 5px rgba(69, 192, 50, 0.5);
     }
   }
@@ -69,7 +69,7 @@
   
   .checkbox:checked,
   .radio:checked {
-    background-color: #45c032; /* Checkbox/radio background */
+    background-color: #45c032; 
     border-color: #45c032;
   }
   
