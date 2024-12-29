@@ -1,0 +1,65 @@
+.formContainer {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #e6f4ea;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.textArea {
+  width: 100%;
+  max-width: 500px;
+  height: 150px;
+  border: 2px solid #2e7d32;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #f7fff7;
+  resize: none;
+}
+
+.ratingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.tree {
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+  color: #9e9e9e;
+}
+
+.tree:hover {
+  transform: scale(1.2);
+}
+
+.activeTree {
+  color: #2e7d32;
+}
+
+.inactiveTree {
+  color: #000;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #2e7d32;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitButton:hover {
+  background-color: #1b5e20;
+}
