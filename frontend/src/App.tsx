@@ -8,6 +8,7 @@ import WelcomePage from "./pages/WelcomePage/WelcomePage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ChallengeCreation from "./pages/ChallengeCreation/ChallengeCreation";
+import PremiumOffer from "./pages/PremiumOffert/PremiumOffer"
 import MainPage from "./pages/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
 import { UserProvider } from "./context/UserContext";
@@ -64,6 +65,14 @@ const content = (
         element={
           <AuthenticatedRoute>
             <ProfilePage />
+          </AuthenticatedRoute>
+        }
+      />
+        <Route
+        path="/premium-offer"
+        element={
+          <AuthenticatedRoute>
+            <PremiumOffer />
           </AuthenticatedRoute>
         }
       />

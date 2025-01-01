@@ -172,7 +172,7 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
 
           {/* Premium */}
           <NavLink
-            to="/premium"
+            to="/premium-offer"
             className={({ isActive }) =>
               isActive ? `${styles.navButton} active` : styles.navButton
             }
