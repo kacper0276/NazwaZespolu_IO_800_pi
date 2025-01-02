@@ -1,9 +1,12 @@
+$main-container-background: url("../../assets/images/ForestBG.jpg") center/cover
+  fixed;
+
 .mainContainer {
   min-height: 100vh;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  background: url("../../assets/images/ForestBG.jpg") center/cover fixed;
+  background: $main-container-background;
   padding: 2rem;
   padding-left: 15rem;
   position: relative;
@@ -12,7 +15,7 @@
 .sidebar {
   width: 250px;
   height: 90vh;
-  background-color: rgba(87, 145, 100, 0.6);
+  background-color: #333;
   border-radius: 8px;
   padding: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -33,6 +36,7 @@
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-bottom: 5px;
   }
 
   .settingsButton:hover {
@@ -85,4 +89,34 @@
 
 .contentExpanded {
   margin-left: 0.5rem;
+}
+
+.adminSuboptions {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.3s ease;
+  margin-top: 10px;
+}
+
+.adminSuboptions.expanded {
+  max-height: 200px;
+  transition: max-height 0.3s ease;
+}
+
+.adminSuboptions.collapsed {
+  max-height: 0;
+  transition: max-height 0.3s ease;
+}
+
+.arrowIcon {
+  margin-left: 8px;
+  font-size: 0.9rem;
+
+  &.expanded {
+    transform: rotate(180deg);
+  }
+
+  &.collapsed {
+    transform: rotate(0deg);
+  }
 }
