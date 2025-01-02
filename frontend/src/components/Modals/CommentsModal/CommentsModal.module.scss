@@ -1,0 +1,185 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  animation: fadeIn 0.3s ease-in-out; /* Animacja wejścia */
+}
+
+.modalContainer {
+  width: 100%;
+  max-width: 600px;
+  background: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  color: #f0f0f0;
+  animation: slideIn 0.3s ease-in-out; /* Animacja wejścia */
+}
+  
+  .modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #333; /* Tło nagłówka */
+    color: white;
+  }
+  
+  .closeButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s;
+  
+    &:hover {
+      color: #ff8888;
+    }
+  }
+  
+  .newCommentSection {
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+    background-color: #222;
+    border-bottom: 1px solid #444;
+  
+    .errorMessage {
+      color: #ff8888; /* Kolor błędu */
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+  
+    .newCommentInput {
+      resize: none;
+      width: 100%;
+      height: 80px;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #555;
+      background-color: #333;
+      color: #fff;
+      border-radius: 5px;
+      font-size: 1rem;
+  
+      &::placeholder {
+        color: #888;
+      }
+    }
+  
+    .addCommentButton {
+      align-self: flex-end;
+      background-color: #4caf50;
+      border: none;
+      color: white;
+      padding: 8px 20px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+  
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  }
+  
+  .modalBody {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+  
+    .commentsList {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  
+    .commentItem {
+      display: flex;
+      align-items: flex-start;
+      padding: 15px 0;
+      border-bottom: 1px solid #444;
+  
+      &:last-child {
+        border-bottom: none;
+      }
+  
+      .profilePicture {
+        width: 40px; 
+        height: 40px; 
+        background-color: #666; 
+        border-radius: 50%; 
+        margin-right: 15px;
+        flex-shrink: 0; 
+      }
+      
+  
+      strong {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 1.1rem;
+        color: #fff;
+      }
+  
+      p {
+        margin: 0;
+        color: #bbb; 
+      }
+    }
+  
+    .noComments {
+      text-align: center;
+      color: #888;
+    }
+  }
+  
+  .modalFooter {
+    padding: 15px;
+    background-color: #333;
+    text-align: right;
+  
+    .closeFooterButton {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+  
+      &:hover {
+        background-color: #555;
+      }
+    }
+  }
+  

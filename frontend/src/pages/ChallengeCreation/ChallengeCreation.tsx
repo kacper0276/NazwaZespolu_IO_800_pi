@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ChallengeCreation.module.scss";
+import StandardSkin from "../../assets/gifs/FormSkins/BigTree/StandardSkin.gif";
+import PremiumSkin from "../../assets/gifs/FormSkins/BigTree/PremiumSkin.gif";
+import SmallTreePlaceholder from "../../assets/gifs/FormSkins/SmallTree/3.png";
+import MediumTreePlaceholder from "../../assets/gifs/FormSkins/MediumTree/2.png";
 
 interface Challenge {
   name: string;
@@ -11,7 +15,9 @@ interface Challenge {
   visibility: "public" | "private";
   postToProfile: boolean;
   allowComments: boolean;
-  difficulty: "Krzew" | "Średnie drzewo" | "Duże drzewo" | ""; 
+  difficulty: "Krzew" | "Średnie drzewo" | "Duże drzewo" | "";
+  tags: string[];
+  treeSkin: "StandardSkin" | "PremiumSkin";
 }
 
 const ChallengeCreation: React.FC = () => {
@@ -25,8 +31,13 @@ const ChallengeCreation: React.FC = () => {
     visibility: "public",
     postToProfile: false,
     allowComments: false,
-    difficulty: "", 
+    difficulty: "",
+    tags: [],
+    treeSkin: "StandardSkin",
   });
+
+  const [tagInput, setTagInput] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const today = new Date();
   const maxEndDate = new Date();
@@ -43,13 +54,14 @@ const ChallengeCreation: React.FC = () => {
     if (challenge.startDate && challenge.endDate) {
       const startDate = new Date(challenge.startDate);
       const endDate = new Date(challenge.endDate);
-      const differenceInDays = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
+      const differenceInDays =
+        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24);
 
       if (differenceInDays <= 14) return "Krzew";
       if (differenceInDays <= 60) return "Średnie drzewo";
       return "Duże drzewo";
     }
-    return ""; 
+    return "";
   };
 
   useEffect(() => {
@@ -57,32 +69,82 @@ const ChallengeCreation: React.FC = () => {
     setChallenge((prev) => ({ ...prev, difficulty }));
   }, [challenge.startDate, challenge.endDate]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-  
-    const stripTime = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  
-    const selectedDate = stripTime(new Date(value));
-    const todayDate = stripTime(today);
-  
-    if (name === "startDate" && selectedDate < todayDate) return; 
-    if (name === "endDate" && selectedDate > stripTime(maxEndDate)) return; 
-  
     setChallenge({ ...challenge, [name]: value });
   };
+
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setChallenge({ ...challenge, [name]: checked });
   };
 
   const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setChallenge({ ...challenge, visibility: e.target.value as "public" | "private" });
+    setChallenge({
+      ...challenge,
+      visibility: e.target.value as "public" | "private",
+    });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setChallenge({ ...challenge, image: e.target.files[0] });
     }
+  };
+
+  const handleSkinChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setChallenge({
+      ...challenge,
+      treeSkin: e.target.value as "StandardSkin" | "PremiumSkin",
+    });
+  };
+
+  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const trimmedTag = tagInput.trim();
+
+      if (!trimmedTag) {
+        setErrorMessage("Tag cannot be empty.");
+        return;
+      }
+
+      if (trimmedTag.length > 20) {
+        setErrorMessage("Tag cannot exceed 20 characters.");
+        return;
+      }
+
+      if (/\d/.test(trimmedTag)) {
+        setErrorMessage("Tag cannot contain numbers.");
+        return;
+      }
+
+      if (challenge.tags.includes(trimmedTag)) {
+        setErrorMessage("Tag cannot be duplicated.");
+        return;
+      }
+
+      if (challenge.tags.length >= 5) {
+        setErrorMessage("You can only add up to 5 tags.");
+        return;
+      }
+
+      setChallenge((prev) => ({
+        ...prev,
+        tags: [...prev.tags, trimmedTag],
+      }));
+
+      setTagInput("");
+      setErrorMessage("");
+    }
+  };
+  const handleRemoveTag = (tag: string) => {
+    setChallenge((prev) => ({
+      ...prev,
+      tags: prev.tags.filter((t) => t !== tag),
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -122,6 +184,41 @@ const ChallengeCreation: React.FC = () => {
             onChange={handleChange}
             required
           />
+        </div>
+
+        <div className={styles.inputGroup}>
+          <label htmlFor="tags" className={styles.label}>
+            Tags
+          </label>
+          <input
+            type="text"
+            id="tags"
+            name="tags"
+            className={`${styles.input}`}
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyDown={handleAddTag}
+            placeholder="Add a tag and press Enter"
+          />
+          {errorMessage && (
+            <p className={`${styles.errorMessage} customErrorClass`}>
+              {errorMessage}
+            </p>
+          )}
+          <div className={styles.tagsContainer}>
+            {challenge.tags.map((tag, index) => (
+              <div key={index} className={styles.tag}>
+                {tag}
+                <button
+                  type="button"
+                  className={styles.removeTagButton}
+                  onClick={() => handleRemoveTag(tag)}
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className={styles.inputGroup}>
@@ -167,6 +264,53 @@ const ChallengeCreation: React.FC = () => {
             {challenge.difficulty ? challenge.difficulty : "Select valid dates"}
           </div>
         </div>
+
+        {challenge.difficulty === "Duże drzewo" && (
+          <div className={styles.inputGroup}>
+            <label htmlFor="treeSkin" className={styles.label}>
+              Select Tree Skin
+            </label>
+            <select
+              id="skins"
+              value={challenge.treeSkin}
+              onChange={handleSkinChange}
+              className={styles.select}
+            >
+              <option value="StandardSkin">Standard Skin</option>
+              <option value="PremiumSkin">Premium Skin</option>
+            </select>
+            <div className={styles.skinPreview}>
+              {challenge.treeSkin === "StandardSkin" ? (
+                <img
+                  src={StandardSkin}
+                  alt="Standard Tree Skin"
+                  className={styles.skinGif}
+                />
+              ) : (
+                <img
+                  src={PremiumSkin}
+                  alt="Premium Tree Skin"
+                  className={styles.skinGif}
+                />
+              )}
+            </div>
+          </div>
+        )}
+
+        {(challenge.difficulty === "Krzew" ||
+          challenge.difficulty === "Średnie drzewo") && (
+          <div className={styles.placeholderPreview}>
+            <img
+              src={
+                challenge.difficulty === "Krzew"
+                  ? SmallTreePlaceholder
+                  : MediumTreePlaceholder
+              }
+              alt={`${challenge.difficulty} Placeholder`}
+              className={styles.placeholderImage}
+            />
+          </div>
+        )}
 
         <div className={styles.checkboxGroup}>
           <input

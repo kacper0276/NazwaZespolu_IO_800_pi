@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { useTranslation } from "react-i18next";
 import styles from "./Settings.module.scss";
-import AccountForm from "../../components/AccountForm/AccountForm";
-import PrivacyForm from "../../components/PrivacyForm/PrivacyForm";
+//import AccountForm from "../../components/AccountForm/AccountForm";
+//import PrivacyForm from "../../components/PrivacyForm/PrivacyForm";
 import ContactSupportForm from "../../components/ContactSupportForm/ContactSupportForm";
 import { useUser } from "../../context/UserContext";
 
@@ -19,9 +19,9 @@ const Settings: React.FC = () => {
   const renderForm = () => {
     switch (activeSection) {
       case "account":
-        return <AccountForm />;
+        //return <AccountForm />;
       case "privacy":
-        return <PrivacyForm />;
+       // return <PrivacyForm />;
       case "contact":
         return <ContactSupportForm />;
       case "admin-option-1":
