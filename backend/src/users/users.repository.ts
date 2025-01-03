@@ -22,6 +22,10 @@ export class UsersRepository {
     return this.userModel.findOne({ email: email, isActivated: true }).exec();
   }
 
+  async findById(id: string): Promise<User | null> {
+    return this.userModel.findOne({ _id: id }).exec();
+  }
+
   async update(id: string, updates: Partial<User>): Promise<User | null> {
     return this.userModel.findByIdAndUpdate(id, updates, { new: true }).exec();
   }

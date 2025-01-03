@@ -8,6 +8,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { MessagesModule } from './messages/messages.module';
 import { AuthModule } from './auth/auth.module';
 import { SettingsModule } from './settings/settings.module';
+import { OpinionsModule } from './opinions/opinions.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SettingsModule } from './settings/settings.module';
     MessagesModule,
     AuthModule,
     SettingsModule,
+    OpinionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
