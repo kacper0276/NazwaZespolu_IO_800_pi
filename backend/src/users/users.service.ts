@@ -17,8 +17,39 @@ export class UsersService {
     private readonly mailerService: MailerService,
   ) {}
 
-  async updateUser(id: string, updates: Partial<User>): Promise<User | null> {
-    return this.usersRepository.update(id, updates);
+  private async hashPassword(password: string): Promise<string> {
+    const saltRounds = 10;
+    return bcrypt.hash(password, saltRounds);
+  }
+
+  private async sendActivationEmail(email: string): Promise<void> {
+    const activationLink = `http://localhost:5173/activate-account/${email}`;
+    const message = {
+      to: email,
+      from: `"Adminisjtracja serwisu" <kacper4312@op.pl>`,
+      subject: 'Potwierdzenie utworzenia konta',
+      text: `Witaj, ${email} \n Kliknij w link, aby aktywować konto: ${activationLink}`,
+      html: `Witaj, ${email} \n Kliknij w link, aby aktywować konto: <a href="${activationLink}">LINK</a>`,
+    };
+
+    await this.mailerService.sendMail(message);
+  }
+
+  async updateUser(id: string, updates: Partial<User>): Promise<User> {
+    const someUser = await this.usersRepository.findById(id);
+
+    const updatedPassword = updates.password
+      ? await this.hashPassword(updates.password)
+      : someUser.password;
+
+    const userUpdates = { ...updates, password: updatedPassword };
+    const updatedUser = await this.usersRepository.update(id, userUpdates);
+
+    if (updates.email && updates.email !== someUser.email) {
+      await this.sendActivationEmail(updatedUser.email);
+    }
+
+    return updatedUser;
   }
 
   async deleteUser(id: string): Promise<User | null> {
@@ -26,76 +57,64 @@ export class UsersService {
   }
 
   async registerUser(registerData: Partial<UserData>): Promise<User | null> {
-    const saltOrRounds = 10;
-
-    const someUser = await this.usersRepository.findByEmail(registerData.email);
-
     if (registerData.password !== registerData.repeat_password) {
       throw new BadRequestException('passwords-do-not-match');
     }
 
-    if (someUser) {
+    const existingUser = await this.usersRepository.findByEmail(
+      registerData.email,
+    );
+    if (existingUser) {
       throw new BadRequestException('a-user-with-this-email-already-exists');
     }
 
-    const hash = await bcrypt.hashSync(registerData.password, saltOrRounds);
+    const hashedPassword = await this.hashPassword(registerData.password);
 
-    const registerUserData: userData = {
+    const newUser: userData = {
       email: registerData.email,
-      password: hash,
+      password: hashedPassword,
       role: Role.USER,
       isActivated: false,
       firstname: registerData.firstname,
       lastname: registerData.lastname,
     };
 
-    const registeredUserData =
-      await this.usersRepository.create(registerUserData);
+    const registeredUser = await this.usersRepository.create(newUser);
 
-    this.mailerService.sendMail({
-      to: `${registeredUserData.email}`,
-      from: `"Adminisjtracja serwisu" <kacper4312@op.pl>`,
-      subject: 'Potwierdzenie utworzenia konta',
-      text: `Witaj, ${registerData.email} \n Kliknij w link, aby aktywować konto: http://localhost:5173/activate-account/${registerData.email}`,
-      html: `Witaj, ${registerData.email} \n Kliknij w link, aby aktywować konto: <a href="http://localhost:5173/activate-account/${registerData.email}"> LINK </a>`,
-    });
+    await this.sendActivationEmail(registeredUser.email);
 
-    console.log('zarejestrowano');
-
-    return registeredUserData;
+    return registeredUser;
   }
 
   async loginUser(loginData: Partial<UserData>): Promise<User | null> {
-    const someUser = await this.usersRepository.findActivateAccountByEmail(
+    const user = await this.usersRepository.findActivateAccountByEmail(
       loginData.email,
     );
 
-    if (someUser) {
-      const comparePassword = await bcrypt.compare(
-        loginData.password,
-        someUser.password,
-      );
-
-      if (comparePassword) {
-        return someUser;
-      }
-
+    if (!user) {
       throw new BadRequestException('invalid-user-data');
     }
 
-    throw new BadRequestException('invalid-user-data');
+    const isPasswordValid = await bcrypt.compare(
+      loginData.password,
+      user.password,
+    );
+    if (!isPasswordValid) {
+      throw new BadRequestException('invalid-user-data');
+    }
+
+    return user;
   }
 
   async activateAccount(userEmail: string): Promise<User> {
-    const someUser = await this.usersRepository.findByEmail(userEmail);
+    const user = await this.usersRepository.findByEmail(userEmail);
 
-    if (!someUser) {
+    if (!user) {
       throw new BadRequestException('invalid-user-data');
     }
 
-    someUser.isActivated = true;
-
-    return await this.usersRepository.update(someUser.id, someUser);
+    user.isActivated = true;
+    return this.usersRepository.update(user.id, user);
   }
 
   async searchUsers(query: string): Promise<User[]> {

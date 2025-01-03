@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
   Res,
   UseGuards,
@@ -123,39 +124,47 @@ export class UsersController {
         data: users,
       });
     } catch (error) {
-      if (error instanceof BadRequestException) {
-        response.status(HttpStatus.BAD_REQUEST).send({
-          message: error.message,
-        });
-      } else {
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
-          message: 'a-server-error-occurred',
-        });
-      }
+      response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+        message: 'a-server-error-occurred',
+      });
     }
   }
 
-  @Delete(':id')
+  @Delete(':userId')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
-  async deleteUser(@Param('id') id: string, @Res() response: Response) {
+  async deleteUser(@Param('userId') userId: string, @Res() response: Response) {
     try {
-      await this.usersService.deleteUser(id);
+      await this.usersService.deleteUser(userId);
 
       response.status(HttpStatus.OK).send({
         message: 'remove-user',
         data: null,
       });
     } catch (error) {
-      if (error instanceof BadRequestException) {
-        response.status(HttpStatus.BAD_REQUEST).send({
-          message: error.message,
-        });
-      } else {
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
-          message: 'a-server-error-occurred',
-        });
-      }
+      response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+        message: 'a-server-error-occurred',
+      });
+    }
+  }
+
+  @Put(':userId')
+  async editUserData(
+    @Param('userId') userId: string,
+    @Body() userData: UserData,
+    @Res() response: Response,
+  ) {
+    try {
+      const user = await this.usersService.updateUser(userId, userData);
+
+      response.status(HttpStatus.OK).send({
+        message: 'user-details-successfully-changed',
+        data: user,
+      });
+    } catch (error) {
+      response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+        message: 'a-server-error-occurred',
+      });
     }
   }
 }
