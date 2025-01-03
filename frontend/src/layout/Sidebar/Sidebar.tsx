@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import ProfilePicPlaceholder from "../../assets/images/ProfilePic.jpg";
 import { useUser } from "../../context/UserContext";
 import LocalStorageService from "../../services/localStorage.service";
-import MainPage from "../../pages/MainPage";
+import MainPage from "../../pages/MainPage/MainPage";
 
 interface SidebarProps {
   user: {

@@ -9,7 +9,7 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ChallengeCreation from "./pages/ChallengeCreation/ChallengeCreation";
 import PremiumOffer from "./pages/PremiumOffert/PremiumOffer";
-import MainPage from "./pages/MainPage";
+import MainPage from "./pages/MainPage/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
 import { UserProvider } from "./context/UserContext";
 import AuthenticatedRoute from "./hoc/AuthenticatedRoute";

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import styles from "./MainPage.module.scss";
-import CommentsModal from "../components/Modals/CommentsModal/CommentsModal";
-import useWebsiteTitle from "../hooks/useWebsiteTitle";
+import CommentsModal from "../../components/Modals/CommentsModal/CommentsModal";
+import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { t } from "i18next";
 
 const posts = [
