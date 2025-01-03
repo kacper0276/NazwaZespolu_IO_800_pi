@@ -1,7 +1,16 @@
 import { FC, useState } from "react";
 import styles from "./ContactSupportForm.module.scss";
+import { useUser } from "../../context/UserContext";
+import { useApiJson } from "../../config/api";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { ApiResponse } from "../../types/api.types";
+import { Opinion } from "../../types/IOpinion";
 
 const ContactSupportForm: FC = () => {
+  const user = useUser();
+  const api = useApiJson();
+  const { t } = useTranslation();
   const [rating, setRating] = useState<number>(0);
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const [opinion, setOpinion] = useState<string>("");
@@ -47,8 +56,20 @@ const ContactSupportForm: FC = () => {
   const sendOpinion = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(rating);
-    console.log(opinion);
+    const data = {
+      rating,
+      opinion,
+      user: user.user,
+    };
+
+    api
+      .post<ApiResponse<Opinion>>("opinions", data)
+      .then((res) => {
+        toast.success(t(res.data.message));
+      })
+      .catch((err) => {
+        toast.error(t(err.response?.data.message || err.message));
+      });
   };
 
   return (
