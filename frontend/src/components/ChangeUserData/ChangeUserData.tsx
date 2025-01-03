@@ -27,11 +27,11 @@ const ChangeUserData: FC = () => {
         .then((res) => {
           setUsers(res.data.data ?? []);
         })
-        .finally(() => {
-          setLoading(false);
-        })
         .catch((_err) => {
           toast.error(t("error-fetching-users"));
+        })
+        .finally(() => {
+          setLoading(false);
         });
     };
 

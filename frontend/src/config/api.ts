@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 import { useUser } from "../context/UserContext";
 import LocalStorageService from "../services/localStorage.service";
 import { useNavigate } from "react-router-dom";
+import { ApiResponse } from "../types/api.types";
 
 export const API_URL = "http://localhost:3001/api/";
 
@@ -36,18 +37,31 @@ const useApiInstance = (contentType: string): AxiosInstance => {
         originalRequest
       ) {
         try {
-          const refreshResponse = await axios.post(`${API_URL}auth/refresh`, {
-            refreshToken,
-          });
+          const refreshResponse = await axios.post<ApiResponse<any>>(
+            `${API_URL}auth/refresh`,
+            {
+              refreshToken,
+            }
+          );
 
-          const { token: newToken, refreshToken: newRefreshToken } =
-            refreshResponse.data;
+          login(
+            { ...user! },
+            refreshResponse.data.data.accessToken,
+            refreshResponse.data.data.refreshToken
+          );
 
-          login({ ...user! }, newToken, newRefreshToken);
+          LocalStorageService.setItem(
+            "accessToken",
+            refreshResponse.data.data.accessToken
+          );
+          LocalStorageService.setItem(
+            "refreshToken",
+            refreshResponse.data.data.refreshToken
+          );
 
           originalRequest.headers = {
             ...originalRequest.headers,
-            Authorization: `Bearer ${newToken}`,
+            Authorization: `Bearer ${refreshResponse.data.data.accessToken}`,
           };
 
           return axios(originalRequest);
