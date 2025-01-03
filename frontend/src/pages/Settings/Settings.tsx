@@ -6,8 +6,8 @@ import AccountForm from "../../components/AccountForm/AccountForm";
 import PrivacyForm from "../../components/PrivacyForm/PrivacyForm";
 import ContactSupportForm from "../../components/ContactSupportForm/ContactSupportForm";
 import { useUser } from "../../context/UserContext";
-import ChangeUserDataForm from "../../components/ChangeUserDataForm/ChangeUserDataForm";
 import ShowUsersOpinion from "../../components/ShowUsersOpinion/ShowUsersOpinion";
+import ChangeUserData from "../../components/ChangeUserData/ChangeUserData";
 
 const Settings: React.FC = () => {
   const { t } = useTranslation();
@@ -27,7 +27,7 @@ const Settings: React.FC = () => {
       case "contact":
         return <ContactSupportForm />;
       case "change-user-data":
-        return <ChangeUserDataForm />;
+        return <ChangeUserData />;
       case "show-users-opinion":
         return <ShowUsersOpinion />;
       case "admin-option-3":

@@ -1,10 +1,13 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
 import { useUser } from "../context/UserContext";
+import LocalStorageService from "../services/localStorage.service";
+import { useNavigate } from "react-router-dom";
 
 export const API_URL = "http://localhost:3001/api/";
 
 const useApiInstance = (contentType: string): AxiosInstance => {
   const { token, refreshToken, login, logout, user } = useUser();
+  const navigate = useNavigate();
 
   const instance = axios.create({
     baseURL: API_URL,
@@ -50,6 +53,8 @@ const useApiInstance = (contentType: string): AxiosInstance => {
           return axios(originalRequest);
         } catch (refreshError) {
           logout();
+          LocalStorageService.clear();
+          navigate("/welcome-page");
           return Promise.reject(refreshError);
         }
       }
