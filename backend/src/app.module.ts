@@ -9,6 +9,7 @@ import { MessagesModule } from './messages/messages.module';
 import { AuthModule } from './auth/auth.module';
 import { SettingsModule } from './settings/settings.module';
 import { OpinionsModule } from './opinions/opinions.module';
+import { ProfilesModule } from './profiles/profiles.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { OpinionsModule } from './opinions/opinions.module';
     AuthModule,
     SettingsModule,
     OpinionsModule,
+    ProfilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
