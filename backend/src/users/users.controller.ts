@@ -15,12 +15,12 @@ import { Response } from 'express';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Post('login')
   async login(@Body() userData: UserData, @Res() response: Response) {
     try {
-      const res = await this.userService.loginUser(userData);
+      const res = await this.usersService.loginUser(userData);
 
       response.status(HttpStatus.OK).send({
         message: 'successfully-logged-in',
@@ -42,7 +42,7 @@ export class UsersController {
   @Post('register')
   async register(@Body() userData: UserData, @Res() response: Response) {
     try {
-      await this.userService.registerUser(userData);
+      await this.usersService.registerUser(userData);
 
       response.status(HttpStatus.CREATED).send({
         message: 'user-registered',
@@ -66,7 +66,7 @@ export class UsersController {
     @Res() response: Response,
   ) {
     try {
-      await this.userService.activateAccount(userEmail);
+      await this.usersService.activateAccount(userEmail);
       response.status(HttpStatus.OK).send({
         message: 'your-account-has-been-successfully-activated',
       });
@@ -86,7 +86,7 @@ export class UsersController {
   @Get('search')
   async searchUsers(@Query('query') query: string, @Res() response: Response) {
     try {
-      const users = await this.userService.searchUsers(query);
+      const users = await this.usersService.searchUsers(query);
 
       response.status(HttpStatus.OK).send({
         message: 'search-results',
