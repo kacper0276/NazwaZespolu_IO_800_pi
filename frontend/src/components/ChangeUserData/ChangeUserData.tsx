@@ -64,15 +64,21 @@ const ChangeUserData: FC = () => {
   const handleSave = async (updatedUser: UserType) => {
     setLoading(true);
     try {
-      const response = await api.put(`users/${updatedUser._id}`, updatedUser);
-      setUsers((prev) =>
-        prev.map((user) =>
-          user._id === updatedUser._id ? response.data.data : user
-        )
+      const response = await api.put<ApiResponse<UserType>>(
+        `users/${updatedUser._id}`,
+        updatedUser
       );
+      setUsers((prev) =>
+        prev
+          .map((user) =>
+            user._id === updatedUser._id ? response.data.data : user
+          )
+          .filter((user): user is UserType => user !== undefined)
+      );
+      toast.success(t(response.data.message));
       handleModalClose();
-    } catch (error) {
-      console.error("Failed to update user", error);
+    } catch (err: any) {
+      toast.error(t(err.response?.data.message || err.message));
     } finally {
       setLoading(false);
     }
