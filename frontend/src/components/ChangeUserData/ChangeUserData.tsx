@@ -6,8 +6,11 @@ import { ApiResponse } from "../../types/api.types";
 import Spinner from "../Spinner/Spinner";
 import Modal from "../Modals/Modal/Modal";
 import UserEditForm from "../UserEditForm/UserEditForm";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const ChangeUserData: FC = () => {
+  const { t } = useTranslation();
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -26,6 +29,9 @@ const ChangeUserData: FC = () => {
         })
         .finally(() => {
           setLoading(false);
+        })
+        .catch((_err) => {
+          toast.error(t("error-fetching-users"));
         });
     };
 
@@ -40,10 +46,11 @@ const ChangeUserData: FC = () => {
   const handleDelete = async (userId: string) => {
     setLoading(true);
     try {
-      await api.delete(`users/${userId}`);
+      const response = await api.delete<ApiResponse<null>>(`users/${userId}`);
+      toast.success(t(response.data.message));
       setUsers((prev) => prev.filter((user) => user._id !== userId));
-    } catch (error) {
-      console.error("Failed to delete user", error);
+    } catch (err: any) {
+      toast.error(t(err.response?.data.message || err.message));
     } finally {
       setLoading(false);
     }
