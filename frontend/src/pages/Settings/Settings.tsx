@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { useTranslation } from "react-i18next";
 import styles from "./Settings.module.scss";
-//import AccountForm from "../../components/AccountForm/AccountForm";
-//import PrivacyForm from "../../components/PrivacyForm/PrivacyForm";
+import AccountForm from "../../components/AccountForm/AccountForm";
+import PrivacyForm from "../../components/PrivacyForm/PrivacyForm";
 import ContactSupportForm from "../../components/ContactSupportForm/ContactSupportForm";
 import { useUser } from "../../context/UserContext";
+import ChangeUserDataForm from "../../components/ChangeUserDataForm/ChangeUserDataForm";
+import ShowUsersOpinion from "../../components/ShowUsersOpinion/ShowUsersOpinion";
 
 const Settings: React.FC = () => {
   const { t } = useTranslation();
@@ -19,15 +21,15 @@ const Settings: React.FC = () => {
   const renderForm = () => {
     switch (activeSection) {
       case "account":
-        //return <AccountForm />;
+        return <AccountForm />;
       case "privacy":
-       // return <PrivacyForm />;
+        return <PrivacyForm />;
       case "contact":
         return <ContactSupportForm />;
-      case "admin-option-1":
-        return <p>{t("admin_option_1_content")}</p>;
-      case "admin-option-2":
-        return <p>{t("admin_option_2_content")}</p>;
+      case "change-user-data":
+        return <ChangeUserDataForm />;
+      case "show-users-opinion":
+        return <ShowUsersOpinion />;
       case "admin-option-3":
         return <p>{t("admin_option_3_content")}</p>;
       default:
@@ -89,15 +91,15 @@ const Settings: React.FC = () => {
                 >
                   <button
                     className={styles.settingsButton}
-                    onClick={() => setActiveSection("admin-option-1")}
+                    onClick={() => setActiveSection("change-user-data")}
                   >
-                    {t("admin_option_1")}
+                    {t("change-user-data")}
                   </button>
                   <button
                     className={styles.settingsButton}
-                    onClick={() => setActiveSection("admin-option-2")}
+                    onClick={() => setActiveSection("show-users-opinion")}
                   >
-                    {t("admin_option_2")}
+                    {t("show-users-opinion")}
                   </button>
                   <button
                     className={styles.settingsButton}
