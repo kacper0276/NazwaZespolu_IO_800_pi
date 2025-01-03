@@ -29,4 +29,34 @@ export class OpinionsRepository {
   async findAll(): Promise<Opinion[]> {
     return this.opinionModel.find().exec();
   }
+
+  async getAllActiveOpinions(): Promise<Opinion[]> {
+    return this.opinionModel
+      .aggregate([
+        {
+          $match: { closed: false },
+        },
+        {
+          $addFields: {
+            rolePriority: {
+              $switch: {
+                branches: [
+                  { case: { $eq: ['$user.role', 'admin'] }, then: 1 },
+                  { case: { $eq: ['$user.role', 'moderator'] }, then: 2 },
+                  { case: { $eq: ['$user.role', 'user'] }, then: 3 },
+                ],
+                default: 4,
+              },
+            },
+          },
+        },
+        {
+          $sort: { rolePriority: 1 },
+        },
+        {
+          $project: { rolePriority: 0 },
+        },
+      ])
+      .exec();
+  }
 }

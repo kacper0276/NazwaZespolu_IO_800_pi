@@ -14,6 +14,9 @@ export class Opinion extends Document {
 
   @Prop({ type: Object })
   user: userData;
+
+  @Prop()
+  closed: boolean;
 }
 
 export const OpinionSchema = SchemaFactory.createForClass(Opinion);

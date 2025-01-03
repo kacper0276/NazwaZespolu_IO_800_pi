@@ -10,6 +10,7 @@ export class OpinionsService {
 
   async create(opinion: Partial<Opinion>): Promise<Opinion> {
     try {
+      opinion.closed = false;
       return await this.opinionRepository.create(opinion);
     } catch (error) {
       throw error;
@@ -34,5 +35,9 @@ export class OpinionsService {
 
   async findAll(): Promise<Opinion[]> {
     return await this.opinionRepository.findAll();
+  }
+
+  async getAllActiveOpinions(): Promise<Opinion[]> {
+    return await this.opinionRepository.getAllActiveOpinions();
   }
 }
