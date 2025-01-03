@@ -2,8 +2,10 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
+  Param,
   Patch,
   Post,
   Query,
@@ -119,6 +121,30 @@ export class UsersController {
       response.status(HttpStatus.OK).send({
         message: 'all-users',
         data: users,
+      });
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        response.status(HttpStatus.BAD_REQUEST).send({
+          message: error.message,
+        });
+      } else {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+          message: 'a-server-error-occurred',
+        });
+      }
+    }
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  async deleteUser(@Param('id') id: string, @Res() response: Response) {
+    try {
+      await this.usersService.deleteUser(id);
+
+      response.status(HttpStatus.OK).send({
+        message: 'remove-user',
+        data: null,
       });
     } catch (error) {
       if (error instanceof BadRequestException) {
