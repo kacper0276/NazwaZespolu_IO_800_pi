@@ -9,7 +9,7 @@ import { ProfilesRepository } from './profiles.repository';
   imports: [
     MongooseModule.forFeature([{ name: Profile.name, schema: ProfileSchema }]),
   ],
-  controllers: [ProfilesController, ProfilesRepository],
-  providers: [ProfilesService],
+  controllers: [ProfilesController],
+  providers: [ProfilesService, ProfilesRepository],
 })
 export class ProfilesModule {}
