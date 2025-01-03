@@ -8,10 +8,14 @@ import {
   Post,
   Query,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { UserData } from './types/user.type';
 import { UsersService } from './users.service';
 import { Response } from 'express';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -90,6 +94,30 @@ export class UsersController {
 
       response.status(HttpStatus.OK).send({
         message: 'search-results',
+        data: users,
+      });
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        response.status(HttpStatus.BAD_REQUEST).send({
+          message: error.message,
+        });
+      } else {
+        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
+          message: 'a-server-error-occurred',
+        });
+      }
+    }
+  }
+
+  @Get('all')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  async getAllUsers(@Res() response: Response) {
+    try {
+      const users = await this.usersService.getAllUsers();
+
+      response.status(HttpStatus.OK).send({
+        message: 'all-users',
         data: users,
       });
     } catch (error) {
