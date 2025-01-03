@@ -35,8 +35,6 @@ const WelcomePage: FC = () => {
 
       const loginDataRes = res.data.data;
 
-      console.log(loginDataRes);
-
       localStorageService.setItem("user", loginDataRes.user);
       localStorageService.setItem("accessToken", loginDataRes.accessToken);
       localStorageService.setItem("refreshToken", loginDataRes.refreshToken);

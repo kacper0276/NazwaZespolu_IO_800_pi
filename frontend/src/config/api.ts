@@ -36,7 +36,7 @@ const useApiInstance = (contentType: string): AxiosInstance => {
         originalRequest
       ) {
         try {
-          const refreshResponse = await axios.post(`${API_URL}/auth/refresh`, {
+          const refreshResponse = await axios.post(`${API_URL}auth/refresh`, {
             refreshToken,
           });
 
