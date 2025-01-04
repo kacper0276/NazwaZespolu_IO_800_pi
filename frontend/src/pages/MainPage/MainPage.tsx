@@ -121,32 +121,32 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
         ) : (
           <img src={post.images[0]} className="card-img-top" alt={post.title} />
         )}
-        <div className="card-body">
-          <h5 className="card-title">{post.title}</h5>
-          <p className="card-text">
-            <small>Posted by {post.author}</small>
-          </p>
-          <p className="card-text">
-            <div className={styles.reactionContainer}>
-              <span className={styles["like-button"]} onClick={handleLike}>
-                <span
-                  className={`${styles.icon} ${bouncing ? styles.bounce : ""} ${
-                    liked ? styles.colored : styles.grey
-                  }`}
-                >
-                  {liked ? "🌳" : "🌱"}
-                </span>{" "}
-                {likes} Treeactions
-              </span>
-              <span
-                className={styles.commentsContainer}
-                onClick={() => setShowComments(true)}
-              >
-                💬 {post.comments} comments
-              </span>
-            </div>
-          </p>
-        </div>
+<div className="card-body">
+  <h5 className="card-title">{post.title}</h5>
+  <p className="card-text">
+    <small>Posted by {post.author}</small>
+  </p>
+  <div className="card-text">  {/* Zmieniono <p> na <div> */}
+    <div className={styles.reactionContainer}>
+      <span className={styles["like-button"]} onClick={handleLike}>
+        <span
+          className={`${styles.icon} ${bouncing ? styles.bounce : ""} ${
+            liked ? styles.colored : styles.grey
+          }`}
+        >
+          {liked ? "🌳" : "🌱"}
+        </span>{" "}
+        {likes} Treeactions
+      </span>
+      <span
+        className={styles.commentsContainer}
+        onClick={() => setShowComments(true)}
+      >
+        💬 {post.comments} comments
+      </span>
+    </div>
+  </div>
+</div>
       </div>
       <CommentsModal
         show={showComments}

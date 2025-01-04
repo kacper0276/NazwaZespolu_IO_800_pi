@@ -111,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
           {!isMinimized && (
             <div className={styles.profileDetails}>
               <div className={styles.profileName}>{user.name}</div>
-              <a href={user.profileLink} className={styles.profileLink}>
+              <a href="/profile-page" className={styles.profileLink}>
                 View Profile
               </a>
               <button onClick={logout} className={styles.logoutButton}>
