@@ -47,9 +47,9 @@ const content = (
       <Route
         path="/create-challenge"
         element={
-          <NoAuthenticatedRoute>
+          <AuthenticatedRoute>
             <ChallengeCreation />
-          </NoAuthenticatedRoute>
+          </AuthenticatedRoute>
         }
       />
       <Route

@@ -51,7 +51,7 @@ $formGradientEnd: #347435;
 
 .card {
   background: #222;
-  border-radius: 0; /* Ostre krawędzie */
+  border-radius: 0;
   padding: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   text-align: center;
@@ -109,7 +109,7 @@ $formGradientEnd: #347435;
       content: "✓";
       font-weight: bold;
       margin-right: 0.5rem;
-      color: #fff; /* Dostosowane do ciemniejszego tła */
+      color: #fff; 
     }
 
     &:last-child {

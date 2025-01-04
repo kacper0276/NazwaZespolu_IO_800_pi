@@ -371,19 +371,6 @@ const ChallengeCreation: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.checkboxGroup}>
-          <input
-            type="checkbox"
-            id="postToProfile"
-            name="postToProfile"
-            className={`${styles.checkbox}`}
-            checked={challenge.postToProfile}
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor="postToProfile" className={styles.checkboxLabel}>
-            Post to Profile
-          </label>
-        </div>
 
         <div className={styles.checkboxGroup}>
           <input
