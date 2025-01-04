@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import styles from "./MainPage.module.scss";
-import CommentsModal from "../components/Modals/CommentsModal/CommentsModal"
+import CommentsModal from "../../components/Modals/CommentsModal/CommentsModal";
+import useWebsiteTitle from "../../hooks/useWebsiteTitle";
+import { t } from "i18next";
 
 const posts = [
   {
@@ -45,7 +47,6 @@ const posts = [
     author: "Bob Williams",
   },
 ];
-console.log(styles)
 const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
   const [likes, setLikes] = useState(post.likes);
   const [liked, setLiked] = useState(false);
@@ -68,7 +69,9 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
 
   const sampleComments = Array.from({ length: 30 }, (_, i) => ({
     author: `User${i + 1}`,
-    text: `This is comment number ${i + 1}. Great post! Very great Thank you for posting Nice nice nice`,
+    text: `This is comment number ${
+      i + 1
+    }. Great post! Very great Thank you for posting Nice nice nice`,
   }));
 
   return (
@@ -127,9 +130,9 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
             <div className={styles.reactionContainer}>
               <span className={styles["like-button"]} onClick={handleLike}>
                 <span
-                  className={`${styles.icon} ${
-                    bouncing ? styles.bounce : ""
-                  } ${liked ? styles.colored : styles.grey}`}
+                  className={`${styles.icon} ${bouncing ? styles.bounce : ""} ${
+                    liked ? styles.colored : styles.grey
+                  }`}
                 >
                   {liked ? "🌳" : "🌱"}
                 </span>{" "}
@@ -154,19 +157,22 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
   );
 };
 
+const MainPage: React.FC = () => {
+  useWebsiteTitle(t("main-page"));
 
-const MainPage: React.FC = () => (
-  <div className={`${styles.homepage} container-fluid`}>
-    <div className="row justify-content-center mx-0">
-      <div className="col-md-8">
-        <div className={styles.postsContainer}>
-          {posts.map((post) => (
-            <Post key={post.id} post={post} />
-          ))}
+  return (
+    <div className={`${styles.homepage} container-fluid`}>
+      <div className="row justify-content-center mx-0">
+        <div className="col-md-8">
+          <div className={styles.postsContainer}>
+            {posts.map((post) => (
+              <Post key={post.id} post={post} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default MainPage;
