@@ -126,7 +126,7 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
   <p className="card-text">
     <small>Posted by {post.author}</small>
   </p>
-  <div className="card-text">  {/* Zmieniono <p> na <div> */}
+  <div className="card-text"> 
     <div className={styles.reactionContainer}>
       <span className={styles["like-button"]} onClick={handleLike}>
         <span

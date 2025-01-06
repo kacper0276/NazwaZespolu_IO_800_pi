@@ -1,27 +1,48 @@
 import React, { useState } from "react";
 import FollowListModal from "../../components/Modals/FollowListModal/FollowListModal";
+import PostDetailModal from"../../components/Modals/PostDetailsModal/PostDetailsModal";
 import styles from "./ProfilePage.module.scss";
 
-const photos = [
+// Dane postów
+const posts = [
   {
     id: 1,
-    src: "https://media.istockphoto.com/id/1317857006/pl/zdj%C4%99cie/pi%C4%99kny-zach%C3%B3d-s%C5%82o%C5%84ca-nad-morzem.webp?s=2048x2048&w=is&k=20&c=M4fsl8qGCgyYv_Y0LmkEao1iNMVS9Qqb0z2sgRLJ8W0=",
-    alt: "Post 1",
+    images: ["https://via.placeholder.com/400x500"],
+    title: "Friendly Fire turns 10!",
+    likes: 924,
+    comments: 27,
+    author: "John Doe",
   },
   {
     id: 2,
-    src: "https://media.istockphoto.com/id/1255493335/pl/zdj%C4%99cie/nogi-kobiety-rozpryskiwaj%C4%85-wod%C4%99-na-pla%C5%BCy.jpg?s=2048x2048&w=is&k=20&c=LKYjEDw-llbgZQQYj4oFv4vvj-kW5AlBF2UMoZK4Nxw=",
-    alt: "Post 2",
+    images: [
+      "https://media.istockphoto.com/id/1327592506/pl/wektor/domy%C5%9Blna-ikona-symbolu-zast%C4%99pczego-zdj%C4%99cia-awatara-szare-zdj%C4%99cie-profilowe-cz%C5%82owiek-biznesu.webp?s=2048x2048&w=is&k=20&c=QzrDx-OsmsBkP3pB68zVo53u1cyxI5jeq2R5W4sV3fQ=",
+      "https://via.placeholder.com/700x400",
+    ],
+    title: "Legendary Update 2.3!",
+    likes: 1120,
+    comments: 34,
+    author: "Jane Smith",
   },
   {
     id: 3,
-    src: "https://plus.unsplash.com/premium_photo-1683865776032-07bf70b0add1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    alt: "Post 3",
+    images: [
+      "https://via.placeholder.com/400x500",
+      "https://via.placeholder.com/400x500",
+      "https://via.placeholder.com/400x500",
+    ],
+    title: "Come and Visit us",
+    likes: 169,
+    comments: 10,
+    author: "Alice Johnson",
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1587691592099-24045742c181?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    alt: "Post 4",
+    images: ["https://via.placeholder.com/400x500"],
+    title: "Hello!",
+    likes: 15435345,
+    comments: 2,
+    author: "Bob Williams",
   },
 ];
 
@@ -29,6 +50,18 @@ const ProfilePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("posty");
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentListType, setCurrentListType] = useState<"followers" | "following">("followers");
+  const [isPostModalOpen, setPostModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+
+  const handlePostClick = (post: any) => {
+    setSelectedPost(post);
+    setPostModalOpen(true);
+  };
+
+  const closePostModal = () => {
+    setPostModalOpen(false);
+    setSelectedPost(null);
+  };
 
   const openModal = (type: "followers" | "following") => {
     setCurrentListType(type);
@@ -42,16 +75,21 @@ const ProfilePage: React.FC = () => {
       case "posty":
         return (
           <div className={styles.photoGrid}>
-            {photos.map((photo) => (
-              <div key={photo.id} className={styles.photoItem}>
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className={styles.postImage}
-                />
-              </div>
-            ))}
-          </div>
+          {posts.map((post) => (
+            <div
+              key={post.id}
+              className={styles.photoItem}
+              onClick={() => handlePostClick(post)}
+            >
+              <img src={post.images[0]} className={styles.postImage} />
+              {post.images.length > 1 && (
+                <div className={styles.multiImageIndicator}>
+                  <i className="bi bi-images"></i>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
         );
       case "wyzwania":
         return <div className={styles.placeholder}>Placeholder dla Wyzwań</div>;
@@ -149,6 +187,11 @@ const ProfilePage: React.FC = () => {
 
         {/* Content Section */}
         <div className={styles.tabContent}>{renderTabContent()}</div>
+      <PostDetailModal
+        isOpen={isPostModalOpen}
+        onClose={closePostModal}
+        post={selectedPost}
+      />
       </div>
 
       {/* Modal */}
