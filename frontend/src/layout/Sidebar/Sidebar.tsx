@@ -103,23 +103,21 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
       >
         {/* User Profile */}
         <div className={`mx-auto ${styles.profileSection}`}>
-          <img
-            src={user.profilePicture}
-            alt="User Profile"
-            className={`rounded-circle ${styles.profilePicture}`}
-          />
-          {!isMinimized && (
-            <div className={styles.profileDetails}>
-              <div className={styles.profileName}>{user.name}</div>
-              <a href="/profile-page" className={styles.profileLink}>
-                View Profile
-              </a>
-              <button onClick={logout} className={styles.logoutButton}>
-                Wyloguj się
-              </button>
-            </div>
-          )}
-        </div>
+  <img
+    src={user.profilePicture}
+    alt="User Profile"
+    className={`rounded-circle ${styles.profilePicture}`}
+  />
+  {!isMinimized && (
+    <div className={styles.profileDetails}>
+      <div className={styles.profileName}>{user.name}</div>
+      <a href="/profile-page" className={styles.profileLink}>
+        View Profile
+      </a>
+    </div>
+  )}
+</div>
+
 
         {/* Navigation */}
         <nav className={styles.navSection}>
@@ -184,7 +182,7 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
         {/* Settings */}
         <div className={styles.settingsSection}>
           <NavLink to="/settings" className={styles.settingsButton}>
-            <i className="bi bi-gear"></i>
+            <i className="bi bi-gear mr-5"></i>
             {!isMinimized && <span className={styles.navSpan}>Settings</span>}
           </NavLink>
         </div>

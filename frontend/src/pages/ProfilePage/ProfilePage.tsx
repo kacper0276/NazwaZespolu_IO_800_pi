@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import FollowListModal from "../../components/Modals/FollowListModal/FollowListModal";
-import PostDetailModal from"../../components/Modals/PostDetailsModal/PostDetailsModal";
+import PostDetailModal from "../../components/Modals/PostDetailsModal/PostDetailsModal";
+import ChallengesTab from "./ChallengeTab/ChallengesTab";
+import PostsTab from "./PostsTab/PostsTab"; 
 import styles from "./ProfilePage.module.scss";
 
-// Dane postów
 const posts = [
   {
     id: 1,
@@ -73,26 +74,9 @@ const ProfilePage: React.FC = () => {
   const renderTabContent = () => {
     switch (activeTab) {
       case "posty":
-        return (
-          <div className={styles.photoGrid}>
-          {posts.map((post) => (
-            <div
-              key={post.id}
-              className={styles.photoItem}
-              onClick={() => handlePostClick(post)}
-            >
-              <img src={post.images[0]} className={styles.postImage} />
-              {post.images.length > 1 && (
-                <div className={styles.multiImageIndicator}>
-                  <i className="bi bi-images"></i>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-        );
+        return <PostsTab posts={posts} onPostClick={handlePostClick} />;
       case "wyzwania":
-        return <div className={styles.placeholder}>Placeholder dla Wyzwań</div>;
+        return <ChallengesTab />;
       case "las":
         return <div className={styles.placeholder}>Placeholder dla Lasu</div>;
       default:
@@ -187,11 +171,11 @@ const ProfilePage: React.FC = () => {
 
         {/* Content Section */}
         <div className={styles.tabContent}>{renderTabContent()}</div>
-      <PostDetailModal
-        isOpen={isPostModalOpen}
-        onClose={closePostModal}
-        post={selectedPost}
-      />
+        <PostDetailModal
+          isOpen={isPostModalOpen}
+          onClose={closePostModal}
+          post={selectedPost}
+        />
       </div>
 
       {/* Modal */}

@@ -8,22 +8,31 @@ import ContactSupportForm from "../../components/ContactSupportForm/ContactSuppo
 import { useUser } from "../../context/UserContext";
 import ShowUsersOpinion from "../../components/ShowUsersOpinion/ShowUsersOpinion";
 import ChangeUserData from "../../components/ChangeUserData/ChangeUserData";
+import LocalStorageService from "../../services/localStorage.service";
+import { useNavigate } from "react-router-dom";
 
 const Settings: React.FC = () => {
   const { t } = useTranslation();
   const user = useUser();
+  const navigate = useNavigate();
   useWebsiteTitle(t("settings"));
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isAdminSettingsExpanded, setIsAdminSettingsExpanded] =
     useState<boolean>(false);
 
+  const logout = () => {
+    user.logout();
+    LocalStorageService.clear();
+    navigate("/welcome-page");
+  };
+
   const renderForm = () => {
     switch (activeSection) {
       case "account":
         return <AccountForm />;
       case "privacy":
-       return <PrivacyForm />;
+        return <PrivacyForm />;
       case "contact":
         return <ContactSupportForm />;
       case "change-user-data":
@@ -32,6 +41,15 @@ const Settings: React.FC = () => {
         return <ShowUsersOpinion />;
       case "admin-option-3":
         return <p>{t("admin_option_3_content")}</p>;
+      case "logout":
+        return (
+          <div className={styles.logoutContainer}>
+            <p>{t("logout_confirm")}</p>
+            <button onClick={logout} className={styles.logoutButton}>
+              {t("logout")}
+            </button>
+          </div>
+        );
       default:
         return <p>{t("select_option")}</p>;
     }
@@ -69,6 +87,12 @@ const Settings: React.FC = () => {
               onClick={() => setActiveSection("contact")}
             >
               {t("contact_support")}
+            </button>
+            <button
+              className={styles.settingsButton}
+              onClick={() => setActiveSection("logout")}
+            >
+              {t("logout")}
             </button>
 
             {user.user?.role === "admin" && (

@@ -24,7 +24,7 @@ $green-darkcolor:#00957f;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); // Przyciemnienie tła
+    background-color: rgba(0, 0, 0, 0.5); 
     z-index: 1;
   }
 
@@ -36,7 +36,7 @@ $green-darkcolor:#00957f;
     color: $primary-color;
     font-family: Arial, sans-serif;
     padding: 30px;
-    max-width: 1200px; // Zwiększenie szerokości komponentu
+    max-width: 1200px; 
     width: 100%;
     margin-left: 15rem;
 
@@ -50,7 +50,7 @@ $green-darkcolor:#00957f;
         left: 0;
         width: 1400px;;
         width: 100%;
-        height: 200px; // Wysokość tła za zdjęciem profilowym
+        height: 200px; 
         background-image: url('https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); // Stałe tło
         background-size: cover;
         background-position: center;
@@ -164,14 +164,14 @@ $green-darkcolor:#00957f;
           display: block;
           text-align: center;
           cursor: pointer;
-          border: none; /* Usunięcie borderów */
+          border: none; 
           transition: all 0.3s ease;
     
           &.active {
-            color: #000; // Zmieniamy kolor tekstu na czarny
-            background: linear-gradient(to right, #45c032, #00957f); // Gradient tła
-            border-radius: 10px 10px 0 0; // Zaokrąglamy tylko górne rogi
-            padding: 10px 20px; // Dodanie paddingu dla lepszego efektu wizualnego
+            color: #000; 
+            background: linear-gradient(to right, #45c032, #00957f);
+            border-radius: 10px 10px 0 0; 
+            padding: 10px 20px; 
           }
     
           .icon {
@@ -179,75 +179,12 @@ $green-darkcolor:#00957f;
           }
     
           &:hover {
-            background: linear-gradient(to right, #45c032, #00957f); // Gradient na hover
-            color: #000; // Zmieniamy kolor napisu na czarny
-            border-radius: 10px 10px 0 0; // Zaokrąglamy tylko górne rogi na hover
+            background: linear-gradient(to right, #45c032, #00957f); 
+            color: #000; 
+            border-radius: 10px 10px 0 0; 
           }
         }
       }
-    }
-    
-
-    .photoGrid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 300px); 
-      justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
-
-      .photoItem {
-        width: 300px;
-        height: 300px;
-        position: relative; 
-        overflow: visible; 
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      
-        &::before {
-          content: '';
-          position: absolute;
-          inset: -2px; 
-          border-radius: 2px;
-          background: linear-gradient(to right, #45c032, #00957f);
-          z-index: 0; 
-          
-        }
-        
-      
-        .postImage {
-          width: 100%;
-          height: 100%;
-          border-radius: 2px; 
-          object-fit: cover; 
-          position: relative;
-          z-index: 1; 
-          transition: transform 0.3s ease-in-out;
-        }
-        .multiImageIndicator {
-          position: absolute;
-          top: 5px;
-          right: 5px;
-          background-color: rgba(0, 0, 0, 0.6);
-          color: white;
-          border-radius: 50%;
-          width: 34px;
-          height: 34px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 14px;
-          z-index: 10;
-        }
-        &:hover {
-          &::before {
-            transform: scale(1.01);
-            transition: transform 0.2 s ease-in-out;
-          }
-        }
-      }
-      
-      
     }
 
     .tabContent {
