@@ -1,0 +1,84 @@
+.formContainer {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url("../../assets/images/ForestBG.jpg") center/cover fixed;
+    padding: 2rem;
+    position: relative;
+  
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 0;
+    }
+  }
+  
+  .form {
+    z-index: 1;
+    background-color: #1e1e1e;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .title {
+    color: #f8f9fa;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .inputGroup {
+    margin-bottom: 1.5rem;
+  }
+  
+  .label {
+    color: #e9ecef;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input,
+  .textarea {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: #f8f9fa;
+  
+    &:focus {
+      outline: none;
+      border-color: #45c032;
+      box-shadow: 0 0 5px rgba(69, 192, 50, 0.5);
+    }
+  }
+  
+  .textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .submitButton {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(90deg, #45c032, #00957f);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  
+    &:hover {
+      background: linear-gradient(90deg, #00957f, #45c032);
+    }
+  }
+  

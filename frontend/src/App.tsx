@@ -9,6 +9,7 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import ChallengeCreation from "./pages/ChallengeCreation/ChallengeCreation";
 import PremiumOffer from "./pages/PremiumOffert/PremiumOffer";
+import ChallengeNote from "./pages/ChallengeNote/ChallengeNote"
 import MainPage from "./pages/MainPage/MainPage";
 import Sidebar from "./layout/Sidebar/Sidebar";
 import { UserProvider } from "./context/UserContext";
@@ -37,6 +38,14 @@ const content = (
           <NoAuthenticatedRoute>
             <WelcomePage />
           </NoAuthenticatedRoute>
+        }
+      />
+            <Route
+        path="/challenge-note"
+        element={
+          <AuthenticatedRoute>
+            <ChallengeNote />
+          </AuthenticatedRoute>
         }
       />
       <Route
