@@ -10,6 +10,9 @@ import { AuthModule } from './auth/auth.module';
 import { SettingsModule } from './settings/settings.module';
 import { OpinionsModule } from './opinions/opinions.module';
 import { ProfilesModule } from './profiles/profiles.module';
+import { GoalsModule } from './goals/goals.module';
+import { PaymentsModule } from './payments/payments.module';
+import { PlantsModule } from './plants/plants.module';
 
 @Module({
   imports: [
@@ -29,6 +32,10 @@ import { ProfilesModule } from './profiles/profiles.module';
     SettingsModule,
     OpinionsModule,
     ProfilesModule,
+    GoalsModule,
+    ProfilesModule,
+    PaymentsModule,
+    PlantsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

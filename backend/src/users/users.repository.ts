@@ -69,7 +69,7 @@ export class UsersRepository {
     }
 
     const profileData = {
-      userId: user.id,
+      userId: user._id,
       currentGoals: [],
       completedGoals: [],
       followers: [],
@@ -86,7 +86,7 @@ export class UsersRepository {
     user.profile = profile;
 
     const updatedUser = await this.userModel.findByIdAndUpdate(
-      user.id,
+      user._id,
       {
         isActivated: user.isActivated,
         profileId: user.profileId,

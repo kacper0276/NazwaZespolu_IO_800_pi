@@ -7,6 +7,8 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User extends Document {
+  _id: MongooseSchema.Types.ObjectId;
+
   @Prop({ required: true })
   email: string;
 

@@ -6,7 +6,16 @@ import { Goal } from './entities/goal.entity';
 export class GoalService {
   constructor(private readonly goalRepository: GoalRepository) {}
 
-  async createGoal(createGoalDto: Partial<Goal>): Promise<Goal> {
+  async createGoal(
+    createGoalDto: Partial<Goal>,
+    imgName: string,
+  ): Promise<Goal> {
+    if (typeof createGoalDto.tags === 'string') {
+      createGoalDto.tags = JSON.parse(createGoalDto.tags);
+    }
+
+    createGoalDto.image = imgName;
+
     return this.goalRepository.createGoal(createGoalDto);
   }
 
@@ -18,7 +27,10 @@ export class GoalService {
     return this.goalRepository.findById(id);
   }
 
-  async updateGoal(id: number, updateGoalDto: Partial<Goal>): Promise<Goal | null> {
+  async updateGoal(
+    id: number,
+    updateGoalDto: Partial<Goal>,
+  ): Promise<Goal | null> {
     return this.goalRepository.updateGoal(id, updateGoalDto);
   }
 
