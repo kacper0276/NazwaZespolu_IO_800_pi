@@ -8,10 +8,12 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  Res,
 } from '@nestjs/common';
 import { PlantsService } from './plants.service';
 import { Plant } from './entities/plant.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @ApiBearerAuth('access-token')
 @Controller('plants')
@@ -28,17 +30,26 @@ export class PlantsController {
   }
 
   @Get()
-  async findAll(): Promise<Plant[]> {
-    return await this.plantsService.findAll();
+  async findAll(@Res() response: Response) {
+    const plants = await this.plantsService.findAll();
+
+    response.status(HttpStatus.OK).send({
+      message: 'all-plants',
+      data: plants,
+    });
   }
 
   @Get(':id')
-  async findById(@Param('id') id: number): Promise<Plant> {
+  async findById(@Param('id') id: number, @Res() response: Response) {
     const plant = await this.plantsService.findById(id);
     if (!plant) {
       throw new HttpException('Plant not found', HttpStatus.NOT_FOUND);
     }
-    return plant;
+
+    response.status(HttpStatus.OK).send({
+      message: 'plant-data',
+      data: plant,
+    });
   }
 
   @Put(':id')
