@@ -35,6 +35,7 @@ async function createTestUsers() {
       password: hashedPassword,
       role: i % 2 === 0 ? Role.ADMIN : Role.USER,
       isActivated: true,
+      profileId: '',
     });
 
     await newUser.save();
