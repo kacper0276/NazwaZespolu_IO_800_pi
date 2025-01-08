@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FollowListModal from "../../components/Modals/FollowListModal/FollowListModal";
 import PostDetailModal from "../../components/Modals/PostDetailsModal/PostDetailsModal";
 import ChallengesTab from "./ChallengeTab/ChallengesTab";
 import PostsTab from "./PostsTab/PostsTab";
 import styles from "./ProfilePage.module.scss";
-import { useParams } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
+import { ProfileType } from "../../types/IProfile";
+import { useApiJson } from "../../config/api";
+import { ApiResponse } from "../../types/api.types";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import Spinner from "../../components/Spinner/Spinner";
 
 const posts = [
   {
@@ -49,8 +55,9 @@ const posts = [
 ];
 
 const ProfilePage: React.FC = () => {
-  const params = useParams();
-
+  const userHook = useUser();
+  const api = useApiJson();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("posty");
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentListType, setCurrentListType] = useState<
@@ -58,6 +65,8 @@ const ProfilePage: React.FC = () => {
   >("followers");
   const [isPostModalOpen, setPostModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>(null);
+  const [profileData, setProfileData] = useState<ProfileType>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handlePostClick = (post: any) => {
     setSelectedPost(post);
@@ -89,106 +98,135 @@ const ProfilePage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      setLoading(true);
+
+      api
+        .get<ApiResponse<ProfileType>>(`profiles/${userHook.user?.profileId}`)
+        .then((res) => {
+          setProfileData(res.data.data);
+        })
+        .catch((_err) => {
+          toast.error(t("error-fetching-profile"));
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+
+    fetchProfile();
+  }, []);
+
   return (
     <div className={styles.pageBg}>
-      <div className={styles.profilePage}>
-        {/* Header Section */}
-        <div className={styles.profileHeader}>
-          <div className={styles.profileBackground}></div>
-          <div className={styles.infoContainer}>
-            <div className={styles.avatarContainer}>
-              <div className={styles.avatar}>
-                <img
-                  src="https://media.istockphoto.com/id/1327592506/pl/wektor/domy%C5%9Blna-ikona-symbolu-zast%C4%99pczego-zdj%C4%99cia-awatara-szare-zdj%C4%99cie-profilowe-cz%C5%82owiek-biznesu.webp?s=2048x2048&w=is&k=20&c=QzrDx-OsmsBkP3pB68zVo53u1cyxI5jeq2R5W4sV3fQ="
-                  alt="User Avatar"
-                />
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          <div className={styles.profilePage}>
+            {/* Header Section */}
+            <div className={styles.profileHeader}>
+              <div className={styles.profileBackground}></div>
+              <div className={styles.infoContainer}>
+                <div className={styles.avatarContainer}>
+                  <div className={styles.avatar}>
+                    <img
+                      src="https://media.istockphoto.com/id/1327592506/pl/wektor/domy%C5%9Blna-ikona-symbolu-zast%C4%99pczego-zdj%C4%99cia-awatara-szare-zdj%C4%99cie-profilowe-cz%C5%82owiek-biznesu.webp?s=2048x2048&w=is&k=20&c=QzrDx-OsmsBkP3pB68zVo53u1cyxI5jeq2R5W4sV3fQ="
+                      alt="User Avatar"
+                    />
+                  </div>
+                </div>
+                <h1
+                  className={styles.username}
+                >{`${userHook.user?.firstname} ${userHook.user?.lastname}`}</h1>
+                <p className={styles.stats}>
+                  <span>
+                    <strong>{profileData?.posts.length}</strong> posty
+                  </span>
+                  <span
+                    onClick={() => openModal("followers")}
+                    role="button"
+                    className={styles.linkText}
+                  >
+                    <strong>{profileData?.followers.length}</strong>{" "}
+                    obserwujących
+                  </span>
+                  <span
+                    onClick={() => openModal("following")}
+                    role="button"
+                    className={styles.linkText}
+                  >
+                    <strong>{profileData?.following.length}</strong> obserwowani
+                  </span>
+                </p>
+                <p className={styles.description}>
+                  Posty Tomka <br />
+                  Bardzo ładne
+                </p>
               </div>
             </div>
-            <h1 className={styles.username}>Tomasz Milanowski</h1>
-            <p className={styles.stats}>
-              <span>
-                <strong>845</strong> posty
-              </span>
-              <span
-                onClick={() => openModal("followers")}
-                role="button"
-                className={styles.linkText}
+
+            {/* Navigation */}
+            <ul className={`nav nav-tabs ${styles.navTabs}`}>
+              <li
+                className={`nav-item d-flex justify-content-center ${styles.navItem}`}
+                onClick={() => setActiveTab("posty")}
               >
-                <strong>70,8 tys.</strong> obserwujących
-              </span>
-              <span
-                onClick={() => openModal("following")}
-                role="button"
-                className={styles.linkText}
+                <a
+                  className={`nav-link ${styles.navLink} ${
+                    activeTab === "posty" ? styles.active : ""
+                  }`}
+                  href="#"
+                >
+                  <i className={`bi bi-grid ${styles.icon}`}></i> Posty
+                </a>
+              </li>
+              <li
+                className={`nav-item d-flex justify-content-center ${styles.navItem}`}
+                onClick={() => setActiveTab("wyzwania")}
               >
-                <strong>21</strong> obserwowani
-              </span>
-            </p>
-            <p className={styles.description}>
-              Posty Tomka <br />
-              Bardzo ładne
-            </p>
+                <a
+                  className={`nav-link ${styles.navLink} ${
+                    activeTab === "wyzwania" ? styles.active : ""
+                  }`}
+                  href="#"
+                >
+                  <i className={`${styles.icon} bi bi-trophy`}></i> Wyzwania
+                </a>
+              </li>
+              <li
+                className={`nav-item d-flex justify-content-center ${styles.navItem}`}
+                onClick={() => setActiveTab("las")}
+              >
+                <a
+                  className={`nav-link ${styles.navLink} ${
+                    activeTab === "las" ? styles.active : ""
+                  }`}
+                  href="#"
+                >
+                  <i className={`bi bi-tree ${styles.icon}`}></i> Las
+                </a>
+              </li>
+            </ul>
+
+            {/* Content Section */}
+            <div className={styles.tabContent}>{renderTabContent()}</div>
+            <PostDetailModal
+              isOpen={isPostModalOpen}
+              onClose={closePostModal}
+              post={selectedPost}
+            />
           </div>
-        </div>
 
-        {/* Navigation */}
-        <ul className={`nav nav-tabs ${styles.navTabs}`}>
-          <li
-            className={`nav-item d-flex justify-content-center ${styles.navItem}`}
-            onClick={() => setActiveTab("posty")}
-          >
-            <a
-              className={`nav-link ${styles.navLink} ${
-                activeTab === "posty" ? styles.active : ""
-              }`}
-              href="#"
-            >
-              <i className={`bi bi-grid ${styles.icon}`}></i> Posty
-            </a>
-          </li>
-          <li
-            className={`nav-item d-flex justify-content-center ${styles.navItem}`}
-            onClick={() => setActiveTab("wyzwania")}
-          >
-            <a
-              className={`nav-link ${styles.navLink} ${
-                activeTab === "wyzwania" ? styles.active : ""
-              }`}
-              href="#"
-            >
-              <i className={`${styles.icon} bi bi-trophy`}></i> Wyzwania
-            </a>
-          </li>
-          <li
-            className={`nav-item d-flex justify-content-center ${styles.navItem}`}
-            onClick={() => setActiveTab("las")}
-          >
-            <a
-              className={`nav-link ${styles.navLink} ${
-                activeTab === "las" ? styles.active : ""
-              }`}
-              href="#"
-            >
-              <i className={`bi bi-tree ${styles.icon}`}></i> Las
-            </a>
-          </li>
-        </ul>
-
-        {/* Content Section */}
-        <div className={styles.tabContent}>{renderTabContent()}</div>
-        <PostDetailModal
-          isOpen={isPostModalOpen}
-          onClose={closePostModal}
-          post={selectedPost}
-        />
-      </div>
-
-      {/* Modal */}
-      <FollowListModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        listType={currentListType}
-      />
+          {/* Modal */}
+          <FollowListModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            listType={currentListType}
+          />
+        </>
+      )}
     </div>
   );
 };
