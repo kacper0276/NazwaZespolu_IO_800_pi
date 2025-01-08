@@ -1,4 +1,4 @@
-export type profileData = {
+export interface ProfileType {
   currentGoals: string[];
   completedGoals: string[];
   goalDescription: string;
@@ -6,5 +6,4 @@ export type profileData = {
   following: number[];
   posts: number[];
   premium: boolean;
-  userId: string;
-};
+}

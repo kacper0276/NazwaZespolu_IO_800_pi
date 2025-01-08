@@ -8,10 +8,27 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  UseInterceptors,
+  UploadedFile,
+  Res,
 } from '@nestjs/common';
 import { GoalService } from './goals.service';
 import { Goal } from './entities/goal.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { diskStorage } from 'multer';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Response } from 'express';
+
+const storage = {
+  storage: diskStorage({
+    destination: '../frontend/public/goalsImg',
+    filename: function (req, file, cb) {
+      const name = Date.now() + Math.floor(Math.random() * 100) + '.jpg';
+
+      cb(null, name);
+    },
+  }),
+};
 
 @ApiBearerAuth('access-token')
 @Controller('goals')
@@ -19,9 +36,22 @@ export class GoalsController {
   constructor(private readonly goalService: GoalService) {}
 
   @Post()
-  async createGoal(@Body() createGoalDto: Partial<Goal>): Promise<Goal> {
+  @UseInterceptors(FileInterceptor('image', storage))
+  async createGoal(
+    @Body() createGoalDto: Partial<Goal>,
+    @UploadedFile() file: Express.Multer.File,
+    @Res() response: Response,
+  ) {
     try {
-      return await this.goalService.createGoal(createGoalDto);
+      const goal = await this.goalService.createGoal(
+        createGoalDto,
+        file.filename,
+      );
+
+      response.status(HttpStatus.OK).send({
+        message: 'create-challenge',
+        data: goal,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

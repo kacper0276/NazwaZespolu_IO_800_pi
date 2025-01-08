@@ -107,14 +107,14 @@ export class UsersService {
   }
 
   async activateAccount(userEmail: string): Promise<User> {
-    const user = await this.usersRepository.findByEmail(userEmail);
+    const user =
+      await this.usersRepository.activateAccountAndCreateProfile(userEmail);
 
     if (!user) {
       throw new BadRequestException('invalid-user-data');
     }
 
-    user.isActivated = true;
-    return this.usersRepository.update(user.id, user);
+    return user;
   }
 
   async searchUsers(query: string): Promise<User[]> {

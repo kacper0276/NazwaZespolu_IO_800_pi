@@ -1,4 +1,4 @@
-export type goalData = {
+export interface GoalType {
   name: string;
   description: string;
   startDate: Date;
@@ -11,4 +11,4 @@ export type goalData = {
   treeSkin: string;
   isDone: boolean;
   profileId: string;
-};
+}

@@ -20,11 +20,6 @@ import Messages from "./pages/Messages/Messages";
 import Settings from "./pages/Settings/Settings";
 import { isMobile, isTablet } from "react-device-detect";
 
-const user = {
-  name: "Louis Carter",
-  profilePicture: "https://via.placeholder.com/80",
-  profileLink: "/profile",
-};
 const content = (
   <>
     <Routes>
@@ -70,7 +65,7 @@ const content = (
         }
       />
       <Route
-        path="/profile-page"
+        path="/profile-page/:profileName"
         element={
           <AuthenticatedRoute>
             <ProfilePage />
@@ -128,7 +123,7 @@ const sidebar = (
     <Route path="/welcome-page" element={<></>} />
     <Route path="/register-page" element={<></>} />
     <Route path="/activate-account/:userEmail" element={<></>} />
-    <Route path="*" element={<Sidebar user={user} />} />
+    <Route path="*" element={<Sidebar />} />
   </Routes>
 );
 

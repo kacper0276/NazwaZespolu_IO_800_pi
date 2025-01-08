@@ -17,4 +17,5 @@ export interface UserType {
   _id: string;
   firstname: string | null;
   lastname: string | null;
+  profileId: string;
 }

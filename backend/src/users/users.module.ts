@@ -6,10 +6,14 @@ import { User, UserSchema } from './entities/user.entity';
 import { UsersRepository } from './users.repository';
 import { mailerConfig } from 'src/config/mailer.config';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { Profile, ProfileSchema } from 'src/profiles/entities/profile.entity';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+      { name: Profile.name, schema: ProfileSchema },
+    ]),
     MailerModule.forRoot(mailerConfig),
   ],
   providers: [UsersService, UsersRepository],
