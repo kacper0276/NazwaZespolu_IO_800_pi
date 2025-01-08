@@ -20,7 +20,7 @@ export class ProfilesRepository {
   }
 
   async findById(id: number): Promise<Profile | null> {
-    return this.profileModel.findOne({ id }).exec();
+    return this.profileModel.findOne({ _id: id }).exec();
   }
 
   async findOneByUserId(userId: string): Promise<Profile | null> {

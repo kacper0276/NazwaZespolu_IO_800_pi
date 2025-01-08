@@ -21,6 +21,9 @@ export class Profile extends Document {
   @Prop({ default: false })
   premium: boolean;
 
+  @Prop({ type: [Number], default: [] })
+  posts: number[];
+
   @Prop({ required: true })
   userId: string;
 

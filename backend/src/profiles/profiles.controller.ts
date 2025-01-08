@@ -8,10 +8,12 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  Res,
 } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { Profile } from './entities/profile.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @ApiBearerAuth('access-token')
 @Controller('profiles')
@@ -35,21 +37,30 @@ export class ProfilesController {
   }
 
   @Get(':id')
-  async findById(@Param('id') id: number): Promise<Profile> {
+  async findById(@Param('id') id: number, @Res() response: Response) {
     const profile = await this.profilesService.findById(id);
     if (!profile) {
       throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
     }
-    return profile;
+    response.status(HttpStatus.OK).send({
+      message: 'profile-data',
+      data: profile,
+    });
   }
 
   @Get('get-profile-by-user/:userId')
-  async getProfileByUser(@Param('userId') userId: string): Promise<Profile> {
+  async getProfileByUser(
+    @Param('userId') userId: string,
+    @Res() response: Response,
+  ) {
     const profile = await this.profilesService.findByUserId(userId);
     if (!profile) {
       throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
     }
-    return profile;
+    response.status(HttpStatus.OK).send({
+      message: 'profile-data',
+      data: profile,
+    });
   }
 
   @Put(':id')
@@ -72,11 +83,15 @@ export class ProfilesController {
   }
 
   @Delete(':id')
-  async deleteProfile(@Param('id') id: number): Promise<Profile> {
+  async deleteProfile(@Param('id') id: number, @Res() response: Response) {
     const deletedProfile = await this.profilesService.deleteProfile(id);
     if (!deletedProfile) {
       throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
     }
-    return deletedProfile;
+
+    response.status(HttpStatus.OK).send({
+      message: 'remove-profile',
+      data: deletedProfile,
+    });
   }
 }
