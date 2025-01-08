@@ -12,7 +12,9 @@ import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
 import { Response } from 'express';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('access-token')
 @Controller('auth')
 export class AuthController {
   constructor(

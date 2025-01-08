@@ -13,7 +13,9 @@ import {
 import { OpinionsService } from './opinions.service';
 import { Response } from 'express';
 import { opinionData } from './dto/opinion.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('access-token')
 @Controller('opinions')
 export class OpinionsController {
   constructor(private readonly opinionsService: OpinionsService) {}

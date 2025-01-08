@@ -1,7 +1,19 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PlantsService } from './plants.service';
 import { Plant } from './entities/plant.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('access-token')
 @Controller('plants')
 export class PlantsController {
   constructor(private readonly plantsService: PlantsService) {}
@@ -35,7 +47,10 @@ export class PlantsController {
     @Body() updatePlantDto: any,
   ): Promise<Plant> {
     try {
-      const updatedPlant = await this.plantsService.updatePlant(id, updatePlantDto);
+      const updatedPlant = await this.plantsService.updatePlant(
+        id,
+        updatePlantDto,
+      );
       if (!updatedPlant) {
         throw new HttpException('Plant not found', HttpStatus.NOT_FOUND);
       }

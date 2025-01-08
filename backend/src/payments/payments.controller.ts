@@ -1,13 +1,27 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { PaymentService } from './payments.service';
 import { Payment } from './entities/payment.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('access-token')
 @Controller('payments')
 export class PaymentsController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Post()
-  async createPayment(@Body() createPaymentDto: Partial<Payment>): Promise<Payment> {
+  async createPayment(
+    @Body() createPaymentDto: Partial<Payment>,
+  ): Promise<Payment> {
     try {
       return await this.paymentService.createPayment(createPaymentDto);
     } catch (error) {
@@ -35,7 +49,10 @@ export class PaymentsController {
     @Body() updatePaymentDto: Partial<Payment>,
   ): Promise<Payment> {
     try {
-      const updatedPayment = await this.paymentService.updatePayment(id, updatePaymentDto);
+      const updatedPayment = await this.paymentService.updatePayment(
+        id,
+        updatePaymentDto,
+      );
       if (!updatedPayment) {
         throw new HttpException('Payment not found', HttpStatus.NOT_FOUND);
       }

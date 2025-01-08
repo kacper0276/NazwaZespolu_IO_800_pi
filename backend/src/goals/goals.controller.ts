@@ -1,7 +1,19 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { GoalService } from './goals.service';
 import { Goal } from './entities/goal.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('access-token')
 @Controller('goals')
 export class GoalsController {
   constructor(private readonly goalService: GoalService) {}
@@ -35,7 +47,10 @@ export class GoalsController {
     @Body() updateGoalDto: Partial<Goal>,
   ): Promise<Goal> {
     try {
-      const updatedGoal = await this.goalService.updateGoal(Number(id), updateGoalDto);
+      const updatedGoal = await this.goalService.updateGoal(
+        Number(id),
+        updateGoalDto,
+      );
       if (!updatedGoal) {
         throw new HttpException('Goal not found', HttpStatus.NOT_FOUND);
       }

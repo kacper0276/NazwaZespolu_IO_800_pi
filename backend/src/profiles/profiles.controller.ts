@@ -1,13 +1,27 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { Profile } from './entities/profile.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('access-token')
 @Controller('profiles')
 export class ProfilesController {
   constructor(private readonly profilesService: ProfilesService) {}
 
   @Post()
-  async createProfile(@Body() createProfileDto: Partial<Profile>): Promise<Profile> {
+  async createProfile(
+    @Body() createProfileDto: Partial<Profile>,
+  ): Promise<Profile> {
     try {
       return await this.profilesService.createProfile(createProfileDto);
     } catch (error) {
@@ -35,7 +49,10 @@ export class ProfilesController {
     @Body() updateProfileDto: Partial<Profile>,
   ): Promise<Profile> {
     try {
-      const updatedProfile = await this.profilesService.updateProfile(id, updateProfileDto);
+      const updatedProfile = await this.profilesService.updateProfile(
+        id,
+        updateProfileDto,
+      );
       if (!updatedProfile) {
         throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
       }
