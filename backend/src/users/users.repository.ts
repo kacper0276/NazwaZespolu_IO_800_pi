@@ -2,11 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './entities/user.entity';
+import { Profile, ProfileDocument } from 'src/profiles/entities/profile.entity';
 
 @Injectable()
 export class UsersRepository {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    @InjectModel(Profile.name)
+    private readonly profileModel: Model<ProfileDocument>,
   ) {}
 
   async create(user: Partial<User>): Promise<User> {
@@ -56,5 +59,42 @@ export class UsersRepository {
         ],
       })
       .exec();
+  }
+
+  async activateAccountAndCreateProfile(userEmail: string): Promise<User> {
+    const user = await this.findByEmail(userEmail);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const profileData = {
+      userId: user.id,
+      currentGoals: [],
+      completedGoals: [],
+      followers: [],
+      following: [],
+      premium: false,
+      user: user,
+    };
+
+    const profile = new this.profileModel(profileData);
+    await profile.save();
+
+    user.isActivated = true;
+    user.profileId = profile.id;
+    user.profile = profile;
+
+    const updatedUser = await this.userModel.findByIdAndUpdate(
+      user.id,
+      {
+        isActivated: user.isActivated,
+        profileId: user.profileId,
+        profile: user.profile,
+      },
+      { new: true },
+    );
+
+    return updatedUser;
   }
 }

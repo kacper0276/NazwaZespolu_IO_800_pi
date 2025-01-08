@@ -7,4 +7,5 @@ export type userData = {
   isActivated: boolean;
   firstname?: string;
   lastname?: string;
+  profileId?: string;
 };

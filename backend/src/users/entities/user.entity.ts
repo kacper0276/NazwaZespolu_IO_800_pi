@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Role } from '../../enums/role.enum';
+import { Profile } from 'src/profiles/entities/profile.entity';
 
 export type UserDocument = User & Document;
 
@@ -23,6 +24,12 @@ export class User extends Document {
 
   @Prop({ type: Boolean, default: false })
   isActivated: boolean;
+
+  @Prop({ default: '' })
+  profileId: string;
+
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Profile' })
+  profile: Profile;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

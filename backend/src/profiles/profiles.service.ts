@@ -18,7 +18,14 @@ export class ProfilesService {
     return this.profilesRepository.findById(id);
   }
 
-  async updateProfile(id: number, updateProfileDto: Partial<Profile>): Promise<Profile | null> {
+  async findByUserId(userId: string): Promise<Profile | null> {
+    return this.profilesRepository.findOneByUserId(userId);
+  }
+
+  async updateProfile(
+    id: number,
+    updateProfileDto: Partial<Profile>,
+  ): Promise<Profile | null> {
     return this.profilesRepository.updateProfile(id, updateProfileDto);
   }
 

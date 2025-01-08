@@ -43,6 +43,15 @@ export class ProfilesController {
     return profile;
   }
 
+  @Get('get-profile-by-user/:userId')
+  async getProfileByUser(@Param('userId') userId: string): Promise<Profile> {
+    const profile = await this.profilesService.findByUserId(userId);
+    if (!profile) {
+      throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+    }
+    return profile;
+  }
+
   @Put(':id')
   async updateProfile(
     @Param('id') id: number,
