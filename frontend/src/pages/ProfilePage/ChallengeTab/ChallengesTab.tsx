@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ChallengesTab.module.scss";
+import ChallengeDetailsModal from "../../../components/Modals/ChallengeDetailsModal/ChallengeDetailsModal";
+import PlaceholderImg from "../../../assets/images/greatBritainFlag.png";
+import PlaceholderImg2 from "../../../assets/images/PlaceholderImages/zdrowe-salaki-przepisy-1250x833.jpg";
 
 type Challenge = {
   title: string;
-  startDate: string; // YYYY-MM-DD
-  endDate: string; // YYYY-MM-DD
+  startDate: string;
+  endDate: string;
   description: string;
-  percentage: number;
+  updates: { text: string; image?: string }[];
+  tags: string[];
 };
 
 const calculatePercentage = (start: string, end: string): number => {
@@ -26,12 +30,17 @@ const calculatePercentage = (start: string, end: string): number => {
 const ChallengesTab: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
+  const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(
+    null
+  );
 
   useEffect(() => {
     const loadImages = async () => {
       const loadedImages = await Promise.all(
         Array.from({ length: 10 }, (_, i) =>
-          import(`../../../assets/images/Trees/${i + 1}p.png`).then((module) => module.default)
+          import(`../../../assets/images/Trees/${i + 1}p.png`).then(
+            (module) => module.default
+          )
         )
       );
       setImages(loadedImages);
@@ -45,77 +54,66 @@ const ChallengesTab: React.FC = () => {
         startDate: "2024-12-25",
         endDate: "2025-01-10",
         description: "Biegaj codziennie przez 30 minut!",
-        percentage: calculatePercentage("2024-12-25", "2025-01-10"),
+        updates: [
+          { text: "Dzień 1: Pierwszy bieg ukończony!", image: PlaceholderImg2 },
+          { text: "Dzień 2: Bieg w deszczu, ale się udało." },
+          { text: "Dzień 3: Utrzymałem tempo 6 min/km.", image: PlaceholderImg },
+        ],
+        tags: ["bieganie", "sport", "zdrowie", "wyzwanie", "nawyki"],
       },
       {
         title: "Zdrowe odżywianie",
         startDate: "2025-01-01",
         endDate: "2025-01-31",
         description: "Codziennie przygotuj zdrowy posiłek.",
-        percentage: calculatePercentage("2025-01-01", "2025-01-31"),
-      },
-      {
-        title: "Ucz się codziennie",
-        startDate: "2024-12-20",
-        endDate: "2025-01-20",
-        description: "Spędzaj 1 godzinę dziennie na nauce.",
-        percentage: calculatePercentage("2024-12-20", "2025-01-20"),
-      },
-      {
-        title: "Spaceruj więcej",
-        startDate: "2025-01-05",
-        endDate: "2025-02-05",
-        description: "Spaceruj 5 km każdego dnia.",
-        percentage: calculatePercentage("2025-01-05", "2025-02-05"),
+        updates: [
+          { text: "Dzień 1: Przygotowałem pyszną sałatkę." },
+          { text: "Dzień 2: Unikałem słodyczy.", image: PlaceholderImg2 },
+          { text: "Dzień 3: Woda zamiast napojów gazowanych." },
+        ],
+        tags: ["zdrowie", "jedzenie", "nawyki", "fit", "motywacja"],
       },
       {
         title: "Poranne medytacje",
         startDate: "2025-01-02",
         endDate: "2025-01-15",
         description: "Rozpocznij dzień 10-minutową medytacją.",
-        percentage: calculatePercentage("2025-01-02", "2025-01-15"),
+        updates: [],
+        tags: ["medytacja", "spokój", "skupienie", "zdrowie", "mindfulness"],
       },
       {
-        title: "Przeczytaj książkę",
-        startDate: "2024-12-15",
-        endDate: "2025-01-15",
-        description: "Przeczytaj przynajmniej jedną książkę w miesiąc.",
-        percentage: calculatePercentage("2024-12-15", "2025-01-15"),
+        title: "Spaceruj więcej",
+        startDate: "2025-01-05",
+        endDate: "2025-02-05",
+        description: "Spaceruj 5 km każdego dnia.",
+        updates: [
+          { text: "Dzień 1: Odwiedziłem pobliski park.", image: PlaceholderImg },
+          { text: "Dzień 2: Spacer z psem - piękny dzień!" },
+        ],
+        tags: ["spacery", "natura", "zdrowie", "relaks", "aktywność"],
       },
       {
-        title: "Codzienne ćwiczenia",
-        startDate: "2025-01-03",
-        endDate: "2025-01-30",
-        description: "Ćwicz codziennie przez 20 minut.",
-        percentage: calculatePercentage("2025-01-03", "2025-01-30"),
+        title: "Ucz się codziennie",
+        startDate: "2024-12-20",
+        endDate: "2025-01-20",
+        description: "Spędzaj 1 godzinę dziennie na nauce.",
+        updates: [
+          { text: "Dzień 1: Przerobiłem nowy rozdział książki o JavaScript." },
+          {
+            text: "Dzień 2: Obejrzałem tutorial o React.",
+            image: PlaceholderImg,
+          },
+        ],
+        tags: ["nauka", "rozwój", "umiejętności", "produktywność", "motywacja"],
       },
-      {
-        title: "Zacznij pisać dziennik",
-        startDate: "2024-12-28",
-        endDate: "2025-01-12",
-        description: "Codziennie zapisuj swoje przemyślenia.",
-        percentage: calculatePercentage("2024-12-28", "2025-01-12"),
-      },
-      {
-        title: "Poznaj nową umiejętność",
-        startDate: "2025-01-01",
-        endDate: "2025-03-01",
-        description: "Codziennie ucz się nowej umiejętności przez 30 minut.",
-        percentage: calculatePercentage("2025-01-01", "2025-03-01"),
-      },
-      {
-        title: "Oszczędzaj pieniądze",
-        startDate: "2025-01-01",
-        endDate: "2025-06-01",
-        description: "Codziennie odkładaj drobną kwotę na oszczędności.",
-        percentage: calculatePercentage("2025-01-01", "2025-06-01"),
-      },
-
     ];
-    
 
     setChallenges(exampleChallenges);
   }, []);
+
+  const getChallengePercentage = (challenge: Challenge) => {
+    return calculatePercentage(challenge.startDate, challenge.endDate);
+  };
 
   const getImageForPercentage = (percentage: number) => {
     const index = Math.min(Math.floor(percentage / 10), 9);
@@ -126,32 +124,46 @@ const ChallengesTab: React.FC = () => {
     <div className={styles.challengesContainer}>
       <h2 className={styles.heading}>Wyzwania</h2>
       <div className={styles.challengeList}>
-        {challenges.map((challenge, index) => (
-          <div key={index} className={styles.challengeItem}>
-            <h3 className={styles.title}>{challenge.title}</h3>
-            {images.length > 0 && (
-              <img
-                src={getImageForPercentage(challenge.percentage)}
-                alt={`Tree progress ${challenge.percentage}%`}
-                className={styles.image}
-              />
-            )}
-            <div className={styles.dates}>
-              <p>
-                <span className={styles.dateLabel}>Start:</span>{" "}
-                {challenge.startDate}
-              </p>
-              <p>
-                <span className={styles.dateLabel}>Koniec:</span>{" "}
-                {challenge.endDate}
-              </p>
+        {challenges.map((challenge, index) => {
+          const percentage = getChallengePercentage(challenge);
+          return (
+            <div key={index} className={styles.challengeItem}>
+              <h3 className={styles.title}>{challenge.title}</h3>
+              {images.length > 0 && (
+                <img
+                  src={getImageForPercentage(percentage)}
+                  alt={`Tree progress ${percentage}%`}
+                  className={styles.image}
+                />
+              )}
+              <div className={styles.dates}>
+                <p>
+                  <span className={styles.dateLabel}>Start:</span>{" "}
+                  {challenge.startDate}
+                </p>
+                <p>
+                  <span className={styles.dateLabel}>Koniec:</span>{" "}
+                  {challenge.endDate}
+                </p>
+              </div>
+              <p className={styles.description}>{challenge.description}</p>
+              <p className={styles.progress}>Postęp: {percentage}%</p>
+              <button
+                className={styles.button}
+                onClick={() => setSelectedChallenge(challenge)}
+              >
+                Zobacz szczegóły
+              </button>
             </div>
-            <p className={styles.description}>{challenge.description}</p>
-            <p className={styles.progress}>Postęp: {challenge.percentage}%</p>
-            <button className={styles.button}>Zobacz szczegóły</button>
-          </div>
-        ))}
+          );
+        })}
       </div>
+      {selectedChallenge && (
+        <ChallengeDetailsModal
+          challenge={selectedChallenge}
+          onClose={() => setSelectedChallenge(null)}
+        />
+      )}
     </div>
   );
 };

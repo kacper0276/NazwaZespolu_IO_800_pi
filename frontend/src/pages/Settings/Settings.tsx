@@ -40,16 +40,7 @@ const Settings: React.FC = () => {
       case "show-users-opinion":
         return <ShowUsersOpinion />;
       case "admin-option-3":
-        return <p>{t("admin_option_3_content")}</p>;
-      case "logout":
-        return (
-          <div className={styles.logoutContainer}>
-            <p>{t("logout_confirm")}</p>
-            <button onClick={logout} className={styles.logoutButton}>
-              {t("logout")}
-            </button>
-          </div>
-        );
+        return <p>{t("admin_option_3_content")}</p>;  
       default:
         return <p>{t("select_option")}</p>;
     }
@@ -90,7 +81,7 @@ const Settings: React.FC = () => {
             </button>
             <button
               className={styles.settingsButton}
-              onClick={() => setActiveSection("logout")}
+              onClick={logout}
             >
               {t("logout")}
             </button>
