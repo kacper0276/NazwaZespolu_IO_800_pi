@@ -95,6 +95,7 @@ const RegisterPage: React.FC = () => {
             <input
               type="email"
               id="email"
+              required
               placeholder={t("email")}
               className={`${styles.input} form-control`}
               onChange={(e) =>
@@ -108,6 +109,7 @@ const RegisterPage: React.FC = () => {
             <input
               type="password"
               id="password"
+              required
               placeholder={t("password")}
               className={`${styles.input} form-control`}
               onChange={(e) =>
@@ -119,6 +121,7 @@ const RegisterPage: React.FC = () => {
             <input
               type="password"
               id="confirmPassword"
+              required
               placeholder={t("confirm-password")}
               className={`${styles.input} form-control`}
               onChange={(e) =>
@@ -133,6 +136,7 @@ const RegisterPage: React.FC = () => {
             <input
               type="text"
               id="firstname"
+              required
               placeholder={t("name")}
               className={`${styles.input} form-control`}
               onChange={(e) =>
@@ -140,12 +144,11 @@ const RegisterPage: React.FC = () => {
               }
             />
 
-            <label className={styles.label}>{`${t("last-name")}(${t(
-              "not-required"
-            )})`}</label>
+            <label className={styles.label}>{`${t("last-name")}`}</label>
             <input
               type="text"
               id="lastname"
+              required
               placeholder={t("last-name")}
               className={`${styles.input} form-control`}
               onChange={(e) =>

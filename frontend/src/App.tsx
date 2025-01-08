@@ -61,7 +61,7 @@ const content = (
         }
       />
       <Route
-        path="/profile-page"
+        path="/profile-page/:profileName"
         element={
           <AuthenticatedRoute>
             <ProfilePage />

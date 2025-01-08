@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import FollowListModal from "../../components/Modals/FollowListModal/FollowListModal";
 import PostDetailModal from "../../components/Modals/PostDetailsModal/PostDetailsModal";
 import ChallengesTab from "./ChallengeTab/ChallengesTab";
-import PostsTab from "./PostsTab/PostsTab"; 
+import PostsTab from "./PostsTab/PostsTab";
 import styles from "./ProfilePage.module.scss";
+import { useParams } from "react-router-dom";
 
 const posts = [
   {
@@ -48,9 +49,13 @@ const posts = [
 ];
 
 const ProfilePage: React.FC = () => {
+  const params = useParams();
+
   const [activeTab, setActiveTab] = useState("posty");
   const [isModalOpen, setModalOpen] = useState(false);
-  const [currentListType, setCurrentListType] = useState<"followers" | "following">("followers");
+  const [currentListType, setCurrentListType] = useState<
+    "followers" | "following"
+  >("followers");
   const [isPostModalOpen, setPostModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>(null);
 

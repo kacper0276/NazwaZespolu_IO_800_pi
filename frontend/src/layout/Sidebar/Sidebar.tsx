@@ -89,12 +89,6 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
     }
   };
 
-  const logout = () => {
-    userHook.logout();
-    LocalStorageService.clear();
-    navigate("/welcome-page");
-  };
-
   return (
     <div className="d-flex">
       {/* Sidebar */}
@@ -103,21 +97,23 @@ const Sidebar: React.FC<SidebarProps> = ({ user }) => {
       >
         {/* User Profile */}
         <div className={`mx-auto ${styles.profileSection}`}>
-  <img
-    src={user.profilePicture}
-    alt="User Profile"
-    className={`rounded-circle ${styles.profilePicture}`}
-  />
-  {!isMinimized && (
-    <div className={styles.profileDetails}>
-      <div className={styles.profileName}>{user.name}</div>
-      <a href="/profile-page" className={styles.profileLink}>
-        View Profile
-      </a>
-    </div>
-  )}
-</div>
-
+          <img
+            src={user.profilePicture}
+            alt="User Profile"
+            className={`rounded-circle ${styles.profilePicture}`}
+          />
+          {!isMinimized && (
+            <div className={styles.profileDetails}>
+              <div className={styles.profileName}>{user.name}</div>
+              <a
+                href={`/profile-page/${userHook.user?.profileId}`}
+                className={styles.profileLink}
+              >
+                View Profile
+              </a>
+            </div>
+          )}
+        </div>
 
         {/* Navigation */}
         <nav className={styles.navSection}>
