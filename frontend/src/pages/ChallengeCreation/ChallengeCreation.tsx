@@ -4,6 +4,13 @@ import StandardSkin from "../../assets/gifs/FormSkins/BigTree/StandardSkin.gif";
 import PremiumSkin from "../../assets/gifs/FormSkins/BigTree/PremiumSkin.gif";
 import SmallTreePlaceholder from "../../assets/gifs/FormSkins/SmallTree/3.png";
 import MediumTreePlaceholder from "../../assets/gifs/FormSkins/MediumTree/2.png";
+import useWebsiteTitle from "../../hooks/useWebsiteTitle";
+import { useTranslation } from "react-i18next";
+import { useApiMultipart } from "../../config/api";
+import { toast } from "react-toastify";
+import { useUser } from "../../context/UserContext";
+import { ApiResponse } from "../../types/api.types";
+import { GoalType } from "../../types/IGoal";
 
 interface Challenge {
   name: string;
@@ -21,6 +28,11 @@ interface Challenge {
 }
 
 const ChallengeCreation: React.FC = () => {
+  const { t } = useTranslation();
+  useWebsiteTitle(t("create-challenge"));
+  const api = useApiMultipart();
+  const userHook = useUser();
+
   const [challenge, setChallenge] = useState<Challenge>({
     name: "",
     description: "",
@@ -149,7 +161,30 @@ const ChallengeCreation: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(challenge);
+
+    const formData = new FormData();
+    formData.append("name", challenge.name);
+    formData.append("description", challenge.description);
+    formData.append("startDate", challenge.startDate);
+    formData.append("endDate", challenge.endDate);
+    formData.append("dailyReminder", String(challenge.dailyReminder));
+    formData.append("visibility", challenge.visibility);
+    formData.append("allowComments", String(challenge.allowComments));
+    formData.append("difficulty", challenge.difficulty);
+    formData.append("treeSkin", challenge.treeSkin);
+    formData.append("tags", JSON.stringify(challenge.tags));
+    if (challenge.image) {
+      formData.append("image", challenge.image);
+    }
+    formData.append("profileId", userHook.user?.profileId ?? "");
+
+    try {
+      api.post<ApiResponse<GoalType>>(`goals`, formData).then((res) => {
+        toast.success(t(res.data.message));
+      });
+    } catch (err: any) {
+      toast.error(t(err.response?.data.message || err.message));
+    }
   };
 
   return (
@@ -370,7 +405,6 @@ const ChallengeCreation: React.FC = () => {
             </label>
           </div>
         </div>
-
 
         <div className={styles.checkboxGroup}>
           <input
