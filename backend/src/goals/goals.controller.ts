@@ -12,7 +12,7 @@ import {
   UploadedFile,
   Res,
 } from '@nestjs/common';
-import { GoalService } from './goals.service';
+import { GoalsService } from './goals.service';
 import { Goal } from './entities/goal.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
@@ -33,7 +33,7 @@ const storage = {
 @ApiBearerAuth('access-token')
 @Controller('goals')
 export class GoalsController {
-  constructor(private readonly goalService: GoalService) {}
+  constructor(private readonly goalsService: GoalsService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('image', storage))
@@ -43,7 +43,7 @@ export class GoalsController {
     @Res() response: Response,
   ) {
     try {
-      const goal = await this.goalService.createGoal(
+      const goal = await this.goalsService.createGoal(
         createGoalDto,
         file.filename,
       );
@@ -58,44 +58,62 @@ export class GoalsController {
   }
 
   @Get()
-  async findAll(): Promise<Goal[]> {
-    return await this.goalService.findAll();
+  async findAll(@Res() response: Response) {
+    const goals = await this.goalsService.findAll();
+
+    response.status(HttpStatus.OK).send({
+      message: 'all-challanges',
+      data: goals,
+    });
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string): Promise<Goal> {
-    const goal = await this.goalService.findById(Number(id));
+  async findById(@Param('id') id: string, @Res() response: Response){
+    const goal = await this.goalsService.findById(Number(id));
     if (!goal) {
-      throw new HttpException('Goal not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Challange not found', HttpStatus.NOT_FOUND);
     }
-    return goal;
+    
+    response.status(HttpStatus.OK).send({
+      message: 'challange-data',
+      data: goal,
+    });
   }
 
   @Put(':id')
   async updateGoal(
     @Param('id') id: string,
     @Body() updateGoalDto: Partial<Goal>,
-  ): Promise<Goal> {
+    @Res() response: Response,
+  ) {
     try {
-      const updatedGoal = await this.goalService.updateGoal(
+      const updatedGoal = await this.goalsService.updateGoal(
         Number(id),
         updateGoalDto,
       );
       if (!updatedGoal) {
-        throw new HttpException('Goal not found', HttpStatus.NOT_FOUND);
+        throw new HttpException('Challange not found', HttpStatus.NOT_FOUND);
       }
-      return updatedGoal;
+      
+      response.status(HttpStatus.OK).send({
+        message: 'update-challange',
+        data: updatedGoal,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   @Delete(':id')
-  async deleteGoal(@Param('id') id: string): Promise<Goal> {
-    const deletedGoal = await this.goalService.deleteGoal(Number(id));
+  async deleteGoal(@Param('id') id: string, @Res() response: Response) {
+    const deletedGoal = await this.goalsService.deleteGoal(Number(id));
     if (!deletedGoal) {
-      throw new HttpException('Goal not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Challange not found', HttpStatus.NOT_FOUND);
     }
-    return deletedGoal;
+    
+    response.status(HttpStatus.OK).send({
+      message: 'remove-challange',
+      data: deletedGoal,
+    });
   }
 }

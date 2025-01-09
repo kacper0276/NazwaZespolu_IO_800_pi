@@ -21,9 +21,19 @@ export class PlantsController {
   constructor(private readonly plantsService: PlantsService) {}
 
   @Post()
-  async createPlant(@Body() createPlantDto: any): Promise<Plant> {
+  async createPlant(
+    @Body() createPlantDto: Partial<Plant>,
+    @Res() response: Response,
+  ) {
     try {
-      return await this.plantsService.createPlant(createPlantDto);
+      const plant = await this.plantsService.createPlant(
+        createPlantDto,
+      );
+
+      response.status(HttpStatus.OK).send({
+        message: 'create-plant',
+        data: plant,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -55,8 +65,9 @@ export class PlantsController {
   @Put(':id')
   async updatePlant(
     @Param('id') id: number,
-    @Body() updatePlantDto: any,
-  ): Promise<Plant> {
+    @Body() updatePlantDto: Partial<Plant>,
+    @Res() response: Response,
+  ) {
     try {
       const updatedPlant = await this.plantsService.updatePlant(
         id,
@@ -65,18 +76,26 @@ export class PlantsController {
       if (!updatedPlant) {
         throw new HttpException('Plant not found', HttpStatus.NOT_FOUND);
       }
-      return updatedPlant;
+      
+      response.status(HttpStatus.OK).send({
+        message: 'update-plant',
+        data: updatedPlant,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   @Delete(':id')
-  async deletePlant(@Param('id') id: number): Promise<Plant> {
+  async deletePlant(@Param('id') id: number, @Res() response: Response) {
     const deletedPlant = await this.plantsService.deletePlant(id);
     if (!deletedPlant) {
       throw new HttpException('Plant not found', HttpStatus.NOT_FOUND);
     }
-    return deletedPlant;
+
+    response.status(HttpStatus.OK).send({
+      message: 'remove-plant',
+      data: deletedPlant,
+    });
   }
 }

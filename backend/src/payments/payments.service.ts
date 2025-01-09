@@ -3,26 +3,26 @@ import { PaymentRepository } from './payments.repository';
 import { Payment } from './entities/payment.entity';
 
 @Injectable()
-export class PaymentService {
-  constructor(private readonly paymentRepository: PaymentRepository) {}
+export class PaymentsService {
+  constructor(private readonly paymentsRepository: PaymentRepository) {}
 
   async createPayment(createPaymentDto: Partial<Payment>): Promise<Payment> {
-    return this.paymentRepository.createPayment(createPaymentDto);
+    return this.paymentsRepository.createPayment(createPaymentDto);
   }
 
   async findAll(): Promise<Payment[]> {
-    return this.paymentRepository.findAll();
+    return this.paymentsRepository.findAll();
   }
 
   async findById(id: string): Promise<Payment | null> {
-    return this.paymentRepository.findById(id);
+    return this.paymentsRepository.findById(id);
   }
 
   async updatePayment(id: string, updatePaymentDto: Partial<Payment>): Promise<Payment | null> {
-    return this.paymentRepository.updatePayment(id, updatePaymentDto);
+    return this.paymentsRepository.updatePayment(id, updatePaymentDto);
   }
 
   async deletePayment(id: string): Promise<Payment | null> {
-    return this.paymentRepository.deletePayment(id);
+    return this.paymentsRepository.deletePayment(id);
   }
 }

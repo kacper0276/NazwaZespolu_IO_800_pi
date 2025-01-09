@@ -23,17 +23,30 @@ export class ProfilesController {
   @Post()
   async createProfile(
     @Body() createProfileDto: Partial<Profile>,
-  ): Promise<Profile> {
+    @Res() response: Response,
+  ) {
     try {
-      return await this.profilesService.createProfile(createProfileDto);
+      const profile = await this.profilesService.createProfile(
+        createProfileDto,
+      );
+
+      response.status(HttpStatus.OK).send({
+        message: 'create-profile',
+        data: profile,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   @Get()
-  async findAll(): Promise<Profile[]> {
-    return await this.profilesService.findAll();
+  async findAll(@Res() response: Response) {
+    const profiles = await this.profilesService.findAll();
+
+    response.status(HttpStatus.OK).send({
+      message: 'all-profiles',
+      data: profiles,
+    });
   }
 
   @Get(':id')
@@ -42,6 +55,7 @@ export class ProfilesController {
     if (!profile) {
       throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
     }
+
     response.status(HttpStatus.OK).send({
       message: 'profile-data',
       data: profile,
@@ -57,6 +71,7 @@ export class ProfilesController {
     if (!profile) {
       throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
     }
+    
     response.status(HttpStatus.OK).send({
       message: 'profile-data',
       data: profile,
@@ -67,7 +82,8 @@ export class ProfilesController {
   async updateProfile(
     @Param('id') id: number,
     @Body() updateProfileDto: Partial<Profile>,
-  ): Promise<Profile> {
+    @Res() response: Response,
+  ) {
     try {
       const updatedProfile = await this.profilesService.updateProfile(
         id,
@@ -76,7 +92,11 @@ export class ProfilesController {
       if (!updatedProfile) {
         throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
       }
-      return updatedProfile;
+      
+      response.status(HttpStatus.OK).send({
+        message: 'update-profile',
+        data: updatedProfile,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

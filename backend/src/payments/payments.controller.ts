@@ -8,66 +8,94 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  Res,
 } from '@nestjs/common';
-import { PaymentService } from './payments.service';
+import { PaymentsService } from './payments.service';
 import { Payment } from './entities/payment.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @ApiBearerAuth('access-token')
 @Controller('payments')
 export class PaymentsController {
-  constructor(private readonly paymentService: PaymentService) {}
+  constructor(private readonly paymentsService: PaymentsService) {}
 
   @Post()
   async createPayment(
     @Body() createPaymentDto: Partial<Payment>,
-  ): Promise<Payment> {
+    @Res() response: Response,
+  ) {
     try {
-      return await this.paymentService.createPayment(createPaymentDto);
+      const payment = await this.paymentsService.createPayment(
+        createPaymentDto,
+      );
+
+      response.status(HttpStatus.OK).send({
+        message: 'create-payment',
+        data: payment,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   @Get()
-  async findAll(): Promise<Payment[]> {
-    return await this.paymentService.findAll();
+  async findAll(@Res() response: Response) {
+    const payments = await this.paymentsService.findAll();
+
+    response.status(HttpStatus.OK).send({
+      message: 'all-payments',
+      data: payments,
+    });
   }
 
   @Get(':id')
-  async findById(@Param('id') id: string): Promise<Payment> {
-    const payment = await this.paymentService.findById(id);
+  async findById(@Param('id') id: string, @Res() response: Response) {
+    const payment = await this.paymentsService.findAll();
     if (!payment) {
-      throw new HttpException('Payment not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Payment not found', HttpStatus.NOT_FOUND)
     }
-    return payment;
+
+    response.status(HttpStatus.OK).send({
+      message: 'payment-data',
+      data: payment,
+    });
   }
 
   @Put(':id')
   async updatePayment(
     @Param('id') id: string,
     @Body() updatePaymentDto: Partial<Payment>,
-  ): Promise<Payment> {
+    @Res() response: Response,
+  ) {
     try {
-      const updatedPayment = await this.paymentService.updatePayment(
+      const updatedPayment = await this.paymentsService.updatePayment(
         id,
         updatePaymentDto,
       );
       if (!updatedPayment) {
         throw new HttpException('Payment not found', HttpStatus.NOT_FOUND);
       }
-      return updatedPayment;
+      
+      response.status(HttpStatus.OK).send({
+        message: 'update-payment',
+        data: updatedPayment,
+      });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   @Delete(':id')
-  async deletePayment(@Param('id') id: string): Promise<Payment> {
-    const deletedPayment = await this.paymentService.deletePayment(id);
+  async deletePayment(@Param('id') id: string, @Res() response: Response) {
+    const deletedPayment = await this.paymentsService.deletePayment(id);
     if (!deletedPayment) {
       throw new HttpException('Payment not found', HttpStatus.NOT_FOUND);
     }
-    return deletedPayment;
+    
+    response.status(HttpStatus.OK).send({
+      message: 'remove-payment',
+      data: deletedPayment,
+    });
   }
 }

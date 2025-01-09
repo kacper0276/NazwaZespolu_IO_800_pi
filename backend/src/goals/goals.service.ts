@@ -3,8 +3,8 @@ import { GoalRepository } from './goals.repository';
 import { Goal } from './entities/goal.entity';
 
 @Injectable()
-export class GoalService {
-  constructor(private readonly goalRepository: GoalRepository) {}
+export class GoalsService {
+  constructor(private readonly goalsRepository: GoalRepository) {}
 
   async createGoal(
     createGoalDto: Partial<Goal>,
@@ -16,25 +16,25 @@ export class GoalService {
 
     createGoalDto.image = imgName;
 
-    return this.goalRepository.createGoal(createGoalDto);
+    return this.goalsRepository.createGoal(createGoalDto);
   }
 
   async findAll(): Promise<Goal[]> {
-    return this.goalRepository.findAll();
+    return this.goalsRepository.findAll();
   }
 
   async findById(id: number): Promise<Goal | null> {
-    return this.goalRepository.findById(id);
+    return this.goalsRepository.findById(id);
   }
 
   async updateGoal(
     id: number,
     updateGoalDto: Partial<Goal>,
   ): Promise<Goal | null> {
-    return this.goalRepository.updateGoal(id, updateGoalDto);
+    return this.goalsRepository.updateGoal(id, updateGoalDto);
   }
 
   async deleteGoal(id: number): Promise<Goal | null> {
-    return this.goalRepository.deleteGoal(id);
+    return this.goalsRepository.deleteGoal(id);
   }
 }

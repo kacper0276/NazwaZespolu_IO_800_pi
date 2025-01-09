@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { GoalsController } from './goals.controller';
-import { GoalService } from './goals.service';
+import { GoalsService } from './goals.service';
 import { GoalRepository } from './goals.repository';
 import { Goal, GoalSchema } from './entities/goal.entity';
 import { Profile, ProfileSchema } from 'src/profiles/entities/profile.entity';
@@ -14,6 +14,6 @@ import { Profile, ProfileSchema } from 'src/profiles/entities/profile.entity';
     ]),
   ],
   controllers: [GoalsController],
-  providers: [GoalService, GoalRepository],
+  providers: [GoalsService, GoalRepository],
 })
 export class GoalsModule {}
