@@ -42,6 +42,9 @@ export class Goal extends Document {
   @Prop({ type: Boolean, default: false })
   isDone: boolean;
 
+  @Prop({ type: Boolean, default: false })
+  isPost: boolean;
+
   @Prop({ default: '' })
   profileId: string;
 

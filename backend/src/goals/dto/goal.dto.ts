@@ -11,4 +11,5 @@ export type goalData = {
   treeSkin: string;
   isDone: boolean;
   profileId: string;
+  isPost: boolean;
 };
