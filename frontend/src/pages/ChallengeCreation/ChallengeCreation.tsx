@@ -25,6 +25,7 @@ interface Challenge {
   difficulty: "Krzew" | "Średnie drzewo" | "Duże drzewo" | "";
   tags: string[];
   treeSkin: "StandardSkin" | "PremiumSkin";
+  isPost: boolean;
 }
 
 const ChallengeCreation: React.FC = () => {
@@ -46,6 +47,7 @@ const ChallengeCreation: React.FC = () => {
     difficulty: "",
     tags: [],
     treeSkin: "StandardSkin",
+    isPost: false,
   });
 
   const [tagInput, setTagInput] = useState("");
@@ -173,6 +175,7 @@ const ChallengeCreation: React.FC = () => {
     formData.append("difficulty", challenge.difficulty);
     formData.append("treeSkin", challenge.treeSkin);
     formData.append("tags", JSON.stringify(challenge.tags));
+    formData.append("isPost", String(challenge.isPost));
     if (challenge.image) {
       formData.append("image", challenge.image);
     }
@@ -417,6 +420,20 @@ const ChallengeCreation: React.FC = () => {
           />
           <label htmlFor="allowComments" className={styles.checkboxLabel}>
             Allow Comments
+          </label>
+        </div>
+
+        <div className={styles.checkboxGroup}>
+          <input
+            type="checkbox"
+            id="isPost"
+            name="isPost"
+            className={`${styles.checkbox}`}
+            checked={challenge.isPost}
+            onChange={handleCheckboxChange}
+          />
+          <label htmlFor="isPost" className={styles.checkboxLabel}>
+            Add as post
           </label>
         </div>
 
