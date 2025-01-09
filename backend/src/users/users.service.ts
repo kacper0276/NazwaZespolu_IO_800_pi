@@ -7,6 +7,8 @@ import { Role } from 'src/enums/role.enum';
 import { userData } from './dto/user.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import * as fs from 'fs/promises';
+import * as path from 'path';
 
 @Injectable()
 export class UsersService {
@@ -35,17 +37,40 @@ export class UsersService {
     await this.mailerService.sendMail(message);
   }
 
+  private async deleteFile(filePath: string): Promise<void> {
+    try {
+      const fullPath = path.join(__dirname, '../frontend/public', filePath);
+      await fs.unlink(fullPath);
+    } catch (error) {
+      console.error(`Error deleting file: ${filePath}`, error.message);
+    }
+  }
+
   async updateUser(id: string, updates: Partial<User>): Promise<User> {
-    const someUser = await this.usersRepository.findById(id);
+    const user = await this.usersRepository.findById(id);
+
+    if (updates.profileImage && user.profileImage) {
+      await this.deleteFile(user.profileImage);
+    }
+
+    if (updates.backgroundImage && user.backgroundImage) {
+      await this.deleteFile(user.backgroundImage);
+    }
 
     const updatedPassword = updates.password
       ? await this.hashPassword(updates.password)
-      : someUser.password;
+      : user.password;
 
-    const userUpdates = { ...updates, password: updatedPassword };
+    const userUpdates = {
+      ...updates,
+      password: updatedPassword,
+      profileImage: updates.profileImage || user.profileImage,
+      backgroundImage: updates.backgroundImage || user.backgroundImage,
+    };
+
     const updatedUser = await this.usersRepository.update(id, userUpdates);
 
-    if (updates.email && updates.email !== someUser.email) {
+    if (updates.email && updates.email !== user.email) {
       await this.sendActivationEmail(updatedUser.email);
     }
 

@@ -71,6 +71,19 @@ export class GoalsController {
     return goal;
   }
 
+  @Get('/find-by-profile/:profileId')
+  async findByProfileId(
+    @Param('profileId') profileId: string,
+    @Res() response: Response,
+  ) {
+    const goals = await this.goalService.findByProfileId(profileId);
+
+    response.status(HttpStatus.OK).send({
+      message: 'profile-goals',
+      data: goals,
+    });
+  }
+
   @Put(':id')
   async updateGoal(
     @Param('id') id: string,
