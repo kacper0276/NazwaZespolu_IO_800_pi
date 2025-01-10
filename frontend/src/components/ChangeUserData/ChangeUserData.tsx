@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./ChangeUserData.module.scss";
 import { UserType } from "../../types/IUser";
-import { useApiJson } from "../../config/api";
+import { useApiMultipart } from "../../config/api";
 import { ApiResponse } from "../../types/api.types";
 import Spinner from "../Spinner/Spinner";
 import Modal from "../Modals/Modal/Modal";
@@ -16,7 +16,7 @@ const ChangeUserData: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [editingUser, setEditingUser] = useState<UserType | null>(null);
 
-  const api = useApiJson();
+  const api = useApiMultipart();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -61,13 +61,26 @@ const ChangeUserData: FC = () => {
     setEditingUser(null);
   };
 
-  const handleSave = async (updatedUser: UserType) => {
+  const handleSave = async (
+    updatedUser: UserType,
+    profileImage?: File,
+    backgroundImage?: File
+  ) => {
     setLoading(true);
     try {
+      const formData = new FormData();
+      formData.append("email", updatedUser.email);
+      formData.append("firstname", updatedUser.firstname ?? "");
+      formData.append("lastname", updatedUser.lastname ?? "");
+      formData.append("role", updatedUser.role);
+      if (profileImage) formData.append("profileImage", profileImage);
+      if (backgroundImage) formData.append("backgroundImage", backgroundImage);
+
       const response = await api.put<ApiResponse<UserType>>(
         `users/${updatedUser._id}`,
-        updatedUser
+        formData
       );
+
       setUsers((prev) =>
         prev
           .map((user) =>

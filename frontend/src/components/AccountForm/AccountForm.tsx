@@ -10,6 +10,8 @@ const AccountForm: FC = () => {
     password: "",
     firstname: userContext.user?.firstname || "",
     lastname: userContext.user?.lastname || "",
+    profileImage: null as File | null,
+    backgroundImage: null as File | null,
   });
 
   useEffect(() => {
@@ -18,6 +20,8 @@ const AccountForm: FC = () => {
       password: "",
       firstname: userContext.user?.firstname || "",
       lastname: userContext.user?.lastname || "",
+      profileImage: null,
+      backgroundImage: null,
     });
   }, [userContext.user]);
 
@@ -26,6 +30,17 @@ const AccountForm: FC = () => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: "profileImage" | "backgroundImage"
+  ) => {
+    const file = e.target.files?.[0] || null;
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: file,
     }));
   };
 
@@ -81,6 +96,28 @@ const AccountForm: FC = () => {
             name="lastname"
             value={formData.lastname}
             onChange={handleChange}
+            className={styles.input}
+          />
+        </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="profileImage">Zdjęcie profilowe:</label>
+          <input
+            type="file"
+            id="profileImage"
+            name="profileImage"
+            accept="image/*"
+            onChange={(e) => handleFileChange(e, "profileImage")}
+            className={styles.input}
+          />
+        </div>
+        <div className={styles.inputGroup}>
+          <label htmlFor="backgroundImage">Zdjęcie tła:</label>
+          <input
+            type="file"
+            id="backgroundImage"
+            name="backgroundImage"
+            accept="image/*"
+            onChange={(e) => handleFileChange(e, "backgroundImage")}
             className={styles.input}
           />
         </div>

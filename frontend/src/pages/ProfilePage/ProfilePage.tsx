@@ -11,6 +11,7 @@ import { ApiResponse } from "../../types/api.types";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import Spinner from "../../components/Spinner/Spinner";
+import { UserType } from "../../types/IUser";
 
 const posts = [
   {
@@ -66,6 +67,7 @@ const ProfilePage: React.FC = () => {
   const [isPostModalOpen, setPostModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [profileData, setProfileData] = useState<ProfileType>();
+  const [userData, setUserData] = useState<UserType>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const handlePostClick = (post: any) => {
@@ -102,17 +104,22 @@ const ProfilePage: React.FC = () => {
     const fetchProfile = async () => {
       setLoading(true);
 
-      api
-        .get<ApiResponse<ProfileType>>(`profiles/${userHook.user?.profileId}`)
-        .then((res) => {
-          setProfileData(res.data.data);
-        })
-        .catch((_err) => {
-          toast.error(t("error-fetching-profile"));
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      try {
+        const profileResponse = await api.get<ApiResponse<ProfileType>>(
+          `profiles/${userHook.user?.profileId}`
+        );
+        setProfileData(profileResponse.data.data);
+
+        const userResponse = await api.get<ApiResponse<UserType>>(
+          `users/search-by-userId/${profileResponse.data.data?.userId}`
+        );
+        console.log(userResponse);
+        setUserData(userResponse.data.data);
+      } catch (_err) {
+        toast.error(t("error-fetching-profile"));
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchProfile();
@@ -127,13 +134,17 @@ const ProfilePage: React.FC = () => {
           <div className={styles.profilePage}>
             {/* Header Section */}
             <div className={styles.profileHeader}>
-              <div className={styles.profileBackground}></div>
+              <div
+                className={styles.profileBackground}
+                style={{
+                  backgroundImage: `url(../../../public/backgroundImages/${userData?.backgroundImage})`,
+                }}
+              ></div>
               <div className={styles.infoContainer}>
                 <div className={styles.avatarContainer}>
                   <div className={styles.avatar}>
                     <img
-                      src="https://media.istockphoto.com/id/1327592506/pl/wektor/domy%C5%9Blna-ikona-symbolu-zast%C4%99pczego-zdj%C4%99cia-awatara-szare-zdj%C4%99cie-profilowe-cz%C5%82owiek-biznesu.webp?s=2048x2048&w=is&k=20&c=QzrDx-OsmsBkP3pB68zVo53u1cyxI5jeq2R5W4sV3fQ="
-                      alt="User Avatar"
+                      src={`../../../public/profileImages/${userData?.profileImage}`}
                     />
                   </div>
                 </div>

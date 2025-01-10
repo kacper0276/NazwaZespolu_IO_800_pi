@@ -18,4 +18,6 @@ export interface UserType {
   firstname: string | null;
   lastname: string | null;
   profileId: string;
+  profileImage?: string;
+  backgroundImage?: string;
 }

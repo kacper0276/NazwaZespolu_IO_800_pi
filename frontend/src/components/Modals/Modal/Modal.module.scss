@@ -8,14 +8,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .modalContent {
   background: white;
   padding: 20px;
   border-radius: 8px;
-  width: 400px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
   position: relative;
+  overflow-y: auto;
 }
 
 .closeButton {
@@ -26,4 +30,5 @@
   border: none;
   font-size: 20px;
   cursor: pointer;
+  z-index: 1010;
 }
