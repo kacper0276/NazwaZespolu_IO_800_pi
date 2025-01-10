@@ -1,3 +1,8 @@
+export interface Update {
+  text: string;
+  image?: string;
+}
+
 export interface GoalType {
   _id: string;
   name: string;
@@ -16,4 +21,5 @@ export interface GoalType {
   reactions: number;
   isPost: boolean;
   commentsIds: number[];
+  updates: Update[];
 }

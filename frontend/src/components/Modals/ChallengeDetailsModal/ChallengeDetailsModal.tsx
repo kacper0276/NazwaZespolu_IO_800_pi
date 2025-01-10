@@ -2,16 +2,11 @@ import React, { useState, useEffect } from "react";
 import styles from "./ChallengeDetailsModal.module.scss";
 import ImageModal from "../../Modals/ImageModal/ImageModal";
 import { useNavigate } from "react-router-dom";
+import { GoalType } from "../../../types/IGoal";
+import { convertIsoToLocal } from "../../../helpers/convertDate";
 
 type ChallengeDetailsModalProps = {
-  challenge: {
-    title: string;
-    startDate: string;
-    endDate: string;
-    description: string;
-    updates: { text: string; image?: string }[];
-    tags: string[];
-  } | null;
+  challenge: GoalType | null;
   onClose: () => void;
   onAddUpdateClick?: () => void;
 };
@@ -24,9 +19,9 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
 
   // Wyłączanie przewijania strony w tle
   useEffect(() => {
-    document.body.style.overflow = "hidden"; 
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = ""; 
+      document.body.style.overflow = "";
     };
   }, []);
 
@@ -66,23 +61,30 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
           <button className={styles.closeBtn} onClick={onClose}>
             &times;
           </button>
-          <h2 className={styles.modalTitle}>{challenge.title}</h2>
+          <h2 className={styles.modalTitle}>{challenge.name}</h2>
           <p className={styles.modalText}>
-            <span className={styles.modalLabel}>Opis:</span> {challenge.description}
+            <span className={styles.modalLabel}>Opis:</span>{" "}
+            {challenge.description}
           </p>
           <p className={styles.modalText}>
-            <span className={styles.modalLabel}>Data rozpoczęcia:</span> {challenge.startDate}
+            <span className={styles.modalLabel}>Data rozpoczęcia:</span>{" "}
+            {convertIsoToLocal(challenge.startDate + "")}
           </p>
           <p className={styles.modalText}>
-            <span className={styles.modalLabel}>Data zakończenia:</span> {challenge.endDate}
+            <span className={styles.modalLabel}>Data zakończenia:</span>{" "}
+            {convertIsoToLocal(challenge.endDate + "")}
           </p>
           <p className={styles.modalText}>
             <span className={styles.modalLabel}>Dni do końca:</span>{" "}
-            {calculateDaysLeft(challenge.endDate)}
+            {calculateDaysLeft(challenge.endDate + "")}
           </p>
           <p className={styles.modalText}>
             <span className={styles.modalLabel}>Postęp:</span>{" "}
-            {calculatePercentage(challenge.startDate, challenge.endDate)}%
+            {calculatePercentage(
+              challenge.startDate + "",
+              challenge.endDate + ""
+            )}
+            %
           </p>
           <p className={styles.modalText}>
             <span className={styles.modalLabel}>Tagi:</span>{" "}
@@ -105,7 +107,9 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
                         <img
                           src={update.image}
                           alt="Update visual"
-                          onClick={() => update.image && setSelectedImage(update.image)}
+                          onClick={() =>
+                            update.image && setSelectedImage(update.image)
+                          }
                           className={styles.modalImage}
                         />
                       </div>

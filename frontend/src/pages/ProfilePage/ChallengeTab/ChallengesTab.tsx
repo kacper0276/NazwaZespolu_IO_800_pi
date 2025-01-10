@@ -8,6 +8,10 @@ import { useApiJson } from "../../../config/api";
 import { useUser } from "../../../context/UserContext";
 import useWebsiteTitle from "../../../hooks/useWebsiteTitle";
 import { useTranslation } from "react-i18next";
+import { ApiResponse } from "../../../types/api.types";
+import { GoalType } from "../../../types/IGoal";
+import { toast } from "react-toastify";
+import { convertIsoToLocal } from "../../../helpers/convertDate";
 
 type Challenge = {
   title: string;
@@ -39,8 +43,8 @@ const ChallengesTab: React.FC = () => {
   const api = useApiJson();
   const userHook = useUser();
   const [images, setImages] = useState<string[]>([]);
-  const [challenges, setChallenges] = useState<Challenge[]>([]);
-  const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(
+  const [challenges, setChallenges] = useState<GoalType[]>([]);
+  const [selectedChallenge, setSelectedChallenge] = useState<GoalType | null>(
     null
   );
 
@@ -124,11 +128,23 @@ const ChallengesTab: React.FC = () => {
       },
     ];
 
-    setChallenges(exampleChallenges);
+    api
+      .get<ApiResponse<GoalType[]>>(
+        `goals/find-by-profile/${userHook.user?.profileId}`
+      )
+      .then((res) => {
+        setChallenges(res.data?.data ?? []);
+      })
+      .catch((_err) => {
+        toast.error("error-fetching-challenges");
+      });
   }, []);
 
-  const getChallengePercentage = (challenge: Challenge) => {
-    return calculatePercentage(challenge.startDate, challenge.endDate);
+  const getChallengePercentage = (challenge: GoalType) => {
+    return calculatePercentage(
+      challenge.startDate + "",
+      challenge.endDate + ""
+    );
   };
 
   const getImageForPercentage = (percentage: number) => {
@@ -155,7 +171,7 @@ const ChallengesTab: React.FC = () => {
           const percentage = getChallengePercentage(challenge);
           return (
             <div key={index} className={styles.challengeItem}>
-              <h3 className={styles.title}>{challenge.title}</h3>
+              <h3 className={styles.title}>{challenge.name}</h3>
               {images.length > 0 && (
                 <img
                   src={getImageForPercentage(percentage)}
@@ -166,11 +182,11 @@ const ChallengesTab: React.FC = () => {
               <div className={styles.dates}>
                 <p>
                   <span className={styles.dateLabel}>Start:</span>{" "}
-                  {challenge.startDate}
+                  {convertIsoToLocal(challenge.startDate + "")}
                 </p>
                 <p>
                   <span className={styles.dateLabel}>Koniec:</span>{" "}
-                  {challenge.endDate}
+                  {convertIsoToLocal(challenge.endDate + "")}
                 </p>
               </div>
               <p className={styles.description}>{challenge.description}</p>
