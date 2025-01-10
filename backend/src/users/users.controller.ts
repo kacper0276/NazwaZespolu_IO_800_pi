@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   HttpStatus,
   Param,
   Patch,
@@ -11,7 +12,9 @@ import {
   Put,
   Query,
   Res,
+  UploadedFiles,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UserData } from './types/user.type';
 import { UsersService } from './users.service';
@@ -20,6 +23,29 @@ import { Roles } from 'src/decorators/roles.decorator';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { diskStorage } from 'multer';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { User } from './entities/user.entity';
+
+const storageProfileImage = {
+  storage: diskStorage({
+    destination: '../frontend/public/profileImages',
+    filename: (req, file, cb) => {
+      const name = Date.now() + Math.floor(Math.random() * 100) + '.jpg';
+      cb(null, name);
+    },
+  }),
+};
+
+const storageBackgroundImage = {
+  storage: diskStorage({
+    destination: '../frontend/public/backgroundImages',
+    filename: (req, file, cb) => {
+      const name = Date.now() + Math.floor(Math.random() * 100) + '.jpg';
+      cb(null, name);
+    },
+  }),
+};
 
 @ApiBearerAuth('access-token')
 @Controller('users')
@@ -92,6 +118,21 @@ export class UsersController {
     }
   }
 
+  @Get('search-by-userId/:userId')
+  async getUserByUserId(
+    @Param('userId') userId: string,
+    @Res() response: Response,
+  ) {
+    const user = await this.usersService.getUserById(userId);
+    if (!user) {
+      throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+    }
+    response.status(HttpStatus.OK).send({
+      message: 'user-data',
+      data: user,
+    });
+  }
+
   @Get('search')
   async searchUsers(@Query('query') query: string, @Res() response: Response) {
     try {
@@ -151,19 +192,55 @@ export class UsersController {
   }
 
   @Put(':userId')
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'profileImage', maxCount: 1 },
+        { name: 'backgroundImage', maxCount: 1 },
+      ],
+      {
+        storage: diskStorage({
+          destination: (req, file, cb) => {
+            if (file.fieldname === 'profileImage') {
+              cb(null, '../frontend/public/profileImages');
+            } else if (file.fieldname === 'backgroundImage') {
+              cb(null, '../frontend/public/backgroundImages');
+            }
+          },
+          filename: (req, file, cb) => {
+            const name = Date.now() + Math.floor(Math.random() * 100) + '.jpg';
+            cb(null, name);
+          },
+        }),
+      },
+    ),
+  )
   async editUserData(
     @Param('userId') userId: string,
-    @Body() userData: UserData,
+    @Body() userData: Partial<User>,
+    @UploadedFiles()
+    files: {
+      profileImage?: Express.Multer.File[];
+      backgroundImage?: Express.Multer.File[];
+    },
     @Res() response: Response,
   ) {
     try {
-      const user = await this.usersService.updateUser(userId, userData);
+      if (files.profileImage) {
+        userData.profileImage = `${files.profileImage[0].filename}`;
+      }
+      if (files.backgroundImage) {
+        userData.backgroundImage = `  ${files.backgroundImage[0].filename}`;
+      }
+
+      const updatedUser = await this.usersService.updateUser(userId, userData);
 
       response.status(HttpStatus.OK).send({
         message: 'user-details-successfully-changed',
-        data: user,
+        data: updatedUser,
       });
     } catch (error) {
+      console.error('Error updating user:', error);
       response.status(HttpStatus.INTERNAL_SERVER_ERROR).send({
         message: 'a-server-error-occurred',
       });

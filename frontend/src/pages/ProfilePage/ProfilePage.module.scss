@@ -2,8 +2,8 @@ $primary-color: #fff;
 $secondary-color: #ccc;
 $background-color: #000;
 $highlight-color: #ffffff;
-$green-lightcolor:#45c032;
-$green-darkcolor:#00957f;
+$green-lightcolor: #45c032;
+$green-darkcolor: #00957f;
 //background: linear-gradient(to right, #45c032, #00957f);
 
 .pageBg {
@@ -24,7 +24,7 @@ $green-darkcolor:#00957f;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
   }
 
@@ -36,7 +36,7 @@ $green-darkcolor:#00957f;
     color: $primary-color;
     font-family: Arial, sans-serif;
     padding: 30px;
-    max-width: 1200px; 
+    max-width: 1200px;
     width: 100%;
     margin-left: 15rem;
 
@@ -48,10 +48,10 @@ $green-darkcolor:#00957f;
         position: absolute;
         top: 0;
         left: 0;
-        width: 1400px;;
+        width: 1400px;
         width: 100%;
-        height: 200px; 
-        background-image: url('https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'); // Stałe tło
+        height: 200px;
+        // background-image: url("https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"); // Stałe tło
         background-size: cover;
         background-position: center;
         border-radius: 10px 10px 0 0;
@@ -61,46 +61,47 @@ $green-darkcolor:#00957f;
         border-image-slice: 1;
         z-index: 1;
       }
-      .infoContainer{
-        padding-top:12rem
+      .infoContainer {
+        padding-top: 12rem;
       }
       .avatarContainer {
         position: relative;
-        z-index: 2; 
-        margin: -75px auto 15px; 
+        z-index: 2;
+        margin: -75px auto 15px;
         width: 150px;
 
         .avatar {
           position: relative;
           border-radius: 50%;
           padding: 5px;
-          overflow: hidden; 
+          overflow: hidden;
+          height: 100px;
+          width: 150px;
 
-          
           &::before {
-            content: '';
+            content: "";
             position: absolute;
-            inset: 0; 
-            border-radius: 50%; 
+            inset: 0;
+            border-radius: 50%;
             background: linear-gradient(to right, #45c032, #00957f);
             transition: 500ms ease-in-out;
             z-index: 0;
           }
-        
+
           img {
             position: relative;
-            width: 100%;
+            height: 90px;
+            width: 140px;
             border-radius: 50%;
             display: block;
-            z-index: 1; 
+            z-index: 1;
+            object-fit: cover;
           }
-        
+
           &:hover::before {
-            background: linear-gradient(to right, #00957f, #45c032); 
+            background: linear-gradient(to right, #00957f, #45c032);
           }
         }
-        
-
       }
 
       .username {
@@ -148,15 +149,15 @@ $green-darkcolor:#00957f;
       border-bottom: 3px solid transparent;
       border-image: linear-gradient(to right, #45c032, #00957f);
       border-image-slice: 1;
-    
+
       margin-top: 20px;
       display: flex;
       justify-content: center;
-    
+
       .navItem {
         margin-left: 1rem;
         margin-right: 1rem;
-        
+
         .navLink {
           color: rgb(252, 252, 252);
           font-size: 16px;
@@ -164,24 +165,24 @@ $green-darkcolor:#00957f;
           display: block;
           text-align: center;
           cursor: pointer;
-          border: none; 
+          border: none;
           transition: all 0.3s ease;
-    
+
           &.active {
-            color: #000; 
+            color: #000;
             background: linear-gradient(to right, #45c032, #00957f);
-            border-radius: 10px 10px 0 0; 
-            padding: 10px 20px; 
+            border-radius: 10px 10px 0 0;
+            padding: 10px 20px;
           }
-    
+
           .icon {
             font-size: 18px;
           }
-    
+
           &:hover {
-            background: linear-gradient(to right, #45c032, #00957f); 
-            color: #000; 
-            border-radius: 10px 10px 0 0; 
+            background: linear-gradient(to right, #45c032, #00957f);
+            color: #000;
+            border-radius: 10px 10px 0 0;
           }
         }
       }
@@ -198,5 +199,4 @@ $green-darkcolor:#00957f;
       }
     }
   }
-  
 }

@@ -27,6 +27,10 @@ export class GoalsService {
     return this.goalsRepository.findById(id);
   }
 
+  async findByProfileId(profileId: string): Promise<Goal[] | null> {
+    return this.goalRepository.findByProfileId(profileId);
+  }
+
   async updateGoal(
     id: number,
     updateGoalDto: Partial<Goal>,

@@ -8,4 +8,6 @@ export type userData = {
   firstname?: string;
   lastname?: string;
   profileId?: string;
+  profileImage?: string;
+  backgroundImage?: string;
 };

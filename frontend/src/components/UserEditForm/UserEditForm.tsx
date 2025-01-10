@@ -4,12 +4,16 @@ import styles from "./UserEditForm.module.scss";
 
 interface UserFormProps {
   user: UserType;
-  onSave: (user: UserType) => void;
+  onSave: (user: UserType, profileImage?: File, backgroundImage?: File) => void;
   onCancel: () => void;
 }
 
 const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
   const [formData, setFormData] = useState<UserType>({ ...user, password: "" });
+  const [profileImage, setProfileImage] = useState<File | undefined>(undefined);
+  const [backgroundImage, setBackgroundImage] = useState<File | undefined>(
+    undefined
+  );
 
   const handleInputChange = (
     field: keyof UserType,
@@ -18,8 +22,22 @@ const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    type: "profile" | "background"
+  ) => {
+    if (event.target.files) {
+      const file = event.target.files[0];
+      if (type === "profile") {
+        setProfileImage(file);
+      } else if (type === "background") {
+        setBackgroundImage(file);
+      }
+    }
+  };
+
   const handleSubmit = () => {
-    onSave(formData);
+    onSave(formData, profileImage, backgroundImage);
   };
 
   return (
@@ -79,6 +97,22 @@ const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
           type="checkbox"
           checked={formData.isActivated}
           onChange={(e) => handleInputChange("isActivated", e.target.checked)}
+        />
+      </label>
+      <label className={styles.label}>
+        Profile Image:
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => handleFileChange(e, "profile")}
+        />
+      </label>
+      <label className={styles.label}>
+        Background Image:
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) => handleFileChange(e, "background")}
         />
       </label>
       <div className={styles.formActions}>
