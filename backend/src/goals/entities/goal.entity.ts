@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Comment } from 'src/comments/entities/comment.entity';
 import { Profile } from 'src/profiles/entities/profile.entity';
 
 export type GoalDocument = Goal & Document;
@@ -50,6 +51,12 @@ export class Goal extends Document {
 
   @Prop({ default: 0 })
   reactions: number;
+
+  @Prop({ type: [String], default: [] })
+  commentsIds: string[];
+
+  @Prop({ type: [Comment], ref: 'Comment' })
+  comments: Comment[];
 
   @Prop({ default: '' })
   profileId: string;

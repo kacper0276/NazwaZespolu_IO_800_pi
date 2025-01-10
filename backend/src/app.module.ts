@@ -13,6 +13,7 @@ import { ProfilesModule } from './profiles/profiles.module';
 import { GoalsModule } from './goals/goals.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PlantsModule } from './plants/plants.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { PlantsModule } from './plants/plants.module';
     ProfilesModule,
     PaymentsModule,
     PlantsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

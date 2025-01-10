@@ -3,12 +3,17 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Goal, GoalDocument } from './entities/goal.entity';
 import { Model } from 'mongoose';
 import { Profile, ProfileDocument } from 'src/profiles/entities/profile.entity';
+import { Comment, CommentDocument } from 'src/comments/entities/comment.entity';
 
 @Injectable()
 export class GoalRepository {
   constructor(
-    @InjectModel(Goal.name) private readonly goalModel: Model<GoalDocument>,
-    @InjectModel(Profile.name) private profileModel: Model<ProfileDocument>,
+    @InjectModel(Goal.name)
+    private readonly goalModel: Model<GoalDocument>,
+    @InjectModel(Profile.name)
+    private readonly profileModel: Model<ProfileDocument>,
+    @InjectModel(Comment.name)
+    private readonly commentModel: Model<CommentDocument>,
   ) {}
 
   async createGoal(goal: Partial<Goal>): Promise<Goal> {
@@ -32,11 +37,15 @@ export class GoalRepository {
   }
 
   async findByProfileId(profileId: string): Promise<Goal[] | null> {
-    return this.goalModel.find({ profileId }).exec();
+    const goals = await this.goalModel.find({ profileId }).exec();
+
+    return goals;
   }
 
   async findPostsByProfileId(profileId: string): Promise<Goal[] | null> {
-    return this.goalModel.find({ profileId, isPost: true }).exec();
+    const goals = await this.goalModel.find({ profileId, isPost: true }).exec();
+
+    return goals;
   }
 
   async updateGoal(

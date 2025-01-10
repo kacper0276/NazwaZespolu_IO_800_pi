@@ -20,14 +20,16 @@ import { Response } from 'express';
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
-  @Post()
+  @Post(':postId')
   async createComment(
     @Body() createCommentDto: Partial<Comment>,
+    @Param('postId') postId: string,
     @Res() response: Response,
   ) {
     try {
       const comment = await this.commentsService.createComment(
         createCommentDto,
+        postId,
       );
 
       response.status(HttpStatus.OK).send({
@@ -53,7 +55,7 @@ export class CommentsController {
   async findById(@Param('id') id: string, @Res() response: Response) {
     const comment = await this.commentsService.findAll();
     if (!comment) {
-      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND)
+      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
     }
 
     response.status(HttpStatus.OK).send({
@@ -76,7 +78,7 @@ export class CommentsController {
       if (!updatedComment) {
         throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
       }
-      
+
       response.status(HttpStatus.OK).send({
         message: 'update-comment',
         data: updatedComment,
@@ -92,7 +94,7 @@ export class CommentsController {
     if (!deletedComment) {
       throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
     }
-    
+
     response.status(HttpStatus.OK).send({
       message: 'remove-comment',
       data: deletedComment,

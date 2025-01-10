@@ -1,4 +1,5 @@
 export type commentData = {
-    userId: string;
-    value: string;
+  _id: string;
+  userId: string;
+  value: string;
 };
