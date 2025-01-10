@@ -12,8 +12,9 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import Spinner from "../../components/Spinner/Spinner";
 import { UserType } from "../../types/IUser";
+import { GoalType } from "../../types/IGoal";
 
-const posts = [
+const _posts = [
   {
     id: 1,
     images: ["https://via.placeholder.com/400x500"],
@@ -68,6 +69,7 @@ const ProfilePage: React.FC = () => {
   const [selectedPost, setSelectedPost] = useState<any>(null);
   const [profileData, setProfileData] = useState<ProfileType>();
   const [userData, setUserData] = useState<UserType>();
+  const [posts, setPosts] = useState<GoalType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handlePostClick = (post: any) => {
@@ -113,7 +115,13 @@ const ProfilePage: React.FC = () => {
         const userResponse = await api.get<ApiResponse<UserType>>(
           `users/search-by-userId/${profileResponse.data.data?.userId}`
         );
-        console.log(userResponse);
+
+        const posts = await api.get<ApiResponse<GoalType[]>>(
+          `goals/find-posts-by-profile/${userResponse.data.data?.profileId}`
+        );
+        console.log(posts);
+        setPosts(posts.data?.data ?? []);
+
         setUserData(userResponse.data.data);
       } catch (_err) {
         toast.error(t("error-fetching-profile"));

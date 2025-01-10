@@ -1,4 +1,5 @@
 export interface GoalType {
+  _id: string;
   name: string;
   description: string;
   startDate: Date;
@@ -11,4 +12,8 @@ export interface GoalType {
   treeSkin: string;
   isDone: boolean;
   profileId: string;
+  images: string[];
+  reactions: number;
+  isPost: boolean;
+  comments: any[];
 }

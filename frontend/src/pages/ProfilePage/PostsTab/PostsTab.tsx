@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./PostsTab.module.scss";
+import { GoalType } from "../../../types/IGoal";
 
 interface Post {
   id: number;
@@ -11,8 +12,8 @@ interface Post {
 }
 
 interface PostsTabProps {
-  posts: Post[];
-  onPostClick: (post: Post) => void;
+  posts: GoalType[];
+  onPostClick: (post: GoalType) => void;
 }
 
 const PostsTab: React.FC<PostsTabProps> = ({ posts, onPostClick }) => {
@@ -20,11 +21,15 @@ const PostsTab: React.FC<PostsTabProps> = ({ posts, onPostClick }) => {
     <div className={styles.photoGrid}>
       {posts.map((post) => (
         <div
-          key={post.id}
+          key={post._id}
           className={styles.photoItem}
           onClick={() => onPostClick(post)}
         >
-          <img src={post.images[0]} className={styles.postImage} alt={post.title} />
+          <img
+            src={`../../../../public/goalsImg/${post.image}`}
+            className={styles.postImage}
+            alt={post.name}
+          />
           {post.images.length > 1 && (
             <div className={styles.multiImageIndicator}>
               <i className="bi bi-images"></i>

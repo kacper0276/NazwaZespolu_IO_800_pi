@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./PostDetailsModal.module.scss";
+import { GoalType } from "../../../types/IGoal";
 
 interface Comment {
   author: string;
@@ -18,7 +19,7 @@ interface Post {
 interface PostDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  post: Post | null;
+  post: GoalType | null;
 }
 
 const PostDetailModal: React.FC<PostDetailModalProps> = ({
@@ -32,7 +33,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [comments, setComments] = useState<Comment[]>(
-    Array.from({ length: post.comments }, (_, index) => ({
+    Array.from({ length: 15 }, (_, index) => ({
       author: `User ${index + 1}`,
       text: `This is a sample comment #${index + 1}`,
     }))
@@ -40,7 +41,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
   const [newCommentText, setNewCommentText] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
-  const [likes, setLikes] = useState(post.likes);
+  const [likes, setLikes] = useState(post.reactions);
   const [liked, setLiked] = useState(false);
   const [bouncing, setBouncing] = useState(false);
 
@@ -104,30 +105,30 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
 
         <div className={styles.modalBody}>
           <div className={styles.imageSection}>
-            <button
+            {/* <button
               className={styles.navButton}
               onClick={handlePreviousImage}
               aria-label="Previous image"
             >
               &#8249;
-            </button>
+            </button> */}
             <img
-              src={post.images[currentImageIndex]}
+              src={`../../../../public/goalsImg/${post.image}`}
               alt={`Image ${currentImageIndex + 1}`}
               className={styles.carouselImage}
             />
-            <button
+            {/* <button
               className={styles.navButton}
               onClick={handleNextImage}
               aria-label="Next image"
             >
               &#8250;
-            </button>
+            </button> */}
           </div>
 
           <div className={styles.postDetails}>
-            <h2 className={styles.postTitle}>{post.title}</h2>
-            <p className={styles.postAuthor}>By {post.author}</p>
+            <h2 className={styles.postTitle}>{post.name}</h2>
+            <p className={styles.postAuthor}>By {post.name}</p>
 
             <div className={styles.reactionSection}>
               <span
