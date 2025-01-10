@@ -89,7 +89,7 @@ const Sidebar: React.FC = () => {
         {/* User Profile */}
         <div className={`mx-auto ${styles.profileSection}`}>
           <img
-            src={"https://via.placeholder.com/80"}
+            src={`../../../public/profileImages/${userHook.user?.profileImage}`}
             alt="User Profile"
             className={`rounded-circle ${styles.profilePicture}`}
           />

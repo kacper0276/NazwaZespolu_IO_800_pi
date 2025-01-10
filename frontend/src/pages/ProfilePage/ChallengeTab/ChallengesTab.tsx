@@ -3,6 +3,8 @@ import styles from "./ChallengesTab.module.scss";
 import ChallengeDetailsModal from "../../../components/Modals/ChallengeDetailsModal/ChallengeDetailsModal";
 import PlaceholderImg from "../../../assets/images/greatBritainFlag.png";
 import PlaceholderImg2 from "../../../assets/images/PlaceholderImages/zdrowe-salaki-przepisy-1250x833.jpg";
+import { useApiJson } from "../../../config/api";
+import { useUser } from "../../../context/UserContext";
 
 type Challenge = {
   title: string;
@@ -28,6 +30,8 @@ const calculatePercentage = (start: string, end: string): number => {
 };
 
 const ChallengesTab: React.FC = () => {
+  const api = useApiJson();
+  const userHook = useUser();
   const [images, setImages] = useState<string[]>([]);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(
@@ -57,7 +61,10 @@ const ChallengesTab: React.FC = () => {
         updates: [
           { text: "Dzień 1: Pierwszy bieg ukończony!", image: PlaceholderImg2 },
           { text: "Dzień 2: Bieg w deszczu, ale się udało." },
-          { text: "Dzień 3: Utrzymałem tempo 6 min/km.", image: PlaceholderImg },
+          {
+            text: "Dzień 3: Utrzymałem tempo 6 min/km.",
+            image: PlaceholderImg,
+          },
         ],
         tags: ["bieganie", "sport", "zdrowie", "wyzwanie", "nawyki"],
       },
@@ -87,7 +94,10 @@ const ChallengesTab: React.FC = () => {
         endDate: "2025-02-05",
         description: "Spaceruj 5 km każdego dnia.",
         updates: [
-          { text: "Dzień 1: Odwiedziłem pobliski park.", image: PlaceholderImg },
+          {
+            text: "Dzień 1: Odwiedziłem pobliski park.",
+            image: PlaceholderImg,
+          },
           { text: "Dzień 2: Spacer z psem - piękny dzień!" },
         ],
         tags: ["spacery", "natura", "zdrowie", "relaks", "aktywność"],

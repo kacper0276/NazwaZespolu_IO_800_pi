@@ -6,4 +6,5 @@ export interface ProfileType {
   following: number[];
   posts: number[];
   premium: boolean;
+  userId: string;
 }
