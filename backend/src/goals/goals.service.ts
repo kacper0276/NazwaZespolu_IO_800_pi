@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GoalRepository } from './goals.repository';
 import { Goal } from './entities/goal.entity';
+import { likeAction } from './dto/likeAction.dto';
 
 @Injectable()
 export class GoalsService {
@@ -44,5 +45,9 @@ export class GoalsService {
 
   async deleteGoal(id: number): Promise<Goal | null> {
     return this.goalsRepository.deleteGoal(id);
+  }
+
+  async likeActionMethod(likeActionData: likeAction) {
+    return this.goalsRepository.likeActionMethod(likeActionData);
   }
 }

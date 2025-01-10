@@ -11,13 +11,15 @@ import {
   UseInterceptors,
   UploadedFile,
   Res,
+  Patch,
 } from '@nestjs/common';
 import { GoalsService } from './goals.service';
 import { Goal } from './entities/goal.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Response } from 'express';
+import { response, Response } from 'express';
+import { likeAction } from './dto/likeAction.dto';
 
 const storage = {
   storage: diskStorage({
@@ -140,6 +142,19 @@ export class GoalsController {
     response.status(HttpStatus.OK).send({
       message: 'remove-challange',
       data: deletedGoal,
+    });
+  }
+
+  @Patch('like-action')
+  async likeActionMethod(
+    @Body() likeActionData: likeAction,
+    @Res() response: Response,
+  ) {
+    await this.goalsService.likeActionMethod(likeActionData);
+
+    response.status(HttpStatus.OK).send({
+      message: 'like-action-succesfully',
+      data: null,
     });
   }
 }

@@ -4,6 +4,8 @@ import { Goal, GoalDocument } from './entities/goal.entity';
 import { Model } from 'mongoose';
 import { Profile, ProfileDocument } from 'src/profiles/entities/profile.entity';
 import { Comment, CommentDocument } from 'src/comments/entities/comment.entity';
+import { User, UserDocument } from 'src/users/entities/user.entity';
+import { likeAction } from './dto/likeAction.dto';
 
 @Injectable()
 export class GoalRepository {
@@ -14,6 +16,8 @@ export class GoalRepository {
     private readonly profileModel: Model<ProfileDocument>,
     @InjectModel(Comment.name)
     private readonly commentModel: Model<CommentDocument>,
+    @InjectModel(User.name)
+    private readonly userModel: Model<UserDocument>,
   ) {}
 
   async createGoal(goal: Partial<Goal>): Promise<Goal> {
@@ -59,5 +63,23 @@ export class GoalRepository {
 
   async deleteGoal(id: number): Promise<Goal | null> {
     return this.goalModel.findByIdAndDelete(id).exec();
+  }
+
+  async likeActionMethod(likeActionData: likeAction) {
+    const user = await this.userModel.findById(likeActionData.userId);
+    const post = await this.goalModel.findById(likeActionData.postId);
+
+    const postIndex = user.likedPost.indexOf(post._id.toString());
+
+    if (postIndex !== -1) {
+      user.likedPost.splice(postIndex, 1);
+      post.reactions = Math.max(0, post.reactions - 1);
+    } else {
+      user.likedPost.push(post._id.toString());
+      post.reactions = (post.reactions || 0) + 1;
+    }
+
+    await user.save();
+    await post.save();
   }
 }
