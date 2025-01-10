@@ -88,7 +88,7 @@ export class GoalsController {
     const goals = await this.goalsService.findByProfileId(profileId);
 
     response.status(HttpStatus.OK).send({
-      message: 'profile-goals',
+      message: 'profile-challanges',
       data: goals,
     });
   }

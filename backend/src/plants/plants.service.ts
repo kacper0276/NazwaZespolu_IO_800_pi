@@ -6,7 +6,7 @@ import { Plant } from './entities/plant.entity';
 export class PlantsService {
   constructor(private readonly plantsRepository: PlantsRepository) {}
 
-  async createPlant(createPlantDto: any): Promise<Plant> {
+  async createPlant(createPlantDto: Partial<Plant>): Promise<Plant> {
     return this.plantsRepository.createPlant(createPlantDto);
   }
 
