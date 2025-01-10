@@ -33,6 +33,9 @@ export class User extends Document {
   @Prop()
   backgroundImage: string;
 
+  @Prop({ type: [String], default: [] })
+  likedPost: string[];
+
   @Prop({ default: '' })
   profileId: string;
 

@@ -45,6 +45,12 @@ export class Goal extends Document {
   @Prop({ type: Boolean, default: false })
   isPost: boolean;
 
+  @Prop({ type: [String], default: [] })
+  images: string[];
+
+  @Prop({ default: 0 })
+  reactions: number;
+
   @Prop({ default: '' })
   profileId: string;
 
