@@ -138,7 +138,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
               &#8249;
             </button> */}
             <img
-              src={`../../../../public/goalsImg/${post.image}`}
+              src={`/goalsImg/${post.image}`}
               alt={`Image ${currentImageIndex + 1}`}
               className={styles.carouselImage}
             />

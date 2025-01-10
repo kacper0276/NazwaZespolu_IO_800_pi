@@ -145,15 +145,13 @@ const ProfilePage: React.FC = () => {
               <div
                 className={styles.profileBackground}
                 style={{
-                  backgroundImage: `url(../../../public/backgroundImages/${userData?.backgroundImage})`,
+                  backgroundImage: `url(/backgroundImages/${userData?.backgroundImage})`,
                 }}
               ></div>
               <div className={styles.infoContainer}>
                 <div className={styles.avatarContainer}>
                   <div className={styles.avatar}>
-                    <img
-                      src={`../../../public/profileImages/${userData?.profileImage}`}
-                    />
+                    <img src={`/profileImages/${userData?.profileImage}`} />
                   </div>
                 </div>
                 <h1

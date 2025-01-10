@@ -26,7 +26,7 @@ const PostsTab: React.FC<PostsTabProps> = ({ posts, onPostClick }) => {
           onClick={() => onPostClick(post)}
         >
           <img
-            src={`../../../../public/goalsImg/${post.image}`}
+            src={`/goalsImg/${post.image}`}
             className={styles.postImage}
             alt={post.name}
           />

@@ -83,7 +83,7 @@ const Sidebar: React.FC = () => {
     }
   };
 
-//Search Tab Logic
+  //Search Tab Logic
   useEffect(() => {
     if (searchMode === "posts" && debouncedUsername.trim()) {
       const filtered = examplePosts.filter(
@@ -120,7 +120,6 @@ const Sidebar: React.FC = () => {
     { id: 1, title: "Pierwszy post", content: "Ale super post" },
     { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
     { id: 3, title: "TRZECI", content: "superowy" },
-    
   ];
   return (
     <div className="d-flex">
@@ -131,7 +130,7 @@ const Sidebar: React.FC = () => {
         {/* User Profile */}
         <div className={`mx-auto ${styles.profileSection}`}>
           <img
-            src={`../../../public/profileImages/${userHook.user?.profileImage}`}
+            src={`/profileImages/${userHook.user?.profileImage}`}
             alt="User Profile"
             className={`rounded-circle ${styles.profilePicture}`}
           />
@@ -258,9 +257,11 @@ const Sidebar: React.FC = () => {
                   />
                   <div className={styles.resultsContainer}>
                     {isLoading && <p>Loading results...</p>}
-                    {!isLoading && results.length === 0 && debouncedUsername && (
-                      <p>No results for "{debouncedUsername}"</p>
-                    )}
+                    {!isLoading &&
+                      results.length === 0 &&
+                      debouncedUsername && (
+                        <p>No results for "{debouncedUsername}"</p>
+                      )}
                     <ul>
                       {results.map((user) => (
                         <li
@@ -299,7 +300,9 @@ const Sidebar: React.FC = () => {
                       {filteredPosts.map((post) => (
                         <li key={post.id} className={styles.postItem}>
                           <span className={styles.postTitle}>{post.title}</span>
-                          <span className={styles.postContent}>{post.content}</span>
+                          <span className={styles.postContent}>
+                            {post.content}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -328,31 +331,30 @@ const Sidebar: React.FC = () => {
                 placeholder="Search user by email..."
                 className={styles.searchBox}
               />
-<div className={styles.resultsContainer}>
-  {isLoading && <p>Loading results...</p>}
-  {!isLoading && results.length === 0 && debouncedUsername && (
-    <p>No results for "{debouncedUsername}"</p>
-  )}
-  <ul>
-    {results.map((user) => (
-      <li
-        key={user._id}
-        className={styles.resultItem}
-        onClick={() => startChat(user)}
-      >
-        <img
-          src={ProfilePicPlaceholder}
-          className={styles.userAvatar}
-        />
-        <strong>
-          {user.firstname} {user.lastname}
-        </strong>{" "}
-        - {user.email}
-      </li>
-    ))}
-  </ul>
-</div>
-
+              <div className={styles.resultsContainer}>
+                {isLoading && <p>Loading results...</p>}
+                {!isLoading && results.length === 0 && debouncedUsername && (
+                  <p>No results for "{debouncedUsername}"</p>
+                )}
+                <ul>
+                  {results.map((user) => (
+                    <li
+                      key={user._id}
+                      className={styles.resultItem}
+                      onClick={() => startChat(user)}
+                    >
+                      <img
+                        src={ProfilePicPlaceholder}
+                        className={styles.userAvatar}
+                      />
+                      <strong>
+                        {user.firstname} {user.lastname}
+                      </strong>{" "}
+                      - {user.email}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </>
           )}
         </div>
