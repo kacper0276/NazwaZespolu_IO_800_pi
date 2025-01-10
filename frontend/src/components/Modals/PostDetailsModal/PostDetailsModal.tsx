@@ -7,25 +7,7 @@ import { ApiResponse } from "../../../types/api.types";
 import { CommentType } from "../../../types/IComment";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-
-interface Comment {
-  author: string;
-  text: string;
-}
-
-interface Post {
-  id: number;
-  images: string[];
-  title: string;
-  likes: number;
-  comments: number;
-  author: string;
-}
-
-// Array.from({ length: 15 }, (_, index) => ({
-//   author: `User ${index + 1}`,
-//   text: `This is a sample comment #${index + 1}`,
-// }));
+import localStorageService from "../../../services/localStorage.service";
 
 interface PostDetailModalProps {
   isOpen: boolean;
@@ -51,7 +33,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
   const [error, setError] = useState<string>("");
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [likes, setLikes] = useState(post.reactions);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState<boolean>(false);
   const [bouncing, setBouncing] = useState(false);
 
   const MAX_DESCRIPTION_LENGTH = 150;
@@ -97,13 +79,29 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
     setError("");
   };
 
-  const handleLike = () => {
-    if (!liked) {
-      setLikes(likes + 1);
-    } else {
-      setLikes(likes - 1);
+  const handleLike = async () => {
+    const data = {
+      userId: userHook.user?._id,
+      postId: post._id,
+    };
+
+    const res = await api.patch<ApiResponse<null>>(`goals/like-action`, data);
+
+    if (res.status === 200) {
+      if (!liked) {
+        userHook.user?.likedPost.push(post._id);
+        setLikes(likes + 1);
+        setLiked(true);
+      } else {
+        userHook.user?.likedPost.splice(
+          userHook.user.likedPost.indexOf(post._id.toString()),
+          1
+        );
+        setLikes(likes - 1);
+        setLiked(false);
+      }
+      localStorageService.setItem("user", userHook.user);
     }
-    setLiked(!liked);
 
     setBouncing(true);
     setTimeout(() => setBouncing(false), 400);
@@ -116,6 +114,8 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
       );
       setComments(comments.data.data ?? []);
     });
+
+    setLiked(userHook.user?.likedPost.includes(post._id) ?? false);
   }, [post]);
 
   return (

@@ -18,6 +18,7 @@ export interface UserType {
   firstname: string | null;
   lastname: string | null;
   profileId: string;
+  likedPost: string[];
   profileImage?: string;
   backgroundImage?: string;
 }

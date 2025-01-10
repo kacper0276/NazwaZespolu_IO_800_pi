@@ -14,48 +14,6 @@ import Spinner from "../../components/Spinner/Spinner";
 import { UserType } from "../../types/IUser";
 import { GoalType } from "../../types/IGoal";
 
-const _posts = [
-  {
-    id: 1,
-    images: ["https://via.placeholder.com/400x500"],
-    title: "Friendly Fire turns 10!",
-    likes: 924,
-    comments: 27,
-    author: "John Doe",
-  },
-  {
-    id: 2,
-    images: [
-      "https://media.istockphoto.com/id/1327592506/pl/wektor/domy%C5%9Blna-ikona-symbolu-zast%C4%99pczego-zdj%C4%99cia-awatara-szare-zdj%C4%99cie-profilowe-cz%C5%82owiek-biznesu.webp?s=2048x2048&w=is&k=20&c=QzrDx-OsmsBkP3pB68zVo53u1cyxI5jeq2R5W4sV3fQ=",
-      "https://via.placeholder.com/700x400",
-    ],
-    title: "Legendary Update 2.3!",
-    likes: 1120,
-    comments: 34,
-    author: "Jane Smith",
-  },
-  {
-    id: 3,
-    images: [
-      "https://via.placeholder.com/400x500",
-      "https://via.placeholder.com/400x500",
-      "https://via.placeholder.com/400x500",
-    ],
-    title: "Come and Visit us",
-    likes: 169,
-    comments: 10,
-    author: "Alice Johnson",
-  },
-  {
-    id: 4,
-    images: ["https://via.placeholder.com/400x500"],
-    title: "Hello!",
-    likes: 15435345,
-    comments: 2,
-    author: "Bob Williams",
-  },
-];
-
 const ProfilePage: React.FC = () => {
   const userHook = useUser();
   const api = useApiJson();
@@ -119,7 +77,6 @@ const ProfilePage: React.FC = () => {
         const posts = await api.get<ApiResponse<GoalType[]>>(
           `goals/find-posts-by-profile/${userResponse.data.data?.profileId}`
         );
-        console.log(posts);
         setPosts(posts.data?.data ?? []);
 
         setUserData(userResponse.data.data);
