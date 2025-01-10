@@ -154,6 +154,10 @@ export class UsersService {
     return this.usersRepository.findAll();
   }
 
+  async getUserById(userId: string): Promise<User> {
+    return this.usersRepository.findById(userId);
+  }
+
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async handleDeleteInactiveUsers() {
     this.logger.log(

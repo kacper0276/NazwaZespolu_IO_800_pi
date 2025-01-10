@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
   HttpStatus,
   Param,
   Patch,
@@ -115,6 +116,21 @@ export class UsersController {
         });
       }
     }
+  }
+
+  @Get('search-by-userId/:userId')
+  async getUserByUserId(
+    @Param('userId') userId: string,
+    @Res() response: Response,
+  ) {
+    const user = await this.usersService.getUserById(userId);
+    if (!user) {
+      throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+    }
+    response.status(HttpStatus.OK).send({
+      message: 'user-data',
+      data: user,
+    });
   }
 
   @Get('search')
