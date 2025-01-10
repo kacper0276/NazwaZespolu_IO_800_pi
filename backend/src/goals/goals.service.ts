@@ -28,7 +28,7 @@ export class GoalsService {
   }
 
   async findByProfileId(profileId: string): Promise<Goal[] | null> {
-    return this.goalRepository.findByProfileId(profileId);
+    return this.goalsRepository.findByProfileId(profileId);
   }
 
   async updateGoal(
