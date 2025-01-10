@@ -45,15 +45,16 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
     senectus et netus et malesuada fames ac turpis egestas. Sed condimentum mattis lorem, non vulputate odio tincidunt non.
   `;
 
-  const handleNextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % post.images.length);
-  };
+  // TODO: W przyszłości slider dla zdjęć
+  // const handleNextImage = () => {
+  //   setCurrentImageIndex((prevIndex) => (prevIndex + 1) % post.images.length);
+  // };
 
-  const handlePreviousImage = () => {
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? post.images.length - 1 : prevIndex - 1
-    );
-  };
+  // const handlePreviousImage = () => {
+  //   setCurrentImageIndex((prevIndex) =>
+  //     prevIndex === 0 ? post.images.length - 1 : prevIndex - 1
+  //   );
+  // };
 
   const handleAddComment = () => {
     if (newCommentText.trim() === "") {
