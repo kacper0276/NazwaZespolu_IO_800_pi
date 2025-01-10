@@ -114,6 +114,15 @@ const Messages: React.FC = () => {
     <div className={`${styles.mainContainer} container-fluid`}>
       {selectedUser && (
         <div className={styles.chatContainer}>
+          {/* Header z informacją z kim */}
+          <div className={styles.chatHeader}>
+            <h3>
+              {t("Chat with")}{" "}
+              {selectedUser.firstname
+                ? `${selectedUser.firstname} ${selectedUser.lastname || ""}`.trim()
+                : selectedUser.email}
+            </h3>
+          </div>
           <div className={styles.messagesContainer}>
             <ul>
               {messages.map((msg, index) => (
@@ -138,9 +147,9 @@ const Messages: React.FC = () => {
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder={t("type-message")}
+              placeholder={t("Type message...")}
             />
-            <button onClick={sendMessage}>{t("send")}</button>
+            <button onClick={sendMessage}>{t("Send")}</button>
           </div>
         </div>
       )}

@@ -27,13 +27,13 @@
 
 .post {
   .postCard {
-    background-color: #1e1e1e; /* Ciemne tło karty */
-    color: #f0f0f0; /* Jasny tekst */
-    border: 1px solid #444; /* Obwódka dla karty */
+    background-color: #1e1e1e; 
+    color: #f0f0f0; 
+    border: 1px solid #444; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
 
     .card-title {
-      color: #ffffff; /* Wyraźny tytuł */
+      color: #ffffff; 
     }
 
     .card-text {
@@ -76,12 +76,12 @@
     }
 
     img {
-      border-bottom: 1px solid #444; /* Oddzielenie obrazu od reszty */
+      border-bottom: 1px solid #444; 
     }
 
     .carousel-control-prev-icon,
     .carousel-control-next-icon {
-      filter: invert(1); /* Białe ikony na ciemnym tle */
+      filter: invert(1);
     }
   }
 

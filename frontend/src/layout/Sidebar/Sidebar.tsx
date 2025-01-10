@@ -102,6 +102,25 @@ const Sidebar: React.FC = () => {
     { id: 1, title: "Pierwszy post", content: "Ale super post" },
     { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
     { id: 3, title: "TRZECI", content: "superowy" },
+    { id: 1, title: "Pierwszy post", content: "Ale super post" },
+    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
+    { id: 3, title: "TRZECI", content: "superowy" },
+    { id: 1, title: "Pierwszy post", content: "Ale super post" },
+    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
+    { id: 3, title: "TRZECI", content: "superowy" },
+    { id: 1, title: "Pierwszy post", content: "Ale super post" },
+    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
+    { id: 3, title: "TRZECI", content: "superowy" },
+    { id: 1, title: "Pierwszy post", content: "Ale super post" },
+    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
+    { id: 3, title: "TRZECI", content: "superowy" },
+    { id: 1, title: "Pierwszy post", content: "Ale super post" },
+    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
+    { id: 3, title: "TRZECI", content: "superowy" },
+    { id: 1, title: "Pierwszy post", content: "Ale super post" },
+    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
+    { id: 3, title: "TRZECI", content: "superowy" },
+    
   ];
   return (
     <div className="d-flex">
@@ -206,8 +225,8 @@ const Sidebar: React.FC = () => {
           activePanel ? styles.panelVisible : styles.panelHidden
         } ${isHidden ? styles.hidden : ""}`}
       >
-      <div className="p-3 w-100 text-white text-wrap">
-      {activePanel === "search" && (
+        <div className="p-3 w-100 text-white text-wrap">
+          {activePanel === "search" && (
             <>
               <h5>Search</h5>
               <div className={`${styles.searchModeSwitcher} mb-3`}>
@@ -272,16 +291,15 @@ const Sidebar: React.FC = () => {
                     placeholder="Search posts..."
                     className={styles.searchBox}
                   />
-                  <div className={styles.resultsContainer}>
-                    {isLoading && <p>Loading results...</p>}
-                    {!isLoading && filteredPosts.length === 0 && debouncedUsername && (
-                      <p>No posts found for "{debouncedUsername}"</p>
+                  <div className={styles.postsContainer}>
+                    {filteredPosts.length === 0 && debouncedUsername && (
+                      <p>No results for "{debouncedUsername}"</p>
                     )}
                     <ul>
                       {filteredPosts.map((post) => (
-                        <li key={post.id} className={styles.resultItem}>
-                          <strong>{post.title}</strong>
-                          <p>{post.content}</p>
+                        <li key={post.id} className={styles.postItem}>
+                          <span className={styles.postTitle}>{post.title}</span>
+                          <span className={styles.postContent}>{post.content}</span>
                         </li>
                       ))}
                     </ul>
@@ -310,30 +328,31 @@ const Sidebar: React.FC = () => {
                 placeholder="Search user by email..."
                 className={styles.searchBox}
               />
-              <div className={styles.resultsContainer}>
-                {isLoading && <p>Loading results...</p>}
-                {!isLoading && results.length === 0 && debouncedUsername && (
-                  <p>No results for "{debouncedUsername}"</p>
-                )}
-                <ul>
-                  {results.map((user) => (
-                    <li
-                      key={user._id}
-                      className={styles.resultItem}
-                      onClick={() => startChat(user)} // Funkcja otwierająca chat z użytkownikiem
-                    >
-                      <img
-                        src={ProfilePicPlaceholder}
-                        className={styles.userAvatar}
-                      />
-                      <strong>
-                        {user.firstname} {user.lastname}
-                      </strong>{" "}
-                      - {user.email}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+<div className={styles.resultsContainer}>
+  {isLoading && <p>Loading results...</p>}
+  {!isLoading && results.length === 0 && debouncedUsername && (
+    <p>No results for "{debouncedUsername}"</p>
+  )}
+  <ul>
+    {results.map((user) => (
+      <li
+        key={user._id}
+        className={styles.resultItem}
+        onClick={() => startChat(user)}
+      >
+        <img
+          src={ProfilePicPlaceholder}
+          className={styles.userAvatar}
+        />
+        <strong>
+          {user.firstname} {user.lastname}
+        </strong>{" "}
+        - {user.email}
+      </li>
+    ))}
+  </ul>
+</div>
+
             </>
           )}
         </div>
