@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import styles from "./ChallengesTab.module.scss";
 import ChallengeDetailsModal from "../../../components/Modals/ChallengeDetailsModal/ChallengeDetailsModal";
 import PlaceholderImg from "../../../assets/images/greatBritainFlag.png";
@@ -119,10 +120,20 @@ const ChallengesTab: React.FC = () => {
     const index = Math.min(Math.floor(percentage / 10), 9);
     return images[index];
   };
-
+  const navigate = useNavigate();
   return (
+    
     <div className={styles.challengesContainer}>
       <h2 className={styles.heading}>Wyzwania</h2>
+      <div className={`d-flex justify-content-center ${styles.createButtonWrapper}`}>
+        <button
+          onClick={() => navigate('/create-challenge')}
+          className={styles.createButton}
+        >
+          <i className="bi bi-plus-circle me-2"></i>
+          Stwórz nowe wyzwanie
+        </button>
+      </div>
       <div className={styles.challengeList}>
         {challenges.map((challenge, index) => {
           const percentage = getChallengePercentage(challenge);

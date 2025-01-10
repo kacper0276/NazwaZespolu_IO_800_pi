@@ -20,11 +20,12 @@ const Sidebar: React.FC = () => {
     "search" | "notifications" | "messages" | null
   >(null);
   const [isHidden, setIsHidden] = useState(true);
-
+  const [searchMode, setSearchMode] = useState<"users" | "posts">("users");
   const [username, setUsername] = useState<string>("");
   const [debouncedUsername, setDebouncedUsername] = useState<string>("");
   const [results, setResults] = useState<UserType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [filteredPosts, setFilteredPosts] = useState<typeof examplePosts>([]);
   const navigate = useNavigate();
 
   const startChat = (user: UserType) => {
@@ -33,7 +34,9 @@ const Sidebar: React.FC = () => {
     setIsMinimized(false);
     navigate(`/messages?useremail=${encodeURIComponent(user.email)}`);
   };
-
+  const toggleSearchMode = (mode: "users" | "posts") => {
+    setSearchMode(mode);
+  };
   const togglePanel = (panel: "search" | "notifications" | "messages") => {
     if (activePanel === panel) {
       setActivePanel(null);
@@ -80,6 +83,26 @@ const Sidebar: React.FC = () => {
     }
   };
 
+//Search Tab Logic
+  useEffect(() => {
+    if (searchMode === "posts" && debouncedUsername.trim()) {
+      const filtered = examplePosts.filter(
+        (post) =>
+          post.title.toLowerCase().includes(debouncedUsername.toLowerCase()) ||
+          post.content.toLowerCase().includes(debouncedUsername.toLowerCase())
+      );
+      setFilteredPosts(filtered);
+    } else {
+      setFilteredPosts([]);
+    }
+  }, [debouncedUsername, searchMode]);
+
+  //Search tab placeholders
+  const examplePosts = [
+    { id: 1, title: "Pierwszy post", content: "Ale super post" },
+    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
+    { id: 3, title: "TRZECI", content: "superowy" },
+  ];
   return (
     <div className="d-flex">
       {/* Sidebar */}
@@ -183,15 +206,88 @@ const Sidebar: React.FC = () => {
           activePanel ? styles.panelVisible : styles.panelHidden
         } ${isHidden ? styles.hidden : ""}`}
       >
-        <div className="p-3 w-100 text-white text-wrap">
-          {activePanel === "search" && (
+      <div className="p-3 w-100 text-white text-wrap">
+      {activePanel === "search" && (
             <>
               <h5>Search</h5>
-              <input
-                type="text"
-                placeholder="Search..."
-                className={styles.searchBox}
-              />
+              <div className={`${styles.searchModeSwitcher} mb-3`}>
+                <button
+                  className={`${styles.switchButton} ${
+                    searchMode === "users" ? styles.active : ""
+                  }`}
+                  onClick={() => toggleSearchMode("users")}
+                >
+                  Users
+                </button>
+                <button
+                  className={`${styles.switchButton} ${
+                    searchMode === "posts" ? styles.active : ""
+                  }`}
+                  onClick={() => toggleSearchMode("posts")}
+                >
+                  Posts
+                </button>
+              </div>
+              {searchMode === "users" && (
+                <>
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Search users..."
+                    className={styles.searchBox}
+                  />
+                  <div className={styles.resultsContainer}>
+                    {isLoading && <p>Loading results...</p>}
+                    {!isLoading && results.length === 0 && debouncedUsername && (
+                      <p>No results for "{debouncedUsername}"</p>
+                    )}
+                    <ul>
+                      {results.map((user) => (
+                        <li
+                          key={user._id}
+                          className={styles.resultItem}
+                          onClick={() => startChat(user)}
+                        >
+                          <img
+                            src={ProfilePicPlaceholder}
+                            className={styles.userAvatar}
+                          />
+                          <strong>
+                            {user.firstname} {user.lastname}
+                          </strong>{" "}
+                          - {user.email}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )}
+              {searchMode === "posts" && (
+                <>
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Search posts..."
+                    className={styles.searchBox}
+                  />
+                  <div className={styles.resultsContainer}>
+                    {isLoading && <p>Loading results...</p>}
+                    {!isLoading && filteredPosts.length === 0 && debouncedUsername && (
+                      <p>No posts found for "{debouncedUsername}"</p>
+                    )}
+                    <ul>
+                      {filteredPosts.map((post) => (
+                        <li key={post.id} className={styles.resultItem}>
+                          <strong>{post.title}</strong>
+                          <p>{post.content}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )}
             </>
           )}
           {activePanel === "notifications" && (
