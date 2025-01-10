@@ -35,6 +35,10 @@ export class GoalRepository {
     return this.goalModel.find({ profileId }).exec();
   }
 
+  async findPostsByProfileId(profileId: string): Promise<Goal[] | null> {
+    return this.goalModel.find({ profileId, isPost: true }).exec();
+  }
+
   async updateGoal(
     id: number,
     updateData: Partial<Goal>,

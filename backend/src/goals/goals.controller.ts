@@ -80,7 +80,7 @@ export class GoalsController {
     });
   }
 
-  @Get('/find-by-profile/:profileId')
+  @Get('find-by-profile/:profileId')
   async findByProfileId(
     @Param('profileId') profileId: string,
     @Res() response: Response,
@@ -90,6 +90,19 @@ export class GoalsController {
     response.status(HttpStatus.OK).send({
       message: 'profile-goals',
       data: goals,
+    });
+  }
+
+  @Get('find-posts-by-profile/:profileId')
+  async findPostsByProfileId(
+    @Param('profileId') profileId: string,
+    @Res() response: Response,
+  ) {
+    const posts = await this.goalsService.findPostsByProfileId(profileId);
+
+    response.status(HttpStatus.OK).send({
+      message: 'profile-posts',
+      data: posts,
     });
   }
 
