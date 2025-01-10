@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import styles from "./ChallengesTab.module.scss";
 import ChallengeDetailsModal from "../../../components/Modals/ChallengeDetailsModal/ChallengeDetailsModal";
 import PlaceholderImg from "../../../assets/images/greatBritainFlag.png";
 import PlaceholderImg2 from "../../../assets/images/PlaceholderImages/zdrowe-salaki-przepisy-1250x833.jpg";
 import { useApiJson } from "../../../config/api";
 import { useUser } from "../../../context/UserContext";
+import useWebsiteTitle from "../../../hooks/useWebsiteTitle";
+import { useTranslation } from "react-i18next";
 
 type Challenge = {
   title: string;
@@ -31,6 +33,9 @@ const calculatePercentage = (start: string, end: string): number => {
 };
 
 const ChallengesTab: React.FC = () => {
+  const { t } = useTranslation();
+  useWebsiteTitle(t("challenges"));
+
   const api = useApiJson();
   const userHook = useUser();
   const [images, setImages] = useState<string[]>([]);
@@ -132,12 +137,13 @@ const ChallengesTab: React.FC = () => {
   };
   const navigate = useNavigate();
   return (
-    
     <div className={styles.challengesContainer}>
       <h2 className={styles.heading}>Wyzwania</h2>
-      <div className={`d-flex justify-content-center ${styles.createButtonWrapper}`}>
+      <div
+        className={`d-flex justify-content-center ${styles.createButtonWrapper}`}
+      >
         <button
-          onClick={() => navigate('/create-challenge')}
+          onClick={() => navigate("/create-challenge")}
           className={styles.createButton}
         >
           <i className="bi bi-plus-circle me-2"></i>

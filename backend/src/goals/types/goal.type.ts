@@ -5,4 +5,4 @@ export interface GoalData {
   startDate: Date;
   endDate: Date;
   isDone: boolean;
-  }
+}
