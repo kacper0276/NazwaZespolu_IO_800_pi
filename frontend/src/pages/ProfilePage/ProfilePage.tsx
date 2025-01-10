@@ -161,7 +161,7 @@ const ProfilePage: React.FC = () => {
                 >{`${userHook.user?.firstname} ${userHook.user?.lastname}`}</h1>
                 <p className={styles.stats}>
                   <span>
-                    <strong>{profileData?.posts.length}</strong> posty
+                    <strong>{posts.length}</strong> posty
                   </span>
                   <span
                     onClick={() => openModal("followers")}

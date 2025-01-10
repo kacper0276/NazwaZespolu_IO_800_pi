@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./PostDetailsModal.module.scss";
 import { GoalType } from "../../../types/IGoal";
+import { useUser } from "../../../context/UserContext";
+import { useApiJson } from "../../../config/api";
+import { ApiResponse } from "../../../types/api.types";
+import { CommentType } from "../../../types/IComment";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 interface Comment {
   author: string;
@@ -15,6 +21,11 @@ interface Post {
   comments: number;
   author: string;
 }
+
+// Array.from({ length: 15 }, (_, index) => ({
+//   author: `User ${index + 1}`,
+//   text: `This is a sample comment #${index + 1}`,
+// }));
 
 interface PostDetailModalProps {
   isOpen: boolean;
@@ -31,13 +42,11 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
     return null;
   }
 
+  const { t } = useTranslation();
+  const api = useApiJson();
+  const userHook = useUser();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [comments, setComments] = useState<Comment[]>(
-    Array.from({ length: 15 }, (_, index) => ({
-      author: `User ${index + 1}`,
-      text: `This is a sample comment #${index + 1}`,
-    }))
-  );
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [newCommentText, setNewCommentText] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
@@ -70,13 +79,20 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
       return;
     }
 
-    setComments((prevComments) => [
-      ...prevComments,
-      {
-        author: "Current User",
-        text: newCommentText,
-      },
-    ]);
+    const commentData = {
+      userId: userHook.user?._id ?? "",
+      value: newCommentText,
+    };
+
+    api
+      .post<ApiResponse<CommentType>>(`comments/${post._id}`, commentData)
+      .then((res) => {
+        toast.success(t(res.data.message));
+      })
+      .catch((_error: any) => {
+        toast.error(t("error-adding-comment"));
+      });
+
     setNewCommentText("");
     setError("");
   };
@@ -92,6 +108,15 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
     setBouncing(true);
     setTimeout(() => setBouncing(false), 400);
   };
+
+  useEffect(() => {
+    post.commentsIds.forEach(async (commentId) => {
+      const comments = await api.get<ApiResponse<CommentType[]>>(
+        `comments/${commentId}`
+      );
+      setComments(comments.data.data ?? []);
+    });
+  }, [post]);
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
@@ -177,8 +202,8 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
                     <li key={index} className={styles.commentItem}>
                       <div className={styles.profilePicture}></div>
                       <div>
-                        <strong>{comment.author}</strong>
-                        <p>{comment.text}</p>
+                        <strong>{comment.userId}</strong>
+                        <p>{comment.value}</p>
                       </div>
                     </li>
                   ))}

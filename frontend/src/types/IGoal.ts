@@ -15,5 +15,5 @@ export interface GoalType {
   images: string[];
   reactions: number;
   isPost: boolean;
-  comments: any[];
+  commentsIds: number[];
 }
