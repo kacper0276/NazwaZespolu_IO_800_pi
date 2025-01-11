@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./ChallengesTab.module.scss";
 import ChallengeDetailsModal from "../../../components/Modals/ChallengeDetailsModal/ChallengeDetailsModal";
-import PlaceholderImg from "../../../assets/images/greatBritainFlag.png";
-import PlaceholderImg2 from "../../../assets/images/PlaceholderImages/zdrowe-salaki-przepisy-1250x833.jpg";
 import { useApiJson } from "../../../config/api";
 import { useUser } from "../../../context/UserContext";
 import useWebsiteTitle from "../../../hooks/useWebsiteTitle";
@@ -13,13 +11,30 @@ import { GoalType } from "../../../types/IGoal";
 import { toast } from "react-toastify";
 import { convertIsoToLocal } from "../../../helpers/convertDate";
 
-type Challenge = {
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  updates: { text: string; image?: string }[];
-  tags: string[];
+const getTreeType = (difficulty: string) => {
+  switch (difficulty) {
+    case "krzew":
+      return "SmallTree";
+    case "średnie drzewo":
+      return "MediumTree";
+    case "duże drzewo":
+      return "BigTree";
+    default:
+      return "BigTree";
+  }
+};
+
+const getTreePath = (difficulty: string, treeSkin: string) => {
+  const treeType = getTreeType(difficulty.toLowerCase());
+  const isPremium = treeSkin === "PremiumSkin";
+  
+  if (isPremium) {
+    return (index: number) =>
+      import(`../../../assets/images/Trees/${treeType}Premium/${index + 1}p.png`);
+  }
+  
+  return (index: number) =>
+    import(`../../../assets/images/Trees/${treeType}/${index + 1}.png`);
 };
 
 const calculatePercentage = (start: string, end: string): number => {
@@ -42,92 +57,41 @@ const ChallengesTab: React.FC = () => {
 
   const api = useApiJson();
   const userHook = useUser();
-  const [images, setImages] = useState<string[]>([]);
+  const [treeImages, setTreeImages] = useState<Map<string, string[]>>(new Map());
   const [challenges, setChallenges] = useState<GoalType[]>([]);
-  const [selectedChallenge, setSelectedChallenge] = useState<GoalType | null>(
-    null
-  );
+  const [selectedChallenge, setSelectedChallenge] = useState<GoalType | null>(null);
 
   useEffect(() => {
-    const loadImages = async () => {
+    const loadImagesForChallenge = async (challenge: GoalType) => {
+      const importPath = getTreePath(challenge.difficulty, challenge.treeSkin);
       const loadedImages = await Promise.all(
         Array.from({ length: 10 }, (_, i) =>
-          import(`../../../assets/images/Trees/${i + 1}p.png`).then(
-            (module) => module.default
-          )
+          importPath(i).then((module) => module.default)
         )
       );
-      setImages(loadedImages);
+      return loadedImages;
     };
 
-    loadImages();
+    const loadAllImages = async () => {
+      const newTreeImages = new Map<string, string[]>();
+      
+      for (const challenge of challenges) {
+        const challengeKey = `${challenge.difficulty}-${challenge.treeSkin}`;
+        if (!newTreeImages.has(challengeKey)) {
+          const images = await loadImagesForChallenge(challenge);
+          newTreeImages.set(challengeKey, images);
+        }
+      }
+      
+      setTreeImages(newTreeImages);
+    };
 
-    const exampleChallenges: Challenge[] = [
-      {
-        title: "Codzienne bieganie",
-        startDate: "2024-12-25",
-        endDate: "2025-01-10",
-        description: "Biegaj codziennie przez 30 minut!",
-        updates: [
-          { text: "Dzień 1: Pierwszy bieg ukończony!", image: PlaceholderImg2 },
-          { text: "Dzień 2: Bieg w deszczu, ale się udało." },
-          {
-            text: "Dzień 3: Utrzymałem tempo 6 min/km.",
-            image: PlaceholderImg,
-          },
-        ],
-        tags: ["bieganie", "sport", "zdrowie", "wyzwanie", "nawyki"],
-      },
-      {
-        title: "Zdrowe odżywianie",
-        startDate: "2025-01-01",
-        endDate: "2025-01-31",
-        description: "Codziennie przygotuj zdrowy posiłek.",
-        updates: [
-          { text: "Dzień 1: Przygotowałem pyszną sałatkę." },
-          { text: "Dzień 2: Unikałem słodyczy.", image: PlaceholderImg2 },
-          { text: "Dzień 3: Woda zamiast napojów gazowanych." },
-        ],
-        tags: ["zdrowie", "jedzenie", "nawyki", "fit", "motywacja"],
-      },
-      {
-        title: "Poranne medytacje",
-        startDate: "2025-01-02",
-        endDate: "2025-01-15",
-        description: "Rozpocznij dzień 10-minutową medytacją.",
-        updates: [],
-        tags: ["medytacja", "spokój", "skupienie", "zdrowie", "mindfulness"],
-      },
-      {
-        title: "Spaceruj więcej",
-        startDate: "2025-01-05",
-        endDate: "2025-02-05",
-        description: "Spaceruj 5 km każdego dnia.",
-        updates: [
-          {
-            text: "Dzień 1: Odwiedziłem pobliski park.",
-            image: PlaceholderImg,
-          },
-          { text: "Dzień 2: Spacer z psem - piękny dzień!" },
-        ],
-        tags: ["spacery", "natura", "zdrowie", "relaks", "aktywność"],
-      },
-      {
-        title: "Ucz się codziennie",
-        startDate: "2024-12-20",
-        endDate: "2025-01-20",
-        description: "Spędzaj 1 godzinę dziennie na nauce.",
-        updates: [
-          { text: "Dzień 1: Przerobiłem nowy rozdział książki o JavaScript." },
-          {
-            text: "Dzień 2: Obejrzałem tutorial o React.",
-            image: PlaceholderImg,
-          },
-        ],
-        tags: ["nauka", "rozwój", "umiejętności", "produktywność", "motywacja"],
-      },
-    ];
+    if (challenges.length > 0) {
+      loadAllImages();
+    }
+  }, [challenges]);
 
+  useEffect(() => {
     api
       .get<ApiResponse<GoalType[]>>(
         `goals/find-by-profile/${userHook.user?.profileId}`
@@ -147,17 +111,33 @@ const ChallengesTab: React.FC = () => {
     );
   };
 
-  const getImageForPercentage = (percentage: number) => {
+  const getImageForChallenge = (challenge: GoalType, percentage: number) => {
+    const challengeKey = `${challenge.difficulty}-${challenge.treeSkin}`;
+    const images = treeImages.get(challengeKey) || [];
     const index = Math.min(Math.floor(percentage / 10), 9);
     return images[index];
   };
+
   const navigate = useNavigate();
+
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
+
+  const toggleDescription = (index: number) => {
+    setExpandedDescriptions(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+
   return (
     <div className={styles.challengesContainer}>
       <h2 className={styles.heading}>Wyzwania</h2>
-      <div
-        className={`d-flex justify-content-center ${styles.createButtonWrapper}`}
-      >
+      <div className={`d-flex justify-content-center ${styles.createButtonWrapper}`}>
         <button
           onClick={() => navigate("/create-challenge")}
           className={styles.createButton}
@@ -169,13 +149,16 @@ const ChallengesTab: React.FC = () => {
       <div className={styles.challengeList}>
         {challenges.map((challenge, index) => {
           const percentage = getChallengePercentage(challenge);
+          const treeImage = getImageForChallenge(challenge, percentage);
+          const isExpanded = expandedDescriptions.has(index);
+
           return (
             <div key={index} className={styles.challengeItem}>
               <h3 className={styles.title}>{challenge.name}</h3>
-              {images.length > 0 && (
+              {treeImage && (
                 <img
-                  src={getImageForPercentage(percentage)}
-                  alt={`Tree progress ${percentage}%`}
+                  src={treeImage}
+                  alt={`${challenge.difficulty} progress ${percentage}%`}
                   className={styles.image}
                 />
               )}
@@ -189,7 +172,11 @@ const ChallengesTab: React.FC = () => {
                   {convertIsoToLocal(challenge.endDate + "")}
                 </p>
               </div>
-              <p className={styles.description}>{challenge.description}</p>
+              <p 
+  className={`${styles.description} overflow-auto`}
+>
+  {challenge.description}
+</p>
               <p className={styles.progress}>Postęp: {percentage}%</p>
               <button
                 className={styles.button}

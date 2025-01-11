@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ChallengeCreation.module.scss";
-import StandardSkin from "../../assets/gifs/FormSkins/BigTree/StandardSkin.gif";
-import PremiumSkin from "../../assets/gifs/FormSkins/BigTree/PremiumSkin.gif";
-import SmallTreePlaceholder from "../../assets/gifs/FormSkins/SmallTree/3.png";
-import MediumTreePlaceholder from "../../assets/gifs/FormSkins/MediumTree/2.png";
+import BigTreeStandardSkin from "../../assets/gifs/FormSkins/BigTree/StandardSkin.gif";
+import BigTreePremiumSkin from "../../assets/gifs/FormSkins/BigTree/PremiumSkin.gif";
+import MediumTreeStandardSkin from "../../assets/gifs/FormSkins/MediumTree/StandardSkin.gif";
+import MediumTreePremiumSkin from "../../assets/gifs/FormSkins/MediumTree/PremiumSkin.gif";
+import SmallTreeStandardSkin from "../../assets/gifs/FormSkins/SmallTree/StandardSkin.gif";
+import SmallTreePremiumSkin from "../../assets/gifs/FormSkins/SmallTree/PremiumSkin.gif";
+
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { useTranslation } from "react-i18next";
 import { useApiMultipart } from "../../config/api";
@@ -154,6 +157,7 @@ const ChallengeCreation: React.FC = () => {
       setErrorMessage("");
     }
   };
+
   const handleRemoveTag = (tag: string) => {
     setChallenge((prev) => ({
       ...prev,
@@ -303,7 +307,9 @@ const ChallengeCreation: React.FC = () => {
           </div>
         </div>
 
-        {challenge.difficulty === "Duże drzewo" && (
+        {(challenge.difficulty === "Krzew" ||
+          challenge.difficulty === "Średnie drzewo" ||
+          challenge.difficulty === "Duże drzewo") && (
           <div className={styles.inputGroup}>
             <label htmlFor="treeSkin" className={styles.label}>
               Select Tree Skin
@@ -318,35 +324,40 @@ const ChallengeCreation: React.FC = () => {
               <option value="PremiumSkin">Premium Skin</option>
             </select>
             <div className={styles.skinPreview}>
-              {challenge.treeSkin === "StandardSkin" ? (
+              {challenge.difficulty === "Krzew" && (
                 <img
-                  src={StandardSkin}
-                  alt="Standard Tree Skin"
+                  src={
+                    challenge.treeSkin === "StandardSkin"
+                      ? SmallTreeStandardSkin
+                      : SmallTreePremiumSkin
+                  }
+                  alt={`${challenge.treeSkin} for Krzew`}
                   className={styles.skinGif}
                 />
-              ) : (
+              )}
+              {challenge.difficulty === "Średnie drzewo" && (
                 <img
-                  src={PremiumSkin}
-                  alt="Premium Tree Skin"
+                  src={
+                    challenge.treeSkin === "StandardSkin"
+                      ? MediumTreeStandardSkin
+                      : MediumTreePremiumSkin
+                  }
+                  alt={`${challenge.treeSkin} for Średnie drzewo`}
+                  className={styles.skinGif}
+                />
+              )}
+              {challenge.difficulty === "Duże drzewo" && (
+                <img
+                  src={
+                    challenge.treeSkin === "StandardSkin"
+                      ? BigTreeStandardSkin
+                      : BigTreePremiumSkin
+                  }
+                  alt={`${challenge.treeSkin} for Duże drzewo`}
                   className={styles.skinGif}
                 />
               )}
             </div>
-          </div>
-        )}
-
-        {(challenge.difficulty === "Krzew" ||
-          challenge.difficulty === "Średnie drzewo") && (
-          <div className={styles.placeholderPreview}>
-            <img
-              src={
-                challenge.difficulty === "Krzew"
-                  ? SmallTreePlaceholder
-                  : MediumTreePlaceholder
-              }
-              alt={`${challenge.difficulty} Placeholder`}
-              className={styles.placeholderImage}
-            />
           </div>
         )}
 
