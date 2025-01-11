@@ -3,6 +3,7 @@ import FollowListModal from "../../components/Modals/FollowListModal/FollowListM
 import PostDetailModal from "../../components/Modals/PostDetailsModal/PostDetailsModal";
 import ChallengesTab from "./ChallengeTab/ChallengesTab";
 import PostsTab from "./PostsTab/PostsTab";
+import ForestTab from "./ForestTab/ForestTab";
 import styles from "./ProfilePage.module.scss";
 import { useUser } from "../../context/UserContext";
 import { ProfileType } from "../../types/IProfile";
@@ -54,7 +55,7 @@ const ProfilePage: React.FC = () => {
       case "wyzwania":
         return <ChallengesTab />;
       case "las":
-        return <div className={styles.placeholder}>Placeholder dla Lasu</div>;
+        return <ForestTab/>
       default:
         return null;
     }

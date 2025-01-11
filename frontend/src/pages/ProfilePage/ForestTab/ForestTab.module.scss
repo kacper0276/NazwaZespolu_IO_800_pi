@@ -1,0 +1,128 @@
+
+.forestContainer {
+    min-height: 100vh;
+    padding: 20px;
+    background-image: url('../../../assets/images/MeadowBG/MeadowBG.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+
+    .treePositions {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 70vh;
+        pointer-events: none;
+    }
+
+    .treeWrapper {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transform: translate(-50%, 50%);
+        pointer-events: auto;
+        z-index: 1;
+    
+        &:nth-child(1) { left: 85%; bottom: 30%; }
+        &:nth-child(2) { left: 10%; bottom: 20%; }
+        &:nth-child(3) { left: 50%; bottom: 35%; }
+        &:nth-child(4) { left: 25%; bottom: 15%; }
+        &:nth-child(5) { left: 70%; bottom: 40%; }
+        &:nth-child(6) { left: 15%; bottom: 30%; }
+        &:nth-child(7) { left: 60%; bottom: 10%; }
+        &:nth-child(8) { left: 40%; bottom: 20%; }
+        &:nth-child(9) { left: 5%; bottom: 35%; }
+        &:nth-child(10) { left: 75%; bottom: 25%; }
+        &:nth-child(11) { left: 50%; bottom: 15%; }
+        &:nth-child(12) { left: 30%; bottom: 40%; }
+        &:nth-child(13) { left: 90%; bottom: 20%; }
+        &:nth-child(14) { left: 20%; bottom: 10%; }
+        &:nth-child(15) { left: 65%; bottom: 35%; }
+        &:nth-child(16) { left: 45%; bottom: 25%; }
+        &:nth-child(17) { left: 80%; bottom: 15%; }
+        &:nth-child(18) { left: 35%; bottom: 30%; }
+        &:nth-child(19) { left: 55%; bottom: 20%; }
+        &:nth-child(20) { left: 10%; bottom: 40%; }
+        
+    
+        &:hover {
+            z-index: 11;
+
+            .treeImage {
+                transform: scale(1.05);
+            }
+    
+            .treeInfo {
+                z-index: 11;
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+    
+
+    .treeImage {
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        z-index: 0;
+        
+        &.small {  // krzew
+            height: 96px;
+            z-index: 0;
+        }
+        
+        &.medium {  // średnie drzewo
+            height: 128px;
+            z-index: 0;
+        }
+        
+        &.large {  // duże drzewo
+            height: 160px;
+            z-index: 0;
+        }
+    }
+    .treeInfo {
+        position: absolute;
+        top: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 16px;
+        border-radius: 8px;
+        text-align: center;
+        color: white;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        
+        z-index: 11;
+    
+        /* Natychmiastowe włączenie i wyłączenie */
+        &.visible {
+            visibility: visible;
+            opacity: 1;
+            transition: none; 
+        }
+    
+        &.hidden {
+            visibility: hidden;
+            opacity: 0;
+            transition: none; 
+        }
+    
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+    
+        p {
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+    }
+}
