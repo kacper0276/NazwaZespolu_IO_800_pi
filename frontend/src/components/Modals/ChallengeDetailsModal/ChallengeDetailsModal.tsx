@@ -62,10 +62,11 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
             &times;
           </button>
           <h2 className={styles.modalTitle}>{challenge.name}</h2>
-          <p className={styles.modalText}>
-            <span className={styles.modalLabel}>Opis:</span>{" "}
-            {challenge.description}
-          </p>
+          <span className={styles.modalLabel}>Opis:</span>
+          <p className={styles.modalText} style={{ maxHeight: "4.5rem", overflow: "auto" }}>
+ {challenge.description}
+</p>
+
           <p className={styles.modalText}>
             <span className={styles.modalLabel}>Data rozpoczęcia:</span>{" "}
             {convertIsoToLocal(challenge.startDate + "")}
