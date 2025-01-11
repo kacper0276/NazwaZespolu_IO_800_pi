@@ -1,9 +1,18 @@
 import { FC, useState, useEffect } from "react";
 import { useUser } from "../../context/UserContext";
 import styles from "./AccountForm.module.scss";
+import { useApiMultipart } from "../../config/api";
+import { useTranslation } from "react-i18next";
+import useWebsiteTitle from "../../hooks/useWebsiteTitle";
+import { ApiResponse } from "../../types/api.types";
+import { UserType } from "../../types/IUser";
 
 const AccountForm: FC = () => {
+  const { t } = useTranslation();
+  useWebsiteTitle(t("edit-your-data"));
+
   const userContext = useUser();
+  const api = useApiMultipart();
 
   const [formData, setFormData] = useState({
     email: userContext.user?.email || "",
@@ -44,9 +53,26 @@ const AccountForm: FC = () => {
     }));
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(formData);
+
+    const formDataBody = new FormData();
+    formDataBody.append("email", formData.email);
+    formDataBody.append("firstname", formData.firstname ?? "");
+    formDataBody.append("lastname", formData.lastname ?? "");
+    if (formData.profileImage)
+      formDataBody.append("profileImage", formData.profileImage);
+    if (formData.backgroundImage)
+      formDataBody.append("backgroundImage", formData.backgroundImage);
+
+    const response = await api.put<ApiResponse<UserType>>(
+      `users/${userContext.user?._id}`,
+      formData
+    );
+
+    if (response.status === 200 && response.data.data) {
+      userContext.user = response.data.data;
+    }
   };
 
   return (
