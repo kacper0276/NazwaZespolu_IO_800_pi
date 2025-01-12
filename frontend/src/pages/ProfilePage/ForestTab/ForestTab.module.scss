@@ -1,5 +1,6 @@
 
 .forestContainer {
+    overflow: hidden;
     min-height: 100vh;
     padding: 20px;
     background-image: url('../../../assets/images/MeadowBG/MeadowBG.png');
@@ -7,7 +8,7 @@
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
-
+    padding-bottom: 70vh;
     .treePositions {
         position: absolute;
         bottom: 0;
@@ -34,7 +35,7 @@
         &:nth-child(6) { left: 15%; bottom: 30%; }
         &:nth-child(7) { left: 60%; bottom: 10%; }
         &:nth-child(8) { left: 40%; bottom: 20%; }
-        &:nth-child(9) { left: 5%; bottom: 35%; }
+        &:nth-child(9) { left: 22%; bottom: 40%; }
         &:nth-child(10) { left: 75%; bottom: 25%; }
         &:nth-child(11) { left: 50%; bottom: 15%; }
         &:nth-child(12) { left: 30%; bottom: 40%; }
@@ -101,7 +102,6 @@
         
         z-index: 11;
     
-        /* Natychmiastowe włączenie i wyłączenie */
         &.visible {
             visibility: visible;
             opacity: 1;

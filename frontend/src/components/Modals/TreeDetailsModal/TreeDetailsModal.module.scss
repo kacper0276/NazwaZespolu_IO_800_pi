@@ -1,0 +1,242 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContainer {
+    background-color: #313131;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 1000px;
+    height: 90vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    transition: color 0.3s;
+}
+
+.closeButton:hover {
+    color: #888;
+}
+
+.modalBody {
+    display: flex;
+    flex: 1;
+    gap: 20px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.imageSection {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.treeImage {
+    width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.challengeDetails {
+    flex: 3;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: #444 #222;
+}
+
+.challengeTitle {
+    font-size: 24px;
+    margin: 0;
+}
+
+.challengeDurationInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.challengeDuration {
+    color: #888;
+    font-size: 14px;
+    margin: 0;
+}
+
+.durationDays {
+    color: #4caf50;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.challengeTypeInfo {
+    display: flex;
+    gap: 10px;
+}
+
+.difficultyBadge,
+.skinBadge {
+    background-color: #444;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    color: #fff;
+}
+
+.progressSection {
+    background-color: #222;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.progressBar {
+    width: 100%;
+    height: 10px;
+    background-color: #444;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progressFill {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.3s ease;
+}
+
+.progressText {
+    color: #fff;
+    font-size: 14px;
+}
+
+.challengeDescription {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.4; 
+    padding: 10px;
+    background-color: #222;
+    border-radius: 8px;
+    overflow-y: auto; 
+    scrollbar-width: thin;
+    scrollbar-color: #444 #222;
+
+
+    max-height: 10rem;
+
+    transition: max-height 0.3s ease;
+
+
+    &.short {
+        overflow: hidden; 
+    }
+}
+.updatesSection {
+    flex-grow: 1;
+    background-color: #222;
+    border-radius: 8px;
+    padding: 15px;
+    color: #f0f0f0;
+    min-height: 40%;
+    max-height: 50%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #444 #222;
+}
+
+.updatesHeader {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.updatesList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.updateItem {
+    padding: 10px;
+    border-bottom: 1px solid #444;
+}
+
+.updateItem:last-child {
+    border-bottom: none;
+}
+
+.updateHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.updateAuthor {
+    color: #4caf50;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.updateDate {
+    font-size: 12px;
+    color: #888;
+}
+
+.updateContent {
+    font-size: 14px;
+    color: #bbb;
+    margin: 8px 0;
+}
+
+.updateImageContainer {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.updateImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.updateImage:hover {
+    transform: scale(1.02);
+}
