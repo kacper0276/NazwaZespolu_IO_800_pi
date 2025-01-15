@@ -27,12 +27,14 @@ const getTreeType = (difficulty: string) => {
 const getTreePath = (difficulty: string, treeSkin: string) => {
   const treeType = getTreeType(difficulty.toLowerCase());
   const isPremium = treeSkin === "PremiumSkin";
-  
+
   if (isPremium) {
     return (index: number) =>
-      import(`../../../assets/images/Trees/${treeType}Premium/${index + 1}p.png`);
+      import(
+        `../../../assets/images/Trees/${treeType}Premium/${index + 1}p.png`
+      );
   }
-  
+
   return (index: number) =>
     import(`../../../assets/images/Trees/${treeType}/${index + 1}.png`);
 };
@@ -57,9 +59,13 @@ const ChallengesTab: React.FC = () => {
 
   const api = useApiJson();
   const userHook = useUser();
-  const [treeImages, setTreeImages] = useState<Map<string, string[]>>(new Map());
+  const [treeImages, setTreeImages] = useState<Map<string, string[]>>(
+    new Map()
+  );
   const [challenges, setChallenges] = useState<GoalType[]>([]);
-  const [selectedChallenge, setSelectedChallenge] = useState<GoalType | null>(null);
+  const [selectedChallenge, setSelectedChallenge] = useState<GoalType | null>(
+    null
+  );
 
   useEffect(() => {
     const loadImagesForChallenge = async (challenge: GoalType) => {
@@ -74,7 +80,7 @@ const ChallengesTab: React.FC = () => {
 
     const loadAllImages = async () => {
       const newTreeImages = new Map<string, string[]>();
-      
+
       for (const challenge of challenges) {
         const challengeKey = `${challenge.difficulty}-${challenge.treeSkin}`;
         if (!newTreeImages.has(challengeKey)) {
@@ -82,7 +88,7 @@ const ChallengesTab: React.FC = () => {
           newTreeImages.set(challengeKey, images);
         }
       }
-      
+
       setTreeImages(newTreeImages);
     };
 
@@ -120,10 +126,12 @@ const ChallengesTab: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(new Set());
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Set<number>>(
+    new Set()
+  );
 
   const toggleDescription = (index: number) => {
-    setExpandedDescriptions(prev => {
+    setExpandedDescriptions((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(index)) {
         newSet.delete(index);
@@ -137,7 +145,9 @@ const ChallengesTab: React.FC = () => {
   return (
     <div className={styles.challengesContainer}>
       <h2 className={styles.heading}>Wyzwania</h2>
-      <div className={`d-flex justify-content-center ${styles.createButtonWrapper}`}>
+      <div
+        className={`d-flex justify-content-center ${styles.createButtonWrapper}`}
+      >
         <button
           onClick={() => navigate("/create-challenge")}
           className={styles.createButton}
@@ -172,11 +182,9 @@ const ChallengesTab: React.FC = () => {
                   {convertIsoToLocal(challenge.endDate + "")}
                 </p>
               </div>
-              <p 
-  className={`${styles.description} overflow-auto`}
->
-  {challenge.description}
-</p>
+              <p className={`${styles.description} overflow-auto`}>
+                {challenge.description}
+              </p>
               <p className={styles.progress}>Postęp: {percentage}%</p>
               <button
                 className={styles.button}
