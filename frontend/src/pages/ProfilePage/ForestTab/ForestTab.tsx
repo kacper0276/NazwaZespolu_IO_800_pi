@@ -7,6 +7,7 @@ import smallTreePremium from "../../../assets/images/Trees/SmallTreePremium/10p.
 import mediumTreePremium from "../../../assets/images/Trees/MediumTreePremium/10p.png";
 import bigTreePremium from "../../../assets/images/Trees/BigTreePremium/10p.png";
 import TreeDetailModal from "../../../components/Modals/TreeDetailsModal/TreeDetailsModal";
+import useWebsiteTitle from "../../../hooks/useWebsiteTitle";
 
 type Challenge = {
   id: string;
@@ -20,6 +21,7 @@ type Challenge = {
 };
 
 const ForestTab = () => {
+  useWebsiteTitle("las");
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(
     null
   );
