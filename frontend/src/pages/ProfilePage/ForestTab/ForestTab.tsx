@@ -14,17 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ApiResponse } from "../../../types/api.types";
-
-type Challenge = {
-  id: string;
-  name: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  difficulty: string;
-  treeSkin: string;
-  progress: number;
-};
+import Spinner from "../../../components/Spinner/Spinner";
 
 const ForestTab = () => {
   const { t } = useTranslation();
@@ -37,209 +27,6 @@ const ForestTab = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [challenges, setChallenges] = useState<GoalType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const exampleChallenges: Challenge[] = [
-    {
-      id: "1",
-      name: "Codzienne bieganie",
-      description: "Biegaj codziennie przez 30 minut!",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "krzew",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "2",
-      name: "Zdrowe odżywianie",
-      description: "Jedz zdrowo każdego dnia",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "średnie drzewo",
-      treeSkin: "PremiumSkin",
-      progress: 100,
-    },
-    {
-      id: "3",
-      name: "Medytacja",
-      description: "Codzienna medytacja przez 15 minut",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "duże drzewo",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "4",
-      name: "Nauka języka",
-      description: "30 minut nauki języka dziennie",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "średnie drzewo",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "5",
-      name: "Czytanie książek",
-      description: "Przeczytaj 20 stron dziennie",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "krzew",
-      treeSkin: "PremiumSkin",
-      progress: 100,
-    },
-    {
-      id: "6",
-      name: "Rowerowa przejażdżka",
-      description: "Jeździj rowerem przez 10 km dziennie",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "średnie drzewo",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "7",
-      name: "Picie wody",
-      description: "Pij 2 litry wody codziennie",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "krzew",
-      treeSkin: "PremiumSkin",
-      progress: 100,
-    },
-    {
-      id: "8",
-      name: "Pisanie dziennika",
-      description: "Zapisz przemyślenia każdego dnia",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "średnie drzewo",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "9",
-      name: "Spacer po lesie",
-      description: "Spędź 30 minut na spacerze na świeżym powietrzu",
-      startDate: "2025-01-01",
-      endDate: "2025-02-15",
-      difficulty: "duże drzewo",
-      treeSkin: "PremiumSkin",
-      progress: 100,
-    },
-    {
-      id: "10",
-      name: "Gotowanie w domu",
-      description: "Przygotuj zdrowy posiłek codziennie",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "krzew",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "11",
-      name: "Codzienne bieganie",
-      description: "Biegaj codziennie przez 30 minut!",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "krzew",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "12",
-      name: "Zdrowe odżywianie",
-      description: "Jedz zdrowo każdego dnia",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "średnie drzewo",
-      treeSkin: "PremiumSkin",
-      progress: 100,
-    },
-    {
-      id: "13",
-      name: "Medytacja",
-      description:
-        "Codziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutfdsfds medytacja przez 15 mifdsfCodziennanutfdsfds medytacja przez 15 mifdsf",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "duże drzewo",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "14",
-      name: "Nauka języka",
-      description: "30 minut nauki języka dziennie",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "średnie drzewo",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "15",
-      name: "Czytanie książek",
-      description: "Przeczytaj 20 stron dziennie",
-      startDate: "2025-01-01",
-      endDate: "2025-02-01",
-      difficulty: "krzew",
-      treeSkin: "PremiumSkin",
-      progress: 100,
-    },
-    {
-      id: "16",
-      name: "Rowerowa przejażdżka",
-      description: "Jeździj rowerem przez 10 km dziennie",
-      startDate: "2025-01-01",
-      endDate: "2025-02-11",
-      difficulty: "średnie drzewo",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "17",
-      name: "Picie wody",
-      description: "Pij 2 litry wody codziennie",
-      startDate: "2025-01-01",
-      endDate: "2025-02-04",
-      difficulty: "krzew",
-      treeSkin: "PremiumSkin",
-      progress: 100,
-    },
-    {
-      id: "18",
-      name: "Pisanie dziennika",
-      description: "Zapisz przemyślenia każdego dnia",
-      startDate: "2025-01-01",
-      endDate: "2025-02-04",
-      difficulty: "średnie drzewo",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-    {
-      id: "19",
-      name: "Spacer po lesie",
-      description: "Spędź 30 minut na spacerze na świeżym powietrzu",
-      startDate: "2025-01-01",
-      endDate: "2025-05-01",
-      difficulty: "duże drzewo",
-      treeSkin: "PremiumSkin",
-      progress: 100,
-    },
-    {
-      id: "20",
-      name: "Gotowanie w domu",
-      description: "Przygotuj zdrowy posiłek codziennie",
-      startDate: "2025-01-01",
-      endDate: "2025-04-01",
-      difficulty: "krzew",
-      treeSkin: "StandardSkin",
-      progress: 100,
-    },
-  ];
 
   const getChallengeDurationInDays = (
     startDate: string,
@@ -297,7 +84,6 @@ const ForestTab = () => {
         `goals/find-complete-by-profile/${profileId}`
       )
       .then((res) => {
-        console.log(res);
         setChallenges(res.data.data ?? []);
       })
       .catch((_err) => {
@@ -311,36 +97,42 @@ const ForestTab = () => {
   return (
     <div className={styles.forestContainer}>
       <div className={styles.treePositions}>
-        {challenges.map((challenge) => (
-          <div
-            key={challenge._id}
-            className={styles.treeWrapper}
-            onClick={() => handleTreeClick(challenge)}
-          >
-            <img
-              src={getTreeImage(challenge.difficulty, challenge.treeSkin)}
-              alt={challenge.name}
-              className={`${styles.treeImage} ${getTreeSize(
-                challenge.difficulty
-              )}`}
-            />
-            <div className={styles.treeInfo}>
-              <h3>{challenge.name}</h3>
-              <p>{`${getChallengeDurationInDays(
-                new Date(challenge.startDate).toISOString(),
-                new Date(challenge.endDate).toISOString()
-              )} dni`}</p>
+        {loading ? (
+          <Spinner />
+        ) : (
+          challenges.map((challenge) => (
+            <div
+              key={challenge._id}
+              className={styles.treeWrapper}
+              onClick={() => handleTreeClick(challenge)}
+            >
+              <img
+                src={getTreeImage(challenge.difficulty, challenge.treeSkin)}
+                alt={challenge.name}
+                className={`${styles.treeImage} ${getTreeSize(
+                  challenge.difficulty
+                )}`}
+              />
+              <div className={styles.treeInfo}>
+                <h3>{challenge.name}</h3>
+                <p>{`${getChallengeDurationInDays(
+                  new Date(challenge.startDate).toISOString(),
+                  new Date(challenge.endDate).toISOString()
+                )} dni`}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
-      <TreeDetailModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        challenge={selectedChallenge}
-        getTreeImage={getTreeImage}
-      />
+      {selectedChallenge ? (
+        <TreeDetailModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          challenge={selectedChallenge}
+          getTreeImage={getTreeImage}
+        />
+      ) : null}
     </div>
   );
 };

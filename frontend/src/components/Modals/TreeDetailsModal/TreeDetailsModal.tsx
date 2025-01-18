@@ -4,6 +4,12 @@ import ImageModal from "../ImageModal/ImageModal";
 import PlaceholderPhoto from "../../../assets/images/MeadowBG/MeadowBG.png";
 import { GoalType } from "../../../types/IGoal";
 import { calculatePercentage } from "../../../helpers/calculatePercentage";
+import { GoalUpdateType } from "../../../types/IGoalUpdate";
+import { useApiJson } from "../../../config/api";
+import { ApiResponse } from "../../../types/api.types";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import Spinner from "../../Spinner/Spinner";
 
 //Placeholders for updates
 interface Update {
@@ -27,7 +33,11 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
   challenge,
   getTreeImage,
 }) => {
+  const { t } = useTranslation();
+  const api = useApiJson();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [goalUpdates, setGoalUpdates] = useState<GoalUpdateType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const getDurationInDays = () => {
     const start = new Date(challenge?.startDate ?? "");
@@ -59,18 +69,6 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
     },
   ];
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
-
   const handleImageClick = (imageUrl: string | undefined) => {
     if (imageUrl) {
       setSelectedImage(imageUrl);
@@ -81,6 +79,36 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
     return null;
   }
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    setLoading(true);
+    api
+      .get<ApiResponse<GoalUpdateType[]>>(`goal-updates/goal/${challenge._id}`)
+      .then((res) => {
+        setGoalUpdates(res.data.data ?? []);
+      })
+      .catch((_err) => {
+        setLoading(false);
+        toast.error(t("error-fetching-updates"));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  // useEffect(() => {
+  //   console.log(challenge);
+
+  // }, []);
   return (
     <>
       <div className={styles.modalOverlay} onClick={onClose}>
@@ -157,29 +185,34 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
               <div className={styles.updatesSection}>
                 <h3 className={styles.updatesHeader}>Challenge Updates</h3>
                 <div className={styles.updatesList}>
-                  {staticUpdates.map((update) => (
-                    <div key={update.id} className={styles.updateItem}>
-                      <div className={styles.updateHeader}>
-                        <span className={styles.updateAuthor}>
-                          {update.author}
-                        </span>
-                        <span className={styles.updateDate}>
-                          {new Date(update.date).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <p className={styles.updateContent}>{update.content}</p>
-                      {update.imageUrl && (
-                        <div className={styles.updateImageContainer}>
-                          <img
-                            src={update.imageUrl}
-                            alt="Update"
-                            className={styles.updateImage}
-                            onClick={() => handleImageClick(update.imageUrl)}
-                          />
+                  {loading ? (
+                    <Spinner />
+                  ) : (
+                    goalUpdates.map((update, index) => (
+                      <div key={index} className={styles.updateItem}>
+                        <div className={styles.updateHeader}>
+                          <span className={styles.updateDate}>
+                            {new Date(update.createdAt).toLocaleDateString()}
+                          </span>
                         </div>
-                      )}
-                    </div>
-                  ))}
+                        <p className={styles.updateContent}>{update.message}</p>
+                        {update.filename && (
+                          <div className={styles.updateImageContainer}>
+                            <img
+                              src={`/goalsUpdateImg/${update.filename}`}
+                              alt="Update"
+                              className={styles.updateImage}
+                              onClick={() =>
+                                handleImageClick(
+                                  `/goalsUpdateImg/${update.filename}`
+                                )
+                              }
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>
