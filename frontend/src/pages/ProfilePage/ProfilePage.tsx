@@ -5,7 +5,6 @@ import ChallengesTab from "./ChallengeTab/ChallengesTab";
 import PostsTab from "./PostsTab/PostsTab";
 import ForestTab from "./ForestTab/ForestTab";
 import styles from "./ProfilePage.module.scss";
-import { useUser } from "../../context/UserContext";
 import { ProfileType } from "../../types/IProfile";
 import { useApiJson } from "../../config/api";
 import { ApiResponse } from "../../types/api.types";
@@ -14,11 +13,14 @@ import { useTranslation } from "react-i18next";
 import Spinner from "../../components/Spinner/Spinner";
 import { UserType } from "../../types/IUser";
 import { GoalType } from "../../types/IGoal";
+import { useParams } from "react-router-dom";
+import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 
 const ProfilePage: React.FC = () => {
-  const userHook = useUser();
-  const api = useApiJson();
   const { t } = useTranslation();
+  useWebsiteTitle(t("posts"));
+  const api = useApiJson();
+  const { profileId } = useParams();
   const [activeTab, setActiveTab] = useState("posty");
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentListType, setCurrentListType] = useState<
@@ -55,7 +57,7 @@ const ProfilePage: React.FC = () => {
       case "wyzwania":
         return <ChallengesTab />;
       case "las":
-        return <ForestTab/>
+        return <ForestTab />;
       default:
         return null;
     }
@@ -67,7 +69,7 @@ const ProfilePage: React.FC = () => {
 
       try {
         const profileResponse = await api.get<ApiResponse<ProfileType>>(
-          `profiles/${userHook.user?.profileId}`
+          `profiles/${profileId}`
         );
         setProfileData(profileResponse.data.data);
 
@@ -114,7 +116,7 @@ const ProfilePage: React.FC = () => {
                 </div>
                 <h1
                   className={styles.username}
-                >{`${userHook.user?.firstname} ${userHook.user?.lastname}`}</h1>
+                >{`${userData?.firstname} ${userData?.lastname}`}</h1>
                 <p className={styles.stats}>
                   <span>
                     <strong>{posts.length}</strong> posty

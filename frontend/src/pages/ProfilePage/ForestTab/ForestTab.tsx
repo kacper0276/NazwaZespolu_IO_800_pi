@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ForestTab.module.scss";
 import smallTreeStandard from "../../../assets/images/Trees/SmallTree/10.png";
 import mediumTreeStandard from "../../../assets/images/Trees/MediumTree/10.png";
@@ -8,6 +8,12 @@ import mediumTreePremium from "../../../assets/images/Trees/MediumTreePremium/10
 import bigTreePremium from "../../../assets/images/Trees/BigTreePremium/10p.png";
 import TreeDetailModal from "../../../components/Modals/TreeDetailsModal/TreeDetailsModal";
 import useWebsiteTitle from "../../../hooks/useWebsiteTitle";
+import { GoalType } from "../../../types/IGoal";
+import { useApiJson } from "../../../config/api";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ApiResponse } from "../../../types/api.types";
 
 type Challenge = {
   id: string;
@@ -21,11 +27,16 @@ type Challenge = {
 };
 
 const ForestTab = () => {
-  useWebsiteTitle("las");
-  const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(
+  const { t } = useTranslation();
+  useWebsiteTitle(t("forest"));
+  const api = useApiJson();
+  const { profileId } = useParams();
+  const [selectedChallenge, setSelectedChallenge] = useState<GoalType | null>(
     null
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [challenges, setChallenges] = useState<GoalType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const exampleChallenges: Challenge[] = [
     {
       id: "1",
@@ -269,7 +280,7 @@ const ForestTab = () => {
     }
   };
 
-  const handleTreeClick = (challenge: Challenge) => {
+  const handleTreeClick = (challenge: GoalType) => {
     setSelectedChallenge(challenge);
     setIsModalOpen(true);
   };
@@ -279,12 +290,30 @@ const ForestTab = () => {
     setSelectedChallenge(null);
   };
 
+  useEffect(() => {
+    setLoading(true);
+    api
+      .get<ApiResponse<GoalType[]>>(
+        `goals/find-complete-by-profile/${profileId}`
+      )
+      .then((res) => {
+        console.log(res);
+        setChallenges(res.data.data ?? []);
+      })
+      .catch((_err) => {
+        toast.error(t("error-fetching-data"));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div className={styles.forestContainer}>
       <div className={styles.treePositions}>
-        {exampleChallenges.map((challenge) => (
+        {challenges.map((challenge) => (
           <div
-            key={challenge.id}
+            key={challenge._id}
             className={styles.treeWrapper}
             onClick={() => handleTreeClick(challenge)}
           >
@@ -298,8 +327,8 @@ const ForestTab = () => {
             <div className={styles.treeInfo}>
               <h3>{challenge.name}</h3>
               <p>{`${getChallengeDurationInDays(
-                challenge.startDate,
-                challenge.endDate
+                new Date(challenge.startDate).toISOString(),
+                new Date(challenge.endDate).toISOString()
               )} dni`}</p>
             </div>
           </div>

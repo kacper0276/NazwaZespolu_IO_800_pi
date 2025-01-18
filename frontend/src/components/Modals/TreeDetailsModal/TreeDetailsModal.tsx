@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "./TreeDetailsModal.module.scss";
 import ImageModal from "../ImageModal/ImageModal";
 import PlaceholderPhoto from "../../../assets/images/MeadowBG/MeadowBG.png";
+import { GoalType } from "../../../types/IGoal";
+import { calculatePercentage } from "../../../helpers/calculatePercentage";
 
 //Placeholders for updates
 interface Update {
@@ -26,7 +28,7 @@ interface Challenge {
 interface TreeDetailModalProps {
   isOpen: boolean;
   onClose: () => void;
-  challenge: Challenge | null;
+  challenge: GoalType | null;
   getTreeImage: (difficulty: string, treeSkin: string) => string;
 }
 
@@ -138,11 +140,20 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
                 <div className={styles.progressBar}>
                   <div
                     className={styles.progressFill}
-                    style={{ width: `${challenge.progress}%` }}
+                    style={{
+                      width: `${calculatePercentage(
+                        challenge.startDate + "",
+                        challenge.endDate + ""
+                      )}%`,
+                    }}
                   ></div>
                 </div>
                 <span className={styles.progressText}>
-                  {challenge.progress}% Complete
+                  {calculatePercentage(
+                    challenge.startDate + "",
+                    challenge.endDate + ""
+                  )}
+                  % Complete
                 </span>
               </div>
 
