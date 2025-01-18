@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./TreeDetailsModal.module.scss";
 import ImageModal from "../ImageModal/ImageModal";
-import PlaceholderPhoto from "../../../assets/images/MeadowBG/MeadowBG.png";
 import { GoalType } from "../../../types/IGoal";
 import { calculatePercentage } from "../../../helpers/calculatePercentage";
 import { GoalUpdateType } from "../../../types/IGoalUpdate";
@@ -10,15 +9,6 @@ import { ApiResponse } from "../../../types/api.types";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import Spinner from "../../Spinner/Spinner";
-
-//Placeholders for updates
-interface Update {
-  id: string;
-  date: string;
-  content: string;
-  author: string;
-  imageUrl?: string;
-}
 
 interface TreeDetailModalProps {
   isOpen: boolean;
@@ -45,29 +35,6 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
     const diffTime = Math.abs(end.getTime() - start.getTime());
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   };
-
-  const staticUpdates: Update[] = [
-    {
-      id: "1",
-      date: "2024-01-10",
-      content: "Challenge kickoff! Here's what you're working towards.",
-      author: "Challenge Team",
-      imageUrl: PlaceholderPhoto,
-    },
-    {
-      id: "2",
-      date: "2024-01-11",
-      content: "First milestone reached! Keep up the great work.",
-      author: "Challenge Team",
-    },
-    {
-      id: "3",
-      date: "2024-01-12",
-      content: "Halfway point celebration - check out the progress!",
-      author: "Challenge Team",
-      imageUrl: PlaceholderPhoto,
-    },
-  ];
 
   const handleImageClick = (imageUrl: string | undefined) => {
     if (imageUrl) {
@@ -105,10 +72,6 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
     };
   }, [isOpen]);
 
-  // useEffect(() => {
-  //   console.log(challenge);
-
-  // }, []);
   return (
     <>
       <div className={styles.modalOverlay} onClick={onClose}>
