@@ -14,6 +14,7 @@ import { GoalsModule } from './goals/goals.module';
 import { PaymentsModule } from './payments/payments.module';
 import { PlantsModule } from './plants/plants.module';
 import { CommentsModule } from './comments/comments.module';
+import { GoalUpdateModule } from './goalupdates/goalupdates.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { CommentsModule } from './comments/comments.module';
     PaymentsModule,
     PlantsModule,
     CommentsModule,
+    GoalUpdateModule,
   ],
   controllers: [AppController],
   providers: [AppService],

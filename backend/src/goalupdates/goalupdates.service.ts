@@ -6,7 +6,13 @@ import { GoalUpdate } from './entities/goalupdate.entity';
 export class GoalUpdateService {
   constructor(private readonly goalUpdateRepository: GoalUpdateRepository) {}
 
-  async createGoalUpdate(createGoalUpdateDto: Partial<GoalUpdate>): Promise<GoalUpdate> {
+  async createGoalUpdate(
+    createGoalUpdateDto: Partial<GoalUpdate>,
+    imgName: string,
+  ): Promise<GoalUpdate> {
+    createGoalUpdateDto.filename = imgName;
+    createGoalUpdateDto.createdAt = new Date();
+
     return this.goalUpdateRepository.createGoalUpdate(createGoalUpdateDto);
   }
 
@@ -18,8 +24,8 @@ export class GoalUpdateService {
     return this.goalUpdateRepository.findById(id);
   }
 
-  async findByPostId(postId: number): Promise<GoalUpdate[]> {
-    return this.goalUpdateRepository.findByPostId(postId);
+  async findByGoalId(goalId: string): Promise<GoalUpdate[]> {
+    return this.goalUpdateRepository.findByGoalId(goalId);
   }
 
   async updateGoalUpdate(

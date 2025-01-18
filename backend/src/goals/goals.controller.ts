@@ -18,7 +18,7 @@ import { Goal } from './entities/goal.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { response, Response } from 'express';
+import { Response } from 'express';
 import { likeAction } from './dto/likeAction.dto';
 
 const storage = {

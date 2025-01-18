@@ -10,7 +10,9 @@ export class GoalUpdateRepository {
     private readonly goalUpdateModel: Model<GoalUpdateDocument>,
   ) {}
 
-  async createGoalUpdate(goalUpdateData: Partial<GoalUpdate>): Promise<GoalUpdate> {
+  async createGoalUpdate(
+    goalUpdateData: Partial<GoalUpdate>,
+  ): Promise<GoalUpdate> {
     const newGoalUpdate = new this.goalUpdateModel(goalUpdateData);
     return newGoalUpdate.save();
   }
@@ -23,8 +25,8 @@ export class GoalUpdateRepository {
     return this.goalUpdateModel.findById(id).exec();
   }
 
-  async findByPostId(postId: number): Promise<GoalUpdate[]> {
-    return this.goalUpdateModel.find({ postId }).exec();
+  async findByGoalId(goalId: string): Promise<GoalUpdate[]> {
+    return this.goalUpdateModel.find({ goalId }).exec();
   }
 
   async updateGoalUpdate(
