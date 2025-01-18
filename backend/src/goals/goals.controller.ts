@@ -95,6 +95,33 @@ export class GoalsController {
     });
   }
 
+  @Get('find-by-profile-and-complete-is-false/:profileId')
+  async findByProfileIdAndDoneIsFalse(
+    @Param('profileId') profileId: string,
+    @Res() response: Response,
+  ) {
+    const goals =
+      await this.goalsService.findByProfileIdAndDoneIsFalse(profileId);
+
+    response.status(HttpStatus.OK).send({
+      message: 'profile-challanges',
+      data: goals,
+    });
+  }
+
+  @Get('find-complete-by-profile/:profileId')
+  async findCompleteByProfileId(
+    @Param('profileId') profileId: string,
+    @Res() response: Response,
+  ) {
+    const goals = await this.goalsService.findCompleteByProfileId(profileId);
+
+    response.status(HttpStatus.OK).send({
+      message: 'complete-challanges',
+      data: goals,
+    });
+  }
+
   @Get('find-posts-by-profile/:profileId')
   async findPostsByProfileId(
     @Param('profileId') profileId: string,

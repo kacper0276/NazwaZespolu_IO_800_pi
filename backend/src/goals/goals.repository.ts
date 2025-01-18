@@ -46,6 +46,16 @@ export class GoalRepository {
     return goals;
   }
 
+  async findByProfileIdAndDoneIsFalse(
+    profileId: string,
+  ): Promise<Goal[] | null> {
+    return await this.goalModel.find({ profileId, isDone: false }).exec();
+  }
+
+  async findCompleteByProfileId(profileId: string): Promise<Goal[] | null> {
+    return await this.goalModel.find({ profileId, isDone: true }).exec();
+  }
+
   async findPostsByProfileId(profileId: string): Promise<Goal[] | null> {
     const goals = await this.goalModel.find({ profileId, isPost: true }).exec();
 
