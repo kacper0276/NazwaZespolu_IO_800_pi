@@ -41,7 +41,7 @@ const content = (
         }
       />
       <Route
-        path="/challenge-note"
+        path="/challenge-note/:goalId"
         element={
           <AuthenticatedRoute>
             <ChallengeNote />

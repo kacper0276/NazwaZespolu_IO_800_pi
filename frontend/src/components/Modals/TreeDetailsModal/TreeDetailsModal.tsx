@@ -14,17 +14,6 @@ interface Update {
   imageUrl?: string;
 }
 
-interface Challenge {
-  id: string;
-  name: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  difficulty: string;
-  treeSkin: string;
-  progress: number;
-}
-
 interface TreeDetailModalProps {
   isOpen: boolean;
   onClose: () => void;

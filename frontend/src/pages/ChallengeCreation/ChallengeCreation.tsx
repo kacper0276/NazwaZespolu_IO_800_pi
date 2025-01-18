@@ -180,9 +180,7 @@ const ChallengeCreation: React.FC = () => {
     formData.append("treeSkin", challenge.treeSkin);
     formData.append("tags", JSON.stringify(challenge.tags));
     formData.append("isPost", String(challenge.isPost));
-    if (challenge.image) {
-      formData.append("image", challenge.image);
-    }
+    if (challenge.image) formData.append("image", challenge.image);
     formData.append("profileId", userHook.user?.profileId ?? "");
 
     try {

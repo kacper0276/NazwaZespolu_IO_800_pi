@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import styles from "./ChallengeNote.module.scss";
+import { useTranslation } from "react-i18next";
+import useWebsiteTitle from "../../hooks/useWebsiteTitle";
+import { useApiMultipart } from "../../config/api";
+import { useNavigate, useParams } from "react-router-dom";
+import { ApiResponse } from "../../types/api.types";
+import { toast } from "react-toastify";
 
 interface ChallengeNote {
   text: string;
@@ -7,6 +13,11 @@ interface ChallengeNote {
 }
 
 const ChallengeNote: React.FC = () => {
+  const { t } = useTranslation();
+  useWebsiteTitle(t("add-note"));
+  const api = useApiMultipart();
+  const { goalId } = useParams();
+  const navigate = useNavigate();
   const [note, setNote] = useState<ChallengeNote>({ text: "", image: null });
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -21,8 +32,24 @@ const ChallengeNote: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(note);
-    alert("Dodano aktualizację!");
+    const formData = new FormData();
+    formData.append("message", note.text);
+
+    if (goalId) formData.append("goalId", goalId);
+
+    if (note.image) formData.append("image", note.image);
+
+    api
+      .post<ApiResponse<null>>(`goal-updates`, formData)
+      .then((res) => {
+        if (res.status === 201) {
+          toast.success(t(res.data.message));
+          navigate(-1);
+        }
+      })
+      .catch((_err) => {
+        toast.error(t("error-adding-note"));
+      });
   };
 
   return (
