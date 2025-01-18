@@ -89,12 +89,6 @@ export class GoalUpdateController {
     @Res() response: Response,
   ) {
     const goalUpdates = await this.goalUpdateService.findByGoalId(goalId);
-    if (!goalUpdates || goalUpdates.length === 0) {
-      throw new HttpException(
-        'No challange updates found for this post',
-        HttpStatus.NOT_FOUND,
-      );
-    }
 
     response.status(HttpStatus.OK).send({
       message: 'goalchallange-for-post',
