@@ -18,7 +18,7 @@ import { Goal } from './entities/goal.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { response, Response } from 'express';
+import { Response } from 'express';
 import { likeAction } from './dto/likeAction.dto';
 
 const storage = {
@@ -91,6 +91,33 @@ export class GoalsController {
 
     response.status(HttpStatus.OK).send({
       message: 'profile-challanges',
+      data: goals,
+    });
+  }
+
+  @Get('find-by-profile-and-complete-is-false/:profileId')
+  async findByProfileIdAndDoneIsFalse(
+    @Param('profileId') profileId: string,
+    @Res() response: Response,
+  ) {
+    const goals =
+      await this.goalsService.findByProfileIdAndDoneIsFalse(profileId);
+
+    response.status(HttpStatus.OK).send({
+      message: 'profile-challanges',
+      data: goals,
+    });
+  }
+
+  @Get('find-complete-by-profile/:profileId')
+  async findCompleteByProfileId(
+    @Param('profileId') profileId: string,
+    @Res() response: Response,
+  ) {
+    const goals = await this.goalsService.findCompleteByProfileId(profileId);
+
+    response.status(HttpStatus.OK).send({
+      message: 'complete-challanges',
       data: goals,
     });
   }

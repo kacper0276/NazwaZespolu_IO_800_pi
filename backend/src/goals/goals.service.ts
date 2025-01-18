@@ -32,6 +32,16 @@ export class GoalsService {
     return this.goalsRepository.findByProfileId(profileId);
   }
 
+  async findByProfileIdAndDoneIsFalse(
+    profileId: string,
+  ): Promise<Goal[] | null> {
+    return this.goalsRepository.findByProfileIdAndDoneIsFalse(profileId);
+  }
+
+  async findCompleteByProfileId(profileId: string): Promise<Goal[] | null> {
+    return this.goalsRepository.findCompleteByProfileId(profileId);
+  }
+
   async findPostsByProfileId(profileId: string): Promise<Goal[] | null> {
     return this.goalsRepository.findPostsByProfileId(profileId);
   }

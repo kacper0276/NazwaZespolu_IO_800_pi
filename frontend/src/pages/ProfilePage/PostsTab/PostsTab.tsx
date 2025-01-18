@@ -2,15 +2,6 @@ import React from "react";
 import styles from "./PostsTab.module.scss";
 import { GoalType } from "../../../types/IGoal";
 
-interface Post {
-  id: number;
-  images: string[];
-  title: string;
-  likes: number;
-  comments: number;
-  author: string;
-}
-
 interface PostsTabProps {
   posts: GoalType[];
   onPostClick: (post: GoalType) => void;

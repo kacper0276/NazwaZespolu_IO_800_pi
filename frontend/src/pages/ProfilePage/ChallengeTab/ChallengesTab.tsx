@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./ChallengesTab.module.scss";
 import ChallengeDetailsModal from "../../../components/Modals/ChallengeDetailsModal/ChallengeDetailsModal";
 import { useApiJson } from "../../../config/api";
-import { useUser } from "../../../context/UserContext";
 import useWebsiteTitle from "../../../hooks/useWebsiteTitle";
 import { useTranslation } from "react-i18next";
 import { ApiResponse } from "../../../types/api.types";
 import { GoalType } from "../../../types/IGoal";
 import { toast } from "react-toastify";
 import { convertIsoToLocal } from "../../../helpers/convertDate";
+import { calculatePercentage } from "../../../helpers/calculatePercentage";
 
 const getTreeType = (difficulty: string) => {
   switch (difficulty) {
@@ -39,26 +39,11 @@ const getTreePath = (difficulty: string, treeSkin: string) => {
     import(`../../../assets/images/Trees/${treeType}/${index + 1}.png`);
 };
 
-const calculatePercentage = (start: string, end: string): number => {
-  const startDate = new Date(start);
-  const endDate = new Date(end);
-  const today = new Date();
-
-  if (today < startDate) return 0;
-  if (today > endDate) return 100;
-
-  const totalTime = endDate.getTime() - startDate.getTime();
-  const elapsed = today.getTime() - startDate.getTime();
-
-  return Math.floor((elapsed / totalTime) * 100);
-};
-
 const ChallengesTab: React.FC = () => {
   const { t } = useTranslation();
   useWebsiteTitle(t("challenges"));
-
+  const { profileId } = useParams();
   const api = useApiJson();
-  const userHook = useUser();
   const [treeImages, setTreeImages] = useState<Map<string, string[]>>(
     new Map()
   );
@@ -100,7 +85,7 @@ const ChallengesTab: React.FC = () => {
   useEffect(() => {
     api
       .get<ApiResponse<GoalType[]>>(
-        `goals/find-by-profile/${userHook.user?.profileId}`
+        `goals/find-by-profile-and-complete-is-false/${profileId}`
       )
       .then((res) => {
         setChallenges(res.data?.data ?? []);
@@ -142,6 +127,7 @@ const ChallengesTab: React.FC = () => {
     });
   };
 
+  // TODO: PIPE do ukrywania długiego tekstu
   return (
     <div className={styles.challengesContainer}>
       <h2 className={styles.heading}>Wyzwania</h2>

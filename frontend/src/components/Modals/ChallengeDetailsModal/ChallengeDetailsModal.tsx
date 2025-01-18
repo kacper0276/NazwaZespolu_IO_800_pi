@@ -4,6 +4,12 @@ import ImageModal from "../../Modals/ImageModal/ImageModal";
 import { useNavigate } from "react-router-dom";
 import { GoalType } from "../../../types/IGoal";
 import { convertIsoToLocal } from "../../../helpers/convertDate";
+import { GoalUpdateType } from "../../../types/IGoalUpdate";
+import { useApiJson } from "../../../config/api";
+import { ApiResponse } from "../../../types/api.types";
+import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import Spinner from "../../Spinner/Spinner";
 
 type ChallengeDetailsModalProps = {
   challenge: GoalType | null;
@@ -15,7 +21,12 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
   challenge,
   onClose,
 }) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const api = useApiJson();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [goalUpdates, setGoalUpdates] = useState<GoalUpdateType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Wyłączanie przewijania strony w tle
   useEffect(() => {
@@ -48,11 +59,25 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
     return Math.floor((elapsedTime / totalTime) * 100);
   };
 
-  const navigate = useNavigate();
-
   const handleButtonClick = () => {
-    navigate("/challenge-note");
+    navigate(`/challenge-note/${challenge._id}`);
   };
+
+  useEffect(() => {
+    setLoading(true);
+    api
+      .get<ApiResponse<GoalUpdateType[]>>(`goal-updates/goal/${challenge._id}`)
+      .then((res) => {
+        setGoalUpdates(res.data.data ?? []);
+      })
+      .catch((_err) => {
+        setLoading(false);
+        toast.error(t("error-fetching-updates"));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <>
@@ -63,9 +88,12 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
           </button>
           <h2 className={styles.modalTitle}>{challenge.name}</h2>
           <span className={styles.modalLabel}>Opis:</span>
-          <p className={styles.modalText} style={{ maxHeight: "4.5rem", overflow: "auto" }}>
- {challenge.description}
-</p>
+          <p
+            className={styles.modalText}
+            style={{ maxHeight: "4.5rem", overflow: "auto" }}
+          >
+            {challenge.description}
+          </p>
 
           <p className={styles.modalText}>
             <span className={styles.modalLabel}>Data rozpoczęcia:</span>{" "}
@@ -99,25 +127,32 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
             </button>
 
             <ul className={styles.updateList}>
-              {challenge.updates.map((update, index) => (
-                <li key={index}>
-                  <div className={styles.updateContainer}>
-                    <p>{update.text}</p>
-                    {update.image && (
-                      <div className={styles.imageWrapper}>
-                        <img
-                          src={update.image}
-                          alt="Update visual"
-                          onClick={() =>
-                            update.image && setSelectedImage(update.image)
-                          }
-                          className={styles.modalImage}
-                        />
-                      </div>
-                    )}
-                  </div>
-                </li>
-              ))}
+              {loading ? (
+                <Spinner />
+              ) : (
+                goalUpdates.map((update, index) => (
+                  <li key={index}>
+                    <div className={styles.updateContainer}>
+                      <p>{update.message}</p>
+                      {update.filename && (
+                        <div className={styles.imageWrapper}>
+                          <img
+                            src={`/goalsUpdateImg/${update.filename}`}
+                            alt="Update visual"
+                            onClick={() =>
+                              update.filename &&
+                              setSelectedImage(
+                                `/goalsUpdateImg/${update.filename}`
+                              )
+                            }
+                            className={styles.modalImage}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </li>
+                ))
+              )}
             </ul>
           </div>
         </div>

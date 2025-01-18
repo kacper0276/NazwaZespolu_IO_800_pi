@@ -1,6 +1,6 @@
-export type goalUpdateData = {
+export interface GoalUpdateType {
   message: string;
-  filename?: string;
+  filename: string;
   goalId: number;
   createdAt: Date;
-};
+}
