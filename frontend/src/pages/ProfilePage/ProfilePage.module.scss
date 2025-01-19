@@ -63,6 +63,7 @@ $green-darkcolor: #00957f;
       }
       .infoContainer {
         padding-top: 12rem;
+        position: relative;
       }
       .avatarContainer {
         position: relative;
@@ -101,6 +102,22 @@ $green-darkcolor: #00957f;
           &:hover::before {
             background: linear-gradient(to right, #00957f, #45c032);
           }
+        }
+      }
+
+      .followButton {
+        background-color: $green-lightcolor;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        z-index: 1000;
+
+        &:hover {
+          background-color: $green-darkcolor;
         }
       }
 

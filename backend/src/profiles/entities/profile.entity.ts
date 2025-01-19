@@ -6,23 +6,22 @@ export type ProfileDocument = Profile & Document;
 
 @Schema()
 export class Profile extends Document {
+  _id: MongooseSchema.Types.ObjectId;
+
   @Prop({ type: [String], default: [] })
   currentGoals: string[];
 
   @Prop({ type: [String], default: [] })
   completedGoals: string[];
 
-  @Prop({ type: [Number], default: [] })
-  followers: number[];
+  @Prop({ type: [String], default: [] })
+  followers: string[];
 
-  @Prop({ type: [Number], default: [] })
-  following: number[];
+  @Prop({ type: [String], default: [] })
+  following: string[];
 
   @Prop({ default: false })
   premium: boolean;
-
-  @Prop({ type: [Number], default: [] })
-  posts: number[];
 
   @Prop({ required: true })
   userId: string;

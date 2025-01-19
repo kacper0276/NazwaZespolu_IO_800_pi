@@ -15,6 +15,7 @@ const Sidebar: React.FC = () => {
   const { t } = useTranslation();
   const api = useApiJson();
   const userHook = useUser();
+  const navigate = useNavigate();
   const [isMinimized, setIsMinimized] = useState(false);
   const [activePanel, setActivePanel] = useState<
     "search" | "notifications" | "messages" | null
@@ -26,7 +27,16 @@ const Sidebar: React.FC = () => {
   const [results, setResults] = useState<UserType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filteredPosts, setFilteredPosts] = useState<typeof examplePosts>([]);
-  const navigate = useNavigate();
+  const [showOptions, setShowOptions] = useState<{
+    [key: string]: UserType | null;
+  }>({});
+
+  const handleClick = (user: UserType) => {
+    setShowOptions((prev) => ({
+      ...prev,
+      [user._id]: prev[user._id] ? null : user,
+    }));
+  };
 
   const startChat = (user: UserType) => {
     setActivePanel(null);
@@ -34,9 +44,15 @@ const Sidebar: React.FC = () => {
     setIsMinimized(false);
     navigate(`/messages?useremail=${encodeURIComponent(user.email)}`);
   };
+
+  const goToProfile = (user: UserType) => {
+    navigate(`/profile-page/${user.profileId}`);
+  };
+
   const toggleSearchMode = (mode: "users" | "posts") => {
     setSearchMode(mode);
   };
+
   const togglePanel = (panel: "search" | "notifications" | "messages") => {
     if (activePanel === panel) {
       setActivePanel(null);
@@ -266,8 +282,11 @@ const Sidebar: React.FC = () => {
                       {results.map((user) => (
                         <li
                           key={user._id}
-                          className={styles.resultItem}
-                          onClick={() => startChat(user)}
+                          className={`${styles.resultItem} ${
+                            showOptions[user._id] ? styles.showOptions : ""
+                          }`}
+                          // onClick={() => startChat(user)}
+                          onClick={() => handleClick(user)}
                         >
                           <img
                             src={ProfilePicPlaceholder}
@@ -277,6 +296,23 @@ const Sidebar: React.FC = () => {
                             {user.firstname} {user.lastname}
                           </strong>{" "}
                           - {user.email}
+                          {showOptions[user._id] && (
+                            <div className={styles.options}>
+                              <button
+                                className={styles.optionButton}
+                                onClick={() => startChat(user)}
+                              >
+                                Start Chat
+                              </button>
+                              <button
+                                className={styles.optionButton}
+                                onClick={() => goToProfile(user)}
+                                disabled={user.profileId === ""}
+                              >
+                                View Profile
+                              </button>
+                            </div>
+                          )}
                         </li>
                       ))}
                     </ul>

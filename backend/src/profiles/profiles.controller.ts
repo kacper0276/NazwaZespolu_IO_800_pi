@@ -9,6 +9,8 @@ import {
   HttpException,
   HttpStatus,
   Res,
+  Patch,
+  Query,
 } from '@nestjs/common';
 import { ProfilesService } from './profiles.service';
 import { Profile } from './entities/profile.entity';
@@ -26,9 +28,8 @@ export class ProfilesController {
     @Res() response: Response,
   ) {
     try {
-      const profile = await this.profilesService.createProfile(
-        createProfileDto,
-      );
+      const profile =
+        await this.profilesService.createProfile(createProfileDto);
 
       response.status(HttpStatus.OK).send({
         message: 'create-profile',
@@ -50,7 +51,7 @@ export class ProfilesController {
   }
 
   @Get(':id')
-  async findById(@Param('id') id: number, @Res() response: Response) {
+  async findById(@Param('id') id: string, @Res() response: Response) {
     const profile = await this.profilesService.findById(id);
     if (!profile) {
       throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
@@ -71,7 +72,7 @@ export class ProfilesController {
     if (!profile) {
       throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
     }
-    
+
     response.status(HttpStatus.OK).send({
       message: 'profile-data',
       data: profile,
@@ -80,7 +81,7 @@ export class ProfilesController {
 
   @Put(':id')
   async updateProfile(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateProfileDto: Partial<Profile>,
     @Res() response: Response,
   ) {
@@ -92,13 +93,37 @@ export class ProfilesController {
       if (!updatedProfile) {
         throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
       }
-      
+
       response.status(HttpStatus.OK).send({
         message: 'update-profile',
         data: updatedProfile,
       });
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Patch('follow')
+  async followAction(
+    @Query('follower') follower: string,
+    @Query('followee') followee: string,
+  ) {
+    try {
+      await this.profilesService.followAction(follower, followee);
+
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Follow action successful',
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      } else {
+        throw new HttpException(
+          'Internal server error',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
     }
   }
 
