@@ -19,7 +19,7 @@ export class ProfilesRepository {
     return this.profileModel.find().exec();
   }
 
-  async findById(id: number): Promise<Profile | null> {
+  async findById(id: string): Promise<Profile | null> {
     return this.profileModel.findOne({ _id: id }).exec();
   }
 
@@ -28,11 +28,11 @@ export class ProfilesRepository {
   }
 
   async updateProfile(
-    id: number,
+    id: string,
     updateData: Partial<Profile>,
   ): Promise<Profile | null> {
     return this.profileModel
-      .findOneAndUpdate({ id }, updateData, { new: true })
+      .findOneAndUpdate({ _id: id }, updateData, { new: true })
       .exec();
   }
 
