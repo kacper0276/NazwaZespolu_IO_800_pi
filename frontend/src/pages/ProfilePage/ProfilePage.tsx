@@ -91,7 +91,7 @@ const ProfilePage: React.FC = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [profileId]);
 
   return (
     <div className={styles.pageBg}>
