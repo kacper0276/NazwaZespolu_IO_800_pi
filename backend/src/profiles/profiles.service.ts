@@ -55,16 +55,15 @@ export class ProfilesService {
       followeeProfile.followers.push(follower);
     }
 
-    const res = await this.profilesRepository.updateProfile(
-      String(followerProfile._id),
-      {
-        following: followerProfile.following,
-      },
-    );
+    await this.profilesRepository.updateProfile(String(followerProfile._id), {
+      following: followerProfile.following,
+    });
     await this.profilesRepository.updateProfile(String(followeeProfile._id), {
       followers: followeeProfile.followers,
     });
+  }
 
-    console.log(res);
+  async getFollowersAndFollowing(profileId: string) {
+    return this.profilesRepository.getFollowersAndFollowing(profileId);
   }
 }

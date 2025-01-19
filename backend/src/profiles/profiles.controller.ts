@@ -79,6 +79,32 @@ export class ProfilesController {
     });
   }
 
+  @Get('followers-following-list/:id')
+  async getFollowersAndFollowing(
+    @Param('id') id: string,
+    @Res() response: Response,
+  ) {
+    try {
+      const users = await this.profilesService.getFollowersAndFollowing(id);
+
+      console.log(users);
+
+      response.status(HttpStatus.OK).send({
+        message: 'followers-and-following',
+        data: users,
+      });
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      } else {
+        throw new HttpException(
+          'Internal server error',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+    }
+  }
+
   @Put(':id')
   async updateProfile(
     @Param('id') id: string,
