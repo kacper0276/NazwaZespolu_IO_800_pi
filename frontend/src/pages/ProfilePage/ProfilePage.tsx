@@ -15,11 +15,13 @@ import { UserType } from "../../types/IUser";
 import { GoalType } from "../../types/IGoal";
 import { useParams } from "react-router-dom";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
+import { useUser } from "../../context/UserContext";
 
 const ProfilePage: React.FC = () => {
   const { t } = useTranslation();
   useWebsiteTitle(t("posts"));
   const api = useApiJson();
+  const userHook = useUser();
   const { profileId } = useParams();
   const [activeTab, setActiveTab] = useState("posty");
   const [isModalOpen, setModalOpen] = useState(false);
@@ -32,6 +34,7 @@ const ProfilePage: React.FC = () => {
   const [userData, setUserData] = useState<UserType>();
   const [posts, setPosts] = useState<GoalType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   const handlePostClick = (post: any) => {
     setSelectedPost(post);
@@ -63,35 +66,66 @@ const ProfilePage: React.FC = () => {
     }
   };
 
+  const followAction = async () => {
+    if (!userHook.user || !profileData) return;
+
+    setLoading(true);
+
+    try {
+      await api.patch<ApiResponse<null>>(
+        `profiles/follow?follower=${userHook.user.profileId}&followee=${profileData._id}`
+      );
+
+      setIsFollowing(!isFollowing);
+      toast.success(t(isFollowing ? "unfollow-success" : "follow-success"));
+
+      fetchProfile();
+    } catch (err) {
+      toast.error(t("error-follow-action"));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchProfile = async () => {
+    if (!profileId) return;
+
+    setLoading(true);
+
+    try {
+      const profileResponse = await api.get<ApiResponse<ProfileType>>(
+        `profiles/${profileId}`
+      );
+      setProfileData(profileResponse.data.data);
+
+      const profileUser = await api.get<ApiResponse<ProfileType>>(
+        `profiles/${userHook.user?.profileId}`
+      );
+
+      setIsFollowing(
+        profileUser.data.data?.following.includes(profileId) ?? false
+      );
+
+      const userResponse = await api.get<ApiResponse<UserType>>(
+        `users/search-by-userId/${profileResponse.data.data?.userId}`
+      );
+
+      const posts = await api.get<ApiResponse<GoalType[]>>(
+        `goals/find-posts-by-profile/${userResponse.data.data?.profileId}`
+      );
+      setPosts(posts.data?.data ?? []);
+
+      setUserData(userResponse.data.data);
+    } catch (_err) {
+      toast.error(t("error-fetching-profile"));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchProfile = async () => {
-      setLoading(true);
-
-      try {
-        const profileResponse = await api.get<ApiResponse<ProfileType>>(
-          `profiles/${profileId}`
-        );
-        setProfileData(profileResponse.data.data);
-
-        const userResponse = await api.get<ApiResponse<UserType>>(
-          `users/search-by-userId/${profileResponse.data.data?.userId}`
-        );
-
-        const posts = await api.get<ApiResponse<GoalType[]>>(
-          `goals/find-posts-by-profile/${userResponse.data.data?.profileId}`
-        );
-        setPosts(posts.data?.data ?? []);
-
-        setUserData(userResponse.data.data);
-      } catch (_err) {
-        toast.error(t("error-fetching-profile"));
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProfile();
-  }, [profileId]);
+  }, [profileId, userHook.user]);
 
   return (
     <div className={styles.pageBg}>
@@ -141,6 +175,15 @@ const ProfilePage: React.FC = () => {
                   Posty Tomka <br />
                   Bardzo ładne
                 </p>
+
+                {userHook.user?.email !== userData?.email ? (
+                  <button
+                    onClick={followAction}
+                    className={styles.followButton}
+                  >
+                    {isFollowing ? "Przestań obserwować" : "Obserwuj"}
+                  </button>
+                ) : null}
               </div>
             </div>
 
