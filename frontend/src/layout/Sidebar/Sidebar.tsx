@@ -30,6 +30,28 @@ const Sidebar: React.FC = () => {
   const [showOptions, setShowOptions] = useState<{
     [key: string]: UserType | null;
   }>({});
+  const [notifications, setNotifications] = useState([
+    { id: 1, text: "You have a new message.", read: false },
+    { id: 2, text: "Your premium plan expires soon.", read: false },
+    { id: 3, text: "Don't miss our latest updates!", read: false },
+    { id: 1, text: "You have a new message.", read: false },
+    { id: 2, text: "Your premium plan expires soon.", read: false },
+    { id: 3, text: "Don't miss our latest updates!", read: false },
+    { id: 1, text: "You have a new message.", read: false },
+    { id: 2, text: "Your premium plan expires soon.", read: false },
+    { id: 3, text: "Don't miss our latest updates!", read: false },
+    { id: 1, text: "You have a new message.", read: false },
+    { id: 2, text: "Your premium plan expires soon.", read: false },
+    { id: 3, text: "Don't miss our latest updates!", read: false },
+  ]);
+  const markAsRead = (id: number) => {
+    setNotifications((prev) =>
+      prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif))
+    );
+  };
+  const clearNotifications = () => {
+    setNotifications([]);
+  };
 
   const handleClick = (user: UserType) => {
     setShowOptions((prev) => ({
@@ -146,14 +168,21 @@ const Sidebar: React.FC = () => {
         {/* User Profile */}
         <div className={`mx-auto ${styles.profileSection}`}>
           <img
-            src={`/profileImages/${userHook.user?.profileImage}`}
+            src={
+              userHook.user?.profileImage
+                ? `/profileImages/${userHook.user.profileImage}`
+                : ProfilePicPlaceholder
+            }
             alt="User Profile"
-            className={`rounded-circle ${styles.profilePicture}`}
+            className={`${styles.profilePicture}`}
+            onError={(e) => {
+              e.currentTarget.src = ProfilePicPlaceholder;
+            }}
           />
           {!isMinimized && (
             <div className={styles.profileDetails}>
               <div
-                className={styles.profileName}
+                className={`${styles.profileName} text-truncate`}
               >{`${userHook.user?.firstname} ${userHook.user?.lastname}`}</div>
               <a
                 href={`/profile-page/${userHook.user?.profileId}`}
@@ -228,8 +257,8 @@ const Sidebar: React.FC = () => {
         {/* Settings */}
         <div className={styles.settingsSection}>
           <NavLink to="/settings" className={styles.settingsButton}>
-            <i className="bi bi-gear mr-5"></i>
-            {!isMinimized && <span className={styles.navSpan}>Settings</span>}
+            <i className="bi bi-gear"></i>
+            {!isMinimized && <span>Settings</span>}
           </NavLink>
         </div>
       </div>
@@ -271,7 +300,7 @@ const Sidebar: React.FC = () => {
                     placeholder="Search users..."
                     className={styles.searchBox}
                   />
-                  <div className={styles.resultsContainer}>
+                  <div className={styles.scrollableContainer}>
                     {isLoading && <p>Loading results...</p>}
                     {!isLoading &&
                       results.length === 0 &&
@@ -285,7 +314,6 @@ const Sidebar: React.FC = () => {
                           className={`${styles.resultItem} ${
                             showOptions[user._id] ? styles.showOptions : ""
                           }`}
-                          // onClick={() => startChat(user)}
                           onClick={() => handleClick(user)}
                         >
                           <img
@@ -319,6 +347,7 @@ const Sidebar: React.FC = () => {
                   </div>
                 </>
               )}
+
               {searchMode === "posts" && (
                 <>
                   <input
@@ -328,7 +357,7 @@ const Sidebar: React.FC = () => {
                     placeholder="Search posts..."
                     className={styles.searchBox}
                   />
-                  <div className={styles.postsContainer}>
+                  <div className={styles.scrollableContainer}>
                     {filteredPosts.length === 0 && debouncedUsername && (
                       <p>No results for "{debouncedUsername}"</p>
                     )}
@@ -348,14 +377,35 @@ const Sidebar: React.FC = () => {
             </>
           )}
           {activePanel === "notifications" && (
-            <>
+            <div className={styles.notificationsPanel}>
               <h5>Notifications</h5>
-              <ul className="list-unstyled">
-                <li>🔔 Notification 1: You have a new message.</li>
-                <li>🔔 Notification 2: Your premium plan expires soon.</li>
-                <li>🔔 Notification 3: Don't miss our latest updates!</li>
-              </ul>
-            </>
+              {notifications.length > 0 ? (
+                <div className={styles.notificationsContainer}>
+                  <ul className={styles.notificationsList}>
+                    {notifications.map((notif) => (
+                      <li
+                        key={notif.id}
+                        className={`${styles.notificationItem} ${
+                          notif.read ? styles.read : styles.unread
+                        }`}
+                        onClick={() => markAsRead(notif.id)}
+                      >
+                        🔔 {notif.text}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <p className={styles.noNotifications}>No new notifications</p>
+              )}
+              <button
+                className={styles.clearBtn}
+                onClick={clearNotifications}
+                disabled={notifications.length === 0}
+              >
+                Clear All
+              </button>
+            </div>
           )}
           {activePanel === "messages" && (
             <>
@@ -367,7 +417,7 @@ const Sidebar: React.FC = () => {
                 placeholder="Search user by email..."
                 className={styles.searchBox}
               />
-              <div className={styles.resultsContainer}>
+              <div className={styles.scrollableContainerMessages}>
                 {isLoading && <p>Loading results...</p>}
                 {!isLoading && results.length === 0 && debouncedUsername && (
                   <p>No results for "{debouncedUsername}"</p>

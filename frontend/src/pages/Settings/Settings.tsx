@@ -9,22 +9,27 @@ import { useUser } from "../../context/UserContext";
 import ShowUsersOpinion from "../../components/ShowUsersOpinion/ShowUsersOpinion";
 import ChangeUserData from "../../components/ChangeUserData/ChangeUserData";
 import LocalStorageService from "../../services/localStorage.service";
+import LanguageSection from "../../components/LanguageSection/LanguageSection";
 import { useNavigate } from "react-router-dom";
+import { Lang } from "../../enums/lang.enum";
 
 const Settings: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const user = useUser();
   const navigate = useNavigate();
   useWebsiteTitle(t("settings"));
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
-  const [isAdminSettingsExpanded, setIsAdminSettingsExpanded] =
-    useState<boolean>(false);
+  const [isAdminSettingsExpanded, setIsAdminSettingsExpanded] = useState<boolean>(false);
 
   const logout = () => {
     user.logout();
     LocalStorageService.clear();
     navigate("/welcome-page");
+  };
+
+  const setLang = (lang: Lang) => {
+    i18n.changeLanguage(lang);
   };
 
   const renderForm = () => {
@@ -40,7 +45,9 @@ const Settings: React.FC = () => {
       case "show-users-opinion":
         return <ShowUsersOpinion />;
       case "admin-option-3":
-        return <p>{t("admin_option_3_content")}</p>;  
+        return <p>{t("admin_option_3_content")}</p>;
+        case "language":
+          return <LanguageSection />;
       default:
         return <p>{t("select_option")}</p>;
     }
@@ -78,6 +85,12 @@ const Settings: React.FC = () => {
               onClick={() => setActiveSection("contact")}
             >
               {t("contact_support")}
+            </button>
+            <button
+              className={styles.settingsButton}
+              onClick={() => setActiveSection("language")}
+            >
+              {t("language")}
             </button>
             <button
               className={styles.settingsButton}

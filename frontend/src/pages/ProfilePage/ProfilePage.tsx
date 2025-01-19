@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import FollowListModal from "../../components/Modals/FollowListModal/FollowListModal";
 import PostDetailModal from "../../components/Modals/PostDetailsModal/PostDetailsModal";
+import ProfilePicPlaceholder from "../../assets/images/ProfilePic.jpg";
+import BackgroundPicPlaceholder from "../../assets/images/bgplaceholder.jpg";
 import ChallengesTab from "./ChallengeTab/ChallengesTab";
 import PostsTab from "./PostsTab/PostsTab";
 import ForestTab from "./ForestTab/ForestTab";
@@ -18,6 +21,7 @@ import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { useUser } from "../../context/UserContext";
 
 const ProfilePage: React.FC = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   useWebsiteTitle(t("posts"));
   const api = useApiJson();
@@ -35,6 +39,7 @@ const ProfilePage: React.FC = () => {
   const [posts, setPosts] = useState<GoalType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [localFollowersCount, setLocalFollowersCount] = useState<number>(0);
   const [followersAndFollowing, setFollowersAndFollowing] = useState<{
     followers: UserType[];
     following: UserType[];
@@ -42,6 +47,10 @@ const ProfilePage: React.FC = () => {
     followers: [],
     following: [],
   });
+
+  const startChat = (user: UserType) => {
+    navigate(`/messages?useremail=${encodeURIComponent(user.email)}`);
+  };
 
   const handlePostClick = (post: any) => {
     setSelectedPost(post);
@@ -76,21 +85,28 @@ const ProfilePage: React.FC = () => {
   const followAction = async () => {
     if (!userHook.user || !profileData) return;
 
-    setLoading(true);
+    // Zapisujemy poprzednie wartości na wypadek błędu
+    const previousIsFollowing = isFollowing;
+    const previousFollowersCount = localFollowersCount;
 
     try {
+      // Aktualizujemy stan lokalny natychmiast
+      setIsFollowing(!isFollowing);
+      setLocalFollowersCount((prev) => (isFollowing ? prev - 1 : prev + 1));
+
+      // Wysyłamy zmianę do bazy danych w tle
       await api.patch<ApiResponse<null>>(
         `profiles/follow?follower=${userHook.user.profileId}&followee=${profileData._id}`
       );
 
-      setIsFollowing(!isFollowing);
-      toast.success(t(isFollowing ? "unfollow-success" : "follow-success"));
-
-      fetchProfile();
+      toast.success(
+        t(previousIsFollowing ? "unfollow-success" : "follow-success")
+      );
     } catch (err) {
+      // W przypadku błędu przywracamy poprzedni stan
+      setIsFollowing(previousIsFollowing);
+      setLocalFollowersCount(previousFollowersCount);
       toast.error(t("error-follow-action"));
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -128,6 +144,7 @@ const ProfilePage: React.FC = () => {
         `profiles/${profileId}`
       );
       setProfileData(profileResponse.data.data);
+      setLocalFollowersCount(profileResponse.data.data?.followers.length ?? 0);
 
       const profileUser = await api.get<ApiResponse<ProfileType>>(
         `profiles/${userHook.user?.profileId}`
@@ -167,23 +184,48 @@ const ProfilePage: React.FC = () => {
       ) : (
         <>
           <div className={styles.profilePage}>
-            {/* Header Section */}
             <div className={styles.profileHeader}>
               <div
                 className={styles.profileBackground}
                 style={{
-                  backgroundImage: `url(/backgroundImages/${userData?.backgroundImage})`,
+                  backgroundImage: `url(${
+                    userData?.backgroundImage
+                      ? `/backgroundImages/${userData?.backgroundImage}`
+                      : BackgroundPicPlaceholder
+                  })`,
                 }}
               ></div>
               <div className={styles.infoContainer}>
                 <div className={styles.avatarContainer}>
                   <div className={styles.avatar}>
-                    <img src={`/profileImages/${userData?.profileImage}`} />
+                    <img
+                      src={
+                        userHook.user?.profileImage
+                          ? `/profileImages/${userData?.profileImage} `
+                          : ProfilePicPlaceholder
+                      }
+                    />
                   </div>
                 </div>
-                <h1
-                  className={styles.username}
-                >{`${userData?.firstname} ${userData?.lastname}`}</h1>
+                <h1 className={styles.username}>
+                  {`${userData?.firstname} ${userData?.lastname}`}
+                </h1>
+                {userHook.user?.email !== userData?.email ? (
+                  <div className={styles.actionButtons}>
+                    <button
+                      onClick={followAction}
+                      className={styles.followButton}
+                    >
+                      {isFollowing ? "Przestań obserwować" : "Obserwuj"}
+                    </button>
+                    <button
+                      onClick={() => userData && startChat(userData)}
+                      className={styles.chatButton}
+                    >
+                      <i className="bi bi-chat-dots"></i> Wyślij wiadomość
+                    </button>
+                  </div>
+                ) : null}
                 <p className={styles.stats}>
                   <span>
                     <strong>{posts.length}</strong> posty
@@ -193,8 +235,7 @@ const ProfilePage: React.FC = () => {
                     role="button"
                     className={styles.linkText}
                   >
-                    <strong>{profileData?.followers.length}</strong>{" "}
-                    obserwujących
+                    <strong>{localFollowersCount}</strong> obserwujących
                   </span>
                   <span
                     onClick={() => openModal("following")}
@@ -204,23 +245,9 @@ const ProfilePage: React.FC = () => {
                     <strong>{profileData?.following.length}</strong> obserwowani
                   </span>
                 </p>
-                <p className={styles.description}>
-                  Posty Tomka <br />
-                  Bardzo ładne
-                </p>
-
-                {userHook.user?.email !== userData?.email ? (
-                  <button
-                    onClick={followAction}
-                    className={styles.followButton}
-                  >
-                    {isFollowing ? "Przestań obserwować" : "Obserwuj"}
-                  </button>
-                ) : null}
               </div>
             </div>
 
-            {/* Navigation */}
             <ul className={`nav nav-tabs ${styles.navTabs}`}>
               <li
                 className={`nav-item d-flex justify-content-center ${styles.navItem}`}
@@ -263,7 +290,6 @@ const ProfilePage: React.FC = () => {
               </li>
             </ul>
 
-            {/* Content Section */}
             <div className={styles.tabContent}>{renderTabContent()}</div>
             <PostDetailModal
               isOpen={isPostModalOpen}
@@ -272,7 +298,6 @@ const ProfilePage: React.FC = () => {
             />
           </div>
 
-          {/* Modal */}
           <FollowListModal
             isOpen={isModalOpen}
             onClose={closeModal}

@@ -1,34 +1,258 @@
+// Variables
+$dark-bg: #1a1a1a;
+$primary-color: #45c032;
+$secondary-color: #00957f;
+$text-color: #ffffff;
+$hover-bg: rgba(255, 255, 255, 0.1);
+
 .sidebar {
   z-index: 10;
-  background-color: #222;
-  color: #fff;
-  width: 15rem;
-  min-height: 100vh;
+  background-color: $dark-bg;
+  color: $text-color;
+  width: 250px;
+  height: 100vh; 
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: width 0.3s ease-in-out;
+  transition: all 0.3s ease;
+  position: fixed; 
+  left: 0; 
+  top: 0; 
 
   &.minimized {
     width: 80px;
-    overflow: hidden;
+    padding: 1rem;
 
     .profileDetails,
     .navSpan {
       display: none;
     }
   }
+}
 
-  * {
-    box-sizing: border-box;
+.profileSection {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative; 
+  width: 100%;
+
+  .profilePicture {
+    width: 70px;
+    height: 70px;
+    min-width: 70px; 
+    min-height: 70px; 
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid $secondary-color;
+    padding: 2px;
+    background-color: lighten($dark-bg, 10%); 
+    display: block; 
+    margin: 0 auto; 
+    
+    &:after { 
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: lighten($dark-bg, 10%);
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  }
+
+  .profileDetails {
+    margin-top: 1rem;
+
+    .profileName {
+      color: $text-color;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .profileLink {
+      font-size: 0.9rem;
+      color: $secondary-color;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+}
+.notificationsPanel {
+  background-color: $dark-bg;
+  padding: 1rem;
+  border-radius: 8px;
+  color: $text-color;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  max-height: 45rem; 
+}
+
+h5 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: $primary-color;
+}
+
+.notificationsContainer {
+  flex-grow: 1;
+  overflow-y: auto; 
+}
+
+.notificationsList {
+  list-style: none;
+  padding: 0;
+
+  .notificationItem {
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    background-color: $secondary-color;
+    color: $text-color;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &.unread {
+      font-weight: bold;
+    }
+
+    &.read {
+      opacity: 0.7;
+    }
+
+    &:hover {
+      background-color: $hover-bg;
+    }
   }
 }
 
+.noNotifications {
+  text-align: center;
+  color: rgba($text-color, 0.6);
+  font-style: italic;
+}
+
+.clearBtn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: $primary-color;
+  color: $dark-bg;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover:not(:disabled) {
+    background-color: lighten($primary-color, 10%);
+  }
+
+  &:disabled {
+    background-color: rgba($primary-color, 0.5);
+    cursor: not-allowed;
+  }
+}
+
+.navSection {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .navButton {
+    color: $text-color;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    gap: 1rem;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  
+    i {
+      font-size: 1.3rem;
+      min-width: 24px;
+      text-align: center;
+    }
+  
+    &:hover {
+      background: $hover-bg;
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+  
+  }
+  
+  .sidebar.minimized .navButton {
+    justify-content: center; 
+    gap: 0; 
+  }
+}  
+.settingsSection {
+  display: flex;            
+  justify-content: center;  
+  align-items: center;      
+  width: 100%;
+
+  .settingsButton {
+    color: $text-color;
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; 
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    width: 100%;
+
+    i {
+      font-size: 1.3rem;
+      text-align: center; 
+    }
+
+    &:hover {
+      background: linear-gradient(145deg, $primary-color, $secondary-color);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  .sidebar.minimized .settingsButton {
+    justify-content: center; 
+    align-items: center; 
+    gap: 0; 
+    width: auto; 
+  }
+}
+
+
+
 .dynamicPanel {
-  z-index: 0;
-  background-color: #333;
+  z-index: 5;
+  background-color: lighten($dark-bg, 5%);
   width: 400px;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  height: 100vh;
+  position: fixed;
+  left: 250px; 
+  top: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, opacity 0.3s ease, left 0.3s ease;
+
+  .sidebar.minimized ~ & {
+    left: 80px; 
+  }
 
   &.panelVisible {
     transform: translateX(0);
@@ -40,277 +264,105 @@
     opacity: 0;
     pointer-events: none;
   }
-
-  &.hidden {
-    display: none;
-  }
-}
-
-.notificationsContainer {
-  ul {
-    word-wrap: break-word;
-  }
-}
-
-.profileSection {
-  text-align: center;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-
-  .profilePicture {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .profileDetails {
-    margin-top: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-
-    .profileName {
-      color: #fff;
-      font-size: 1rem;
-    }
-
-    .profileLink {
-      font-size: 0.8rem;
-      color: #ddd;
-      text-decoration: none;
-
-      &:hover {
-        color: #fff;
-      }
-    }
-  }
-}
-
-.navSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  .navButton {
-    color: #ccc;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    text-decoration: none;
-    transition: background 0.3s;
-
-    .navSpan {
-      margin-left: 10px;
-    }
-
-    &:hover,
-    &.active {
-      background-color: #444;
-      color: #fff;
-      border-radius: 8px;
-    }
-
-    i {
-      font-size: 1.5rem;
-    }
-  }
-}
-
-.settingsSection {
-  text-align: center;
-  margin-bottom: 1rem;
-
-  .settingsButton {
-    color: #ccc;
-    padding: 15px;
-    font-size: 1.2rem;
-
-    &:hover {
-      color: #fff;
-    }
-  }
 }
 
 .searchBox {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #555;
-  border-radius: 5px;
-  background-color: #444;
-  color: #fff;
-  margin-bottom: 1rem;
+  padding: 0.8rem 1rem;
+  background: $hover-bg;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: $text-color;
+  transition: all 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: #888;
+    border-color: $secondary-color;
+    background: rgba(255, 255, 255, 0.15);
   }
 }
 
 .searchModeSwitcher {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 
   .switchButton {
-    background-color: #333;
-    color: #ccc;
-    border: 1px solid #555;
-    padding: 8px 12px;
-    border-radius: 5px;
+    flex: 1;
+    padding: 0.6rem 1rem;
+    background: $hover-bg;
+    color: $text-color;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-
-    &:hover {
-      background-color: #00957f;
-      color: #fff;
-    }
-
+    transition: all 0.3s ease;
+  
     &.active {
-      background-color: #45c032;
-      color: #fff;
-      border-color: #45c032;
+      background: $primary-color; /* Kolor aktywnego przycisku */
+      border-color: $primary-color;
+    }
+  
+    &:hover {
+      background: $secondary-color;
+      border-color: rgba(255, 255, 255, 0.2);
     }
   }
 }
-
-.notificationsContainer {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-
-  li {
-    margin: 2px 0;
-    font-size: 0.9rem;
-  }
+.scrollableContainer {
+  margin-top: 10px;
+  max-height: 34rem;
+  overflow-y: auto; 
+  padding-right: 10px; 
 }
-
-.resultsContainer {
-  max-height: 35rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 0;
-  margin: 0;
+.scrollableContainerMessages{
+    margin-top: 10px;
+    max-height: 38rem;
+    overflow-y: auto; 
+    padding-right: 10px; 
+}
+.resultItem, .postItem {
   list-style: none;
-  padding-right: 5px;
+  padding: 0.8rem;
+  border-radius: 8px;
+  background: $hover-bg;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
 
-  ul {
-    padding: 0;
-    margin: 0;
-  }
-}
-
-.resultItem {
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  gap: 10px;
-  max-width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  border-bottom: 1px solid #ccc;
-  cursor: pointer;
-
-  &:last-child {
-    border-bottom: none;
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
   }
 
-  img {
+  .userAvatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  strong {
-    flex-grow: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    border: 2px solid $secondary-color;
   }
 
   .options {
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 10px;
-    width: 150px;
-    margin-top: 10px;
-  }
-
-  &.showOptions .options {
+    margin-top: 0.8rem;
     display: flex;
-    flex-direction: column;
-  }
+    gap: 0.5rem;
 
-  .optionButton {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s ease;
+    .optionButton {
+      flex: 1;
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: none;
+      background: $secondary-color;
+      color: $text-color;
+      cursor: pointer;
+      transition: all 0.3s ease;
 
-    &:hover {
-      background-color: #0056b3;
+      &:hover {
+        background: $primary-color;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     }
-
-    &:disabled {
-      background-color: rgba(0, 86, 179, 0.1);
-    }
-  }
-}
-
-.postsContainer {
-  max-height: 35rem;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  padding-left: 5px;
-
-  ul {
-    padding: 0;
-    margin: 0;
-  }
-}
-
-.postItem {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  gap: 5px;
-  max-width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  border-bottom: 1px solid #ccc;
-  cursor: pointer;
-
-  &:last-child {
-    border-bottom: none;
-  }
-
-  .postTitle {
-    font-weight: bold;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .postContent {
-    font-size: 0.9rem;
-    color: #dddddd;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    
   }
 }
