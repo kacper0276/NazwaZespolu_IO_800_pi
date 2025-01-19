@@ -35,6 +35,13 @@ const ProfilePage: React.FC = () => {
   const [posts, setPosts] = useState<GoalType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const [followersAndFollowing, setFollowersAndFollowing] = useState<{
+    followers: UserType[];
+    following: UserType[];
+  }>({
+    followers: [],
+    following: [],
+  });
 
   const handlePostClick = (post: any) => {
     setSelectedPost(post);
@@ -87,6 +94,30 @@ const ProfilePage: React.FC = () => {
     }
   };
 
+  const fetchFollowingFollowersData = async () => {
+    if (!profileId) return;
+
+    setLoading(true);
+
+    try {
+      const response = await api.get<
+        ApiResponse<{
+          followers: UserType[];
+          following: UserType[];
+        }>
+      >(`profiles/followers-following-list/${profileId}`);
+
+      setFollowersAndFollowing({
+        followers: response.data.data?.followers ?? [],
+        following: response.data.data?.following ?? [],
+      });
+    } catch (_err) {
+      toast.error(t("error-fetching-profile"));
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchProfile = async () => {
     if (!profileId) return;
 
@@ -124,7 +155,7 @@ const ProfilePage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchProfile();
+    fetchProfile().then(() => fetchFollowingFollowersData());
   }, [profileId, userHook.user]);
 
   return (
@@ -244,6 +275,7 @@ const ProfilePage: React.FC = () => {
             isOpen={isModalOpen}
             onClose={closeModal}
             listType={currentListType}
+            users={followersAndFollowing}
           />
         </>
       )}
