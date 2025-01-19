@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import styles from "./FollowListModal.module.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { UserType } from "../../../types/IUser";
+import { useNavigate } from "react-router-dom";
 
 interface FollowListModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ const FollowListModal: React.FC<FollowListModalProps> = ({
   listType,
   users,
 }) => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState<UserType[]>([]);
 
@@ -26,6 +28,10 @@ const FollowListModal: React.FC<FollowListModalProps> = ({
     () => (listType === "followers" ? users.followers : users.following),
     [listType, users]
   );
+
+  const goToProfile = (user: UserType) => {
+    navigate(`/profile-page/${user.profileId}`);
+  };
 
   useEffect(() => {
     setFilteredUsers(
@@ -73,7 +79,11 @@ const FollowListModal: React.FC<FollowListModalProps> = ({
           ) : (
             <ul className={styles.userList}>
               {filteredUsers.map((user) => (
-                <li key={user._id} className={styles.userItem}>
+                <li
+                  key={user._id}
+                  className={styles.userItem}
+                  onClick={() => goToProfile(user)}
+                >
                   <img
                     src={`/profileImages/${user.profileImage}`}
                     alt="Avatar"

@@ -155,7 +155,9 @@ const ProfilePage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchProfile().then(() => fetchFollowingFollowersData());
+    fetchProfile()
+      .then(() => fetchFollowingFollowersData())
+      .then(() => closeModal());
   }, [profileId, userHook.user]);
 
   return (
