@@ -18,6 +18,10 @@ async function createTestUsersAndProfiles() {
   const User = mongoose.model('User', UserSchema);
   const Profile = mongoose.model('Profile', ProfileSchema);
 
+  await User.deleteMany({});
+  await Profile.deleteMany({});
+  console.log('Wszyscy użytkownicy i profile zostały usunięte.');
+
   const numberOfUsers = 10;
   const saltOrRounds = 10;
 
@@ -46,6 +50,8 @@ async function createTestUsersAndProfiles() {
     const existingProfile = await Profile.findOne({
       userId: user._id.toString(),
     });
+
+    let profileId = '';
     if (!existingProfile) {
       const newProfile = new Profile({
         currentGoals: [`Cel użytkownika ${i}`],
@@ -58,13 +64,18 @@ async function createTestUsersAndProfiles() {
         user: user._id,
       });
 
-      await newProfile.save();
+      const savedProfile = await newProfile.save();
+      profileId = savedProfile._id.toString();
       console.log(
-        `Utworzono profil dla użytkownika ${testEmail}, ID profilu: ${newProfile._id}`,
+        `Utworzono profil dla użytkownika ${testEmail}, ID profilu: ${profileId}`,
       );
     } else {
+      profileId = existingProfile._id.toString();
       console.log(`Profil dla użytkownika ${testEmail} już istnieje.`);
     }
+
+    user.profileId = profileId;
+    await user.save();
   }
 
   await mongoose.disconnect();
