@@ -75,7 +75,13 @@ const ProfilePage: React.FC = () => {
   const renderTabContent = () => {
     switch (activeTab) {
       case "posty":
-        return <PostsTab posts={posts} onPostClick={handlePostClick} />;
+        return (
+          <PostsTab
+            posts={posts}
+            onPostClick={handlePostClick}
+            profileId={userHook.user?.profileId ?? ""}
+          />
+        );
       case "wyzwania":
         return <ChallengesTab />;
       case "las":

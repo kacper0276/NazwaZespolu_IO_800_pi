@@ -15,11 +15,13 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ApiResponse } from "../../../types/api.types";
 import Spinner from "../../../components/Spinner/Spinner";
+import { useUser } from "../../../context/UserContext";
 
 const ForestTab = () => {
   const { t } = useTranslation();
   useWebsiteTitle(t("forest"));
   const api = useApiJson();
+  const userHook = useUser();
   const { profileId } = useParams();
   const [selectedChallenge, setSelectedChallenge] = useState<GoalType | null>(
     null
@@ -100,28 +102,31 @@ const ForestTab = () => {
         {loading ? (
           <Spinner />
         ) : (
-          challenges.map((challenge) => (
-            <div
-              key={challenge._id}
-              className={styles.treeWrapper}
-              onClick={() => handleTreeClick(challenge)}
-            >
-              <img
-                src={getTreeImage(challenge.difficulty, challenge.treeSkin)}
-                alt={challenge.name}
-                className={`${styles.treeImage} ${getTreeSize(
-                  challenge.difficulty
-                )}`}
-              />
-              <div className={styles.treeInfo}>
-                <h3>{challenge.name}</h3>
-                <p>{`${getChallengeDurationInDays(
-                  new Date(challenge.startDate).toISOString(),
-                  new Date(challenge.endDate).toISOString()
-                )} dni`}</p>
+          challenges.map((challenge) =>
+            userHook.user?.profileId === challenge.profileId ||
+            challenge.visibility === "public" ? (
+              <div
+                key={challenge._id}
+                className={styles.treeWrapper}
+                onClick={() => handleTreeClick(challenge)}
+              >
+                <img
+                  src={getTreeImage(challenge.difficulty, challenge.treeSkin)}
+                  alt={challenge.name}
+                  className={`${styles.treeImage} ${getTreeSize(
+                    challenge.difficulty
+                  )}`}
+                />
+                <div className={styles.treeInfo}>
+                  <h3>{challenge.name}</h3>
+                  <p>{`${getChallengeDurationInDays(
+                    new Date(challenge.startDate).toISOString(),
+                    new Date(challenge.endDate).toISOString()
+                  )} dni`}</p>
+                </div>
               </div>
-            </div>
-          ))
+            ) : null
+          )
         )}
       </div>
 

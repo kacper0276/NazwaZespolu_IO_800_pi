@@ -10,6 +10,7 @@ import { GoalType } from "../../../types/IGoal";
 import { toast } from "react-toastify";
 import { convertIsoToLocal } from "../../../helpers/convertDate";
 import { calculatePercentage } from "../../../helpers/calculatePercentage";
+import { useUser } from "../../../context/UserContext";
 
 const getTreeType = (difficulty: string) => {
   switch (difficulty) {
@@ -43,6 +44,7 @@ const ChallengesTab: React.FC = () => {
   const { t } = useTranslation();
   useWebsiteTitle(t("challenges"));
   const { profileId } = useParams();
+  const userHook = useUser();
   const api = useApiJson();
   const [treeImages, setTreeImages] = useState<Map<string, string[]>>(
     new Map()
@@ -148,7 +150,8 @@ const ChallengesTab: React.FC = () => {
           const treeImage = getImageForChallenge(challenge, percentage);
           const isExpanded = expandedDescriptions.has(index);
 
-          return (
+          return userHook.user?.profileId === challenge.profileId ||
+            challenge.visibility === "public" ? (
             <div key={index} className={styles.challengeItem}>
               <h3 className={styles.title}>{challenge.name}</h3>
               {treeImage && (
@@ -179,7 +182,7 @@ const ChallengesTab: React.FC = () => {
                 Zobacz szczegóły
               </button>
             </div>
-          );
+          ) : null;
         })}
       </div>
       {selectedChallenge && (
