@@ -23,6 +23,9 @@ export class Profile extends Document {
   @Prop({ default: false })
   premium: boolean;
 
+  @Prop({ default: '' })
+  description: string;
+
   @Prop({ required: true })
   userId: string;
 

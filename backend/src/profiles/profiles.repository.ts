@@ -45,8 +45,6 @@ export class ProfilesRepository {
   async getFollowersAndFollowing(profileId: string) {
     const profile = await this.profileModel.findById(profileId).exec();
 
-    console.log(profile);
-
     if (!profile) {
       throw new Error('Profile not found');
     }
@@ -72,5 +70,22 @@ export class ProfilesRepository {
       .exec();
 
     return { followers, following };
+  }
+
+  async changeProfileDescription(changeData: {
+    profileId: string;
+    description: string;
+  }) {
+    const profile = await this.profileModel
+      .findById(changeData.profileId)
+      .exec();
+
+    if (!profile) {
+      throw new Error('Profile not found');
+    }
+
+    profile.description = changeData.description;
+
+    return await profile.save();
   }
 }

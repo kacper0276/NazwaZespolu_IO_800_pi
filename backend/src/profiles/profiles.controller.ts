@@ -87,8 +87,6 @@ export class ProfilesController {
     try {
       const users = await this.profilesService.getFollowersAndFollowing(id);
 
-      console.log(users);
-
       response.status(HttpStatus.OK).send({
         message: 'followers-and-following',
         data: users,
@@ -133,14 +131,39 @@ export class ProfilesController {
   async followAction(
     @Query('follower') follower: string,
     @Query('followee') followee: string,
+    @Res() response: Response,
   ) {
     try {
       await this.profilesService.followAction(follower, followee);
 
-      return {
-        statusCode: HttpStatus.OK,
-        message: 'Follow action successful',
-      };
+      response.status(HttpStatus.OK).send({
+        message: 'follow-action-successful',
+        data: null,
+      });
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      } else {
+        throw new HttpException(
+          'Internal server error',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+    }
+  }
+
+  @Patch('change-profile-description')
+  async changeProfileDescription(
+    @Body() changeData: { profileId: string; description: string },
+    @Res() response: Response,
+  ) {
+    try {
+      await this.profilesService.changeProfileDescription(changeData);
+
+      response.status(HttpStatus.OK).send({
+        message: 'successful-change-description',
+        data: null,
+      });
     } catch (error) {
       if (error instanceof HttpException) {
         throw error;

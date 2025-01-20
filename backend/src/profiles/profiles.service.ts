@@ -66,4 +66,11 @@ export class ProfilesService {
   async getFollowersAndFollowing(profileId: string) {
     return this.profilesRepository.getFollowersAndFollowing(profileId);
   }
+
+  async changeProfileDescription(changeData: {
+    profileId: string;
+    description: string;
+  }) {
+    return this.profilesRepository.changeProfileDescription(changeData);
+  }
 }
