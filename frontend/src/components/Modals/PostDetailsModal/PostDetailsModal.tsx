@@ -38,13 +38,6 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
 
   const MAX_DESCRIPTION_LENGTH = 150;
 
-  const hardcodedDescription = `
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ut massa eget lectus consequat faucibus. 
-    Vivamus id velit vitae purus tincidunt consectetur nec eget sapien. Aliquam feugiat turpis vel nisi gravida, 
-    non tincidunt libero vehicula. Aenean nec eros lectus. Suspendisse potenti. Pellentesque habitant morbi tristique 
-    senectus et netus et malesuada fames ac turpis egestas. Sed condimentum mattis lorem, non vulputate odio tincidunt non.
-  `;
-
   // TODO: W przyszłości slider dla zdjęć
   // const handleNextImage = () => {
   //   setCurrentImageIndex((prevIndex) => (prevIndex + 1) % post.images.length);
@@ -71,6 +64,12 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
       .post<ApiResponse<CommentType>>(`comments/${post._id}`, commentData)
       .then((res) => {
         toast.success(t(res.data.message));
+
+        const newComment = res.data.data;
+        if (newComment) {
+          newComment.userId = `${userHook.user?.firstname} ${userHook.user?.lastname}`;
+          setComments((prevComments) => [...prevComments, newComment]);
+        }
       })
       .catch((_error: any) => {
         toast.error(t("error-adding-comment"));
@@ -110,10 +109,14 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
 
   useEffect(() => {
     post.commentsIds.forEach(async (commentId) => {
-      const comments = await api.get<ApiResponse<CommentType[]>>(
+      const commentResponse = await api.get<ApiResponse<CommentType>>(
         `comments/${commentId}`
       );
-      setComments(comments.data.data ?? []);
+
+      const comment = commentResponse.data.data;
+      if (comment) {
+        setComments((prevComments) => [...prevComments, comment]);
+      }
     });
 
     setLiked(userHook.user?.likedPost.includes(post._id) ?? false);
@@ -180,10 +183,10 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
               }`}
             >
               {isDescriptionExpanded ||
-              hardcodedDescription.length <= MAX_DESCRIPTION_LENGTH
-                ? hardcodedDescription
-                : `${hardcodedDescription.slice(0, MAX_DESCRIPTION_LENGTH)}...`}
-              {hardcodedDescription.length > MAX_DESCRIPTION_LENGTH && (
+              post.description.length <= MAX_DESCRIPTION_LENGTH
+                ? post.description
+                : `${post.description.slice(0, MAX_DESCRIPTION_LENGTH)}...`}
+              {post.description.length > MAX_DESCRIPTION_LENGTH && (
                 <span
                   className={styles.toggleDescriptionText}
                   onClick={() =>
