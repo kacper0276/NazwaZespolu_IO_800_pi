@@ -195,46 +195,50 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
               )}
             </div>
 
-            <div className={styles.commentsSection}>
-              <h3 className={styles.commentsHeader}>Comments</h3>
-              {comments.length > 0 ? (
-                <ul className={styles.commentsList}>
-                  {comments.map((comment, index) => (
-                    <li key={index} className={styles.commentItem}>
-                      <div className={styles.profilePicture}></div>
-                      <div>
-                        <strong>{comment.userId}</strong>
-                        <p>{comment.value}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className={styles.noComments}>
-                  No comments yet. Be the first to comment!
-                </p>
-              )}
-            </div>
+            {post.allowComments ? (
+              <>
+                <div className={styles.commentsSection}>
+                  <h3 className={styles.commentsHeader}>Comments</h3>
+                  {comments.length > 0 ? (
+                    <ul className={styles.commentsList}>
+                      {comments.map((comment, index) => (
+                        <li key={index} className={styles.commentItem}>
+                          <div className={styles.profilePicture}></div>
+                          <div>
+                            <strong>{comment.userId}</strong>
+                            <p>{comment.value}</p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className={styles.noComments}>
+                      No comments yet. Be the first to comment!
+                    </p>
+                  )}
+                </div>
 
-            <div
-              className={`d-flex align-items-start flex-row ${styles.newCommentSection}`}
-            >
-              <div className={styles.commentInputWrapper}>
-                <textarea
-                  className={styles.newCommentInput}
-                  placeholder="Write your comment..."
-                  value={newCommentText}
-                  onChange={(e) => setNewCommentText(e.target.value)}
-                ></textarea>
-                <button
-                  className={styles.addCommentButton}
-                  onClick={handleAddComment}
+                <div
+                  className={`d-flex align-items-start flex-row ${styles.newCommentSection}`}
                 >
-                  Add Comment
-                </button>
-                {error && <p className={styles.errorMessage}>{error}</p>}
-              </div>
-            </div>
+                  <div className={styles.commentInputWrapper}>
+                    <textarea
+                      className={styles.newCommentInput}
+                      placeholder="Write your comment..."
+                      value={newCommentText}
+                      onChange={(e) => setNewCommentText(e.target.value)}
+                    ></textarea>
+                    <button
+                      className={styles.addCommentButton}
+                      onClick={handleAddComment}
+                    >
+                      Add Comment
+                    </button>
+                    {error && <p className={styles.errorMessage}>{error}</p>}
+                  </div>
+                </div>
+              </>
+            ) : null}
           </div>
         </div>
       </div>

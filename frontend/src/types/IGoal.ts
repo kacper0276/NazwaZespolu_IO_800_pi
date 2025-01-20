@@ -22,4 +22,5 @@ export interface GoalType {
   isPost: boolean;
   commentsIds: number[];
   updates: Update[];
+  allowComments: boolean;
 }
