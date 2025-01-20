@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./PremiumOffer.module.scss";
+import PaymentModal from '../../components/Modals/PaymentModal/PaymentModal';
 
 const PremiumOffer: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className={styles.formContainer}>
       <div className={`container ${styles.offerContainer}`}>
@@ -20,11 +23,12 @@ const PremiumOffer: React.FC = () => {
               </ul>
             </div>
           </div>
+
           {/* Premium Plan */}
           <div className={`col-md-6 ${styles.cardWrapper}`}>
             <div className={`${styles.card} ${styles.premiumCard}`}>
               <h3 className={styles.planTitle}>Premium</h3>
-              <p className={styles.price}>15$  / month</p>
+              <p className={styles.price}>15$ / month</p>
               <ul className={styles.features}>
                 <li>All Standard Features</li>
                 <li>Special Mark in Nickname</li>
@@ -33,11 +37,21 @@ const PremiumOffer: React.FC = () => {
                 <li>Premium Skins</li>
                 <li>Ads removed</li>
               </ul>
-              <button className={styles.purchaseButton}>Purchase Now</button>
+              <button 
+                className={styles.purchaseButton}
+                onClick={() => setIsModalOpen(true)}
+              >
+                Purchase Now
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      <PaymentModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

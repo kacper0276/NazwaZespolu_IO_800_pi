@@ -4,6 +4,7 @@ import FollowListModal from "../../components/Modals/FollowListModal/FollowListM
 import PostDetailModal from "../../components/Modals/PostDetailsModal/PostDetailsModal";
 import ProfilePicPlaceholder from "../../assets/images/ProfilePic.jpg";
 import BackgroundPicPlaceholder from "../../assets/images/bgplaceholder.jpg";
+import ProfileEditModal from "../../components/Modals/ProfileEditModal/ProfileEditModal";
 import ChallengesTab from "./ChallengeTab/ChallengesTab";
 import PostsTab from "./PostsTab/PostsTab";
 import ForestTab from "./ForestTab/ForestTab";
@@ -21,6 +22,7 @@ import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { useUser } from "../../context/UserContext";
 
 const ProfilePage: React.FC = () => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
   useWebsiteTitle(t("posts"));
@@ -210,7 +212,14 @@ const ProfilePage: React.FC = () => {
                 <h1 className={styles.username}>
                   {`${userData?.firstname} ${userData?.lastname}`}
                 </h1>
-                {userHook.user?.email !== userData?.email ? (
+                {userHook.user?.email === userData?.email ? (
+                  <button
+                    onClick={() => setIsEditModalOpen(true)}
+                    className={styles.editButton}
+                  >
+                    <i className="bi bi-pencil"></i> Edytuj profil
+                  </button>
+                ) : (
                   <div className={styles.actionButtons}>
                     <button
                       onClick={followAction}
@@ -225,7 +234,13 @@ const ProfilePage: React.FC = () => {
                       <i className="bi bi-chat-dots"></i> Wyślij wiadomość
                     </button>
                   </div>
-                ) : null}
+                )}
+                <p className={styles.description}>PostyTomka</p>
+                {/* {userData?.description && (
+                  <p className={styles.description}>
+                    {userData?.description ? userData.description : "Posty Tomka"}
+                  </p>
+                  )} */}
                 <p className={styles.stats}>
                   <span>
                     <strong>{posts.length}</strong> posty
@@ -303,6 +318,14 @@ const ProfilePage: React.FC = () => {
             onClose={closeModal}
             listType={currentListType}
             users={followersAndFollowing}
+          />
+          <ProfileEditModal
+            isOpen={isEditModalOpen}
+            onClose={() => setIsEditModalOpen(false)}
+            //currentDescription={userData?.description || ''}
+            currentProfileImage={userData?.profileImage}
+            currentBackgroundImage={userData?.backgroundImage}
+            currentDescription={""}
           />
         </>
       )}

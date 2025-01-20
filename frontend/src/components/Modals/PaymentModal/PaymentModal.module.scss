@@ -1,0 +1,154 @@
+$primary-color: #fff;
+$secondary-color: #ccc;
+$background-color: #222;
+$highlight-color: #ffffff;
+$green-lightcolor: #45c032;
+$green-darkcolor: #00957f;
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: $background-color;
+  border-radius: 8px;
+  padding: 20px;
+  width: 90%;
+  max-width: 450px;
+  color: $primary-color;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  
+  h2 {
+    margin: 0;
+    color: $primary-color;
+    font-size: 1.5rem;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: $secondary-color;
+  font-size: 24px;
+  cursor: pointer;
+  
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.paymentOptions {
+  margin-bottom: 16px;
+}
+
+.paymentMethod {
+  padding: 10px;
+  margin-bottom: 8px;
+  border: 1px solid $secondary-color;
+  border-radius: 4px;
+  cursor: pointer;
+  
+  &:hover {
+    border-color: $green-lightcolor;
+  }
+  
+  label {
+    margin-left: 8px;
+    cursor: pointer;
+  }
+  
+  i {
+    margin-right: 8px;
+    color: $green-lightcolor;
+  }
+}
+
+.paymentDetails {
+  margin-bottom: 16px;
+}
+
+.formGroup {
+  margin-bottom: 12px;
+  
+  label {
+    display: block;
+    margin-bottom: 4px;
+    color: $secondary-color;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid $secondary-color;
+    border-radius: 4px;
+    background-color: transparent;
+    color: $primary-color;
+    
+    &:focus {
+      border-color: $green-lightcolor;
+      outline: none;
+    }
+  }
+}
+
+.formRow {
+  display: flex;
+  gap: 12px;
+  
+  .formGroup {
+    flex: 1;
+  }
+}
+
+.summary {
+  margin-bottom: 16px;
+  padding: 12px;
+  border: 1px solid $secondary-color;
+  border-radius: 4px;
+}
+
+.summaryItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  
+  &.total {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid $secondary-color;
+    font-weight: bold;
+    color: $green-lightcolor;
+  }
+}
+
+.payButton {
+  width: 100%;
+  padding: 10px;
+  background: linear-gradient(to right, $green-lightcolor, $green-darkcolor);
+  border: none;
+  border-radius: 4px;
+  color: $highlight-color;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+}

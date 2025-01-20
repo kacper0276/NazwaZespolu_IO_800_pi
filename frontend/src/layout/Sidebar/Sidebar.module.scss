@@ -298,7 +298,7 @@ h5 {
     transition: all 0.3s ease;
   
     &.active {
-      background: $primary-color; /* Kolor aktywnego przycisku */
+      background: $primary-color; 
       border-color: $primary-color;
     }
   

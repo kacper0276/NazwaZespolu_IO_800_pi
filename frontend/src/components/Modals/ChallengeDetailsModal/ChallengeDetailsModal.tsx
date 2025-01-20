@@ -116,9 +116,13 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
             %
           </p>
           <p className={styles.modalText}>
-            <span className={styles.modalLabel}>Tagi:</span>{" "}
-            {challenge.tags.join(", ")}
-          </p>
+          <span className={styles.modalLabel}>Tagi:</span>{" "}
+          {challenge.tags.map((tag, index) => (
+            <span key={index} className={styles.tag}>
+              {tag}
+            </span>
+          ))}
+        </p>
 
           <div className={styles.updateSection}>
             <h3 className={styles.modalTitle}>Codzienne aktualizacje:</h3>

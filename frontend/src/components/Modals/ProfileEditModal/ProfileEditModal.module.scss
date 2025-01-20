@@ -1,0 +1,159 @@
+$primary-color: #fff;
+$secondary-color: #ccc;
+$background-color: #222;
+$highlight-color: #ffffff;
+$green-lightcolor: #45c032;
+$green-darkcolor: #00957f;
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    background-color: $background-color;
+    border-radius: 10px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    color: $primary-color;
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, $green-lightcolor, $green-darkcolor);
+    border-image-slice: 1;
+  }
+  
+  .modalTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: $primary-color;
+    text-align: center;
+  }
+  
+  .formGroup {
+    margin-bottom: 1.5rem;
+  
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: $primary-color;
+      font-size: 0.9rem;
+    }
+  
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border-radius: 5px;
+      background-color: darken($background-color, 5%);
+      border: 1px solid rgba($green-lightcolor, 0.3);
+      color: $primary-color;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+  
+      &:focus {
+        outline: none;
+        border-color: $green-lightcolor;
+        box-shadow: 0 0 0 2px rgba($green-lightcolor, 0.2);
+      }
+  
+      &::placeholder {
+        color: $secondary-color;
+      }
+    }
+  
+    .fileInput {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 5px;
+      background-color: darken($background-color, 5%);
+      border: 1px solid rgba($green-lightcolor, 0.3);
+      color: $primary-color;
+      cursor: pointer;
+      transition: all 0.3s ease;
+  
+      &:hover {
+        background-color: darken($background-color, 8%);
+      }
+  
+      &::file-selector-button {
+        padding: 0.5rem 1rem;
+        margin-right: 1rem;
+        border-radius: 5px;
+        border: none;
+        background: linear-gradient(to right, $green-darkcolor, $green-lightcolor);
+        color: $primary-color;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+  
+        &:hover {
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+  
+    button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+  
+      &.cancelButton {
+        background-color: transparent;
+        color: $primary-color;
+        border: 2px solid $secondary-color;
+  
+        &:hover {
+          background-color: rgba($secondary-color, 0.1);
+          transform: translateY(-2px);
+        }
+  
+        &:active {
+          transform: translateY(0);
+        }
+      }
+  
+      &.saveButton {
+        background: linear-gradient(to right, $green-darkcolor, $green-lightcolor);
+        color: $primary-color;
+        border: none;
+  
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+  
+        &:active {
+          transform: translateY(0);
+          box-shadow: none;
+        }
+      }
+    }
+  }
+  
+  .description {
+    margin: 10px auto 20px;
+    color: $secondary-color;
+    max-width: 600px;
+    line-height: 1.5;
+    text-align: center;
+    font-size: 0.95rem;
+    padding: 0 1rem;
+  }

@@ -70,7 +70,34 @@ $green-darkcolor: #00957f;
           position: relative;
           z-index: 2;
         }
+        .editButton{
+          background-color: $background-color;
+          color: #fff;
+          border: 2px solid $green-lightcolor;
+          padding: 10px 20px;
+          font-size: 16px;
+          border-radius: 25px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          align-items: center;
 
+          i {
+            font-size: 18px;
+          }
+
+          &:hover {
+            background: linear-gradient(to right, #00957f, #45c032);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15),
+              0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+
+          &:active {
+            transform: scale(0.95);
+            background: linear-gradient(to left, #00957f, #45c032);
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
+          }
+        }
         .chatButton {
           background-color: $background-color;
           color: #fff;
@@ -101,7 +128,15 @@ $green-darkcolor: #00957f;
             box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
           }
         }
-
+        .description {
+          margin-top: 10px;
+          margin-bottom: 20px;
+          color: $secondary-color;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+          line-height: 1.5;
+        }
         .avatarContainer {
           position: relative;
           z-index: 2;
