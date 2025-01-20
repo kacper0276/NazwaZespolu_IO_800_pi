@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Comment, CommentDocument } from './entities/comment.entity';
 import { Model } from 'mongoose';
 import { Goal, GoalDocument } from 'src/goals/entities/goal.entity';
+import { User, UserDocument } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class CommentRepository {
@@ -11,6 +12,8 @@ export class CommentRepository {
     private readonly commentModel: Model<CommentDocument>,
     @InjectModel(Goal.name)
     private readonly goalModel: Model<GoalDocument>,
+    @InjectModel(User.name)
+    private readonly userModel: Model<UserDocument>,
   ) {}
 
   async createComment(
@@ -32,7 +35,12 @@ export class CommentRepository {
   }
 
   async findById(id: string): Promise<Comment | null> {
-    return this.commentModel.findOne({ id }).exec();
+    const comment = await this.commentModel.findOne({ _id: id }).exec();
+    const user = await this.userModel.findById(comment.userId);
+
+    comment.userId = `${user.firstname} ${user.lastname}`;
+
+    return comment;
   }
 
   async updateComment(

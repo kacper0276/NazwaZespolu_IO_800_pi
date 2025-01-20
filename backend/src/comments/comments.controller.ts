@@ -53,7 +53,7 @@ export class CommentsController {
 
   @Get(':id')
   async findById(@Param('id') id: string, @Res() response: Response) {
-    const comment = await this.commentsService.findAll();
+    const comment = await this.commentsService.findById(id);
     if (!comment) {
       throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
     }
