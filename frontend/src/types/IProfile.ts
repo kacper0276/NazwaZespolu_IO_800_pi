@@ -8,4 +8,5 @@ export interface ProfileType {
   posts: number[];
   premium: boolean;
   userId: string;
+  description: string;
 }

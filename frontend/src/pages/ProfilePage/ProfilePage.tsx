@@ -4,7 +4,7 @@ import FollowListModal from "../../components/Modals/FollowListModal/FollowListM
 import PostDetailModal from "../../components/Modals/PostDetailsModal/PostDetailsModal";
 import ProfilePicPlaceholder from "../../assets/images/ProfilePic.jpg";
 import BackgroundPicPlaceholder from "../../assets/images/bgplaceholder.jpg";
-import ProfileEditModal from "../../components/Modals/ProfileEditModal/ProfileEditModal";
+// import ProfileEditModal from "../../components/Modals/ProfileEditModal/ProfileEditModal";
 import ChallengesTab from "./ChallengeTab/ChallengesTab";
 import PostsTab from "./PostsTab/PostsTab";
 import ForestTab from "./ForestTab/ForestTab";
@@ -49,6 +49,7 @@ const ProfilePage: React.FC = () => {
     followers: [],
     following: [],
   });
+  const [description, setDescription] = useState<string>("");
 
   const startChat = (user: UserType) => {
     navigate(`/messages?useremail=${encodeURIComponent(user.email)}`);
@@ -166,10 +167,28 @@ const ProfilePage: React.FC = () => {
       setPosts(posts.data?.data ?? []);
 
       setUserData(userResponse.data.data);
+
+      setDescription(profileUser.data.data?.description ?? "");
     } catch (_err) {
       toast.error(t("error-fetching-profile"));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveDescription = async () => {
+    if (!userHook.user || !userData) return;
+
+    try {
+      await api.patch<ApiResponse<ProfileType>>(
+        `profiles/change-profile-description`,
+        { description, profileId }
+      );
+
+      toast.success(t("description-updated"));
+      setIsEditModalOpen(false);
+    } catch (err) {
+      toast.error(t("error-updating-description"));
     }
   };
 
@@ -213,12 +232,44 @@ const ProfilePage: React.FC = () => {
                   {`${userData?.firstname} ${userData?.lastname}`}
                 </h1>
                 {userHook.user?.email === userData?.email ? (
-                  <button
-                    onClick={() => setIsEditModalOpen(true)}
-                    className={styles.editButton}
-                  >
-                    <i className="bi bi-pencil"></i> Edytuj profil
-                  </button>
+                  <div className={styles.profileEditSection}>
+                    <p className={styles.description}>
+                      {isEditModalOpen ? (
+                        <textarea
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                          className={styles.descriptionTextarea}
+                        />
+                      ) : (
+                        <>
+                          {description || ""}
+                          <button
+                            onClick={() => setIsEditModalOpen(true)}
+                            className={styles.editIconButton}
+                          >
+                            <i className="bi bi-pencil"></i>
+                          </button>
+                        </>
+                      )}
+                    </p>
+
+                    {isEditModalOpen && (
+                      <div className={styles.editModalActions}>
+                        <button
+                          onClick={() => setIsEditModalOpen(false)}
+                          className={styles.cancelEditButton}
+                        >
+                          Anuluj
+                        </button>
+                        <button
+                          onClick={handleSaveDescription}
+                          className={styles.saveDescriptionButton}
+                        >
+                          Zapisz zmiany
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 ) : (
                   <div className={styles.actionButtons}>
                     <button
@@ -235,7 +286,7 @@ const ProfilePage: React.FC = () => {
                     </button>
                   </div>
                 )}
-                <p className={styles.description}>PostyTomka</p>
+
                 {/* {userData?.description && (
                   <p className={styles.description}>
                     {userData?.description ? userData.description : "Posty Tomka"}
@@ -319,14 +370,14 @@ const ProfilePage: React.FC = () => {
             listType={currentListType}
             users={followersAndFollowing}
           />
-          <ProfileEditModal
+          {/* <ProfileEditModal
             isOpen={isEditModalOpen}
             onClose={() => setIsEditModalOpen(false)}
             //currentDescription={userData?.description || ''}
             currentProfileImage={userData?.profileImage}
             currentBackgroundImage={userData?.backgroundImage}
             currentDescription={""}
-          />
+          /> */}
         </>
       )}
     </div>
