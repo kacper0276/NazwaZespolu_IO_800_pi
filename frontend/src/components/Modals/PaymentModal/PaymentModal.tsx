@@ -6,6 +6,7 @@ import { ApiResponse } from "../../../types/api.types";
 import { PaymentType } from "../../../types/IPayment";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
   const userHook = useUser();
   const api = useApiJson();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState<string>("");
 
   if (!isOpen) return null;
@@ -34,6 +36,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
       .post<ApiResponse<PaymentType>>("payments", data)
       .then((res) => {
         toast.success(t(res.data.message));
+        navigate("/");
       })
       .catch((_err) => {
         toast.error(t("error"));
