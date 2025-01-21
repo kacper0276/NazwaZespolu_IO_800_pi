@@ -23,4 +23,5 @@ export interface GoalType {
   commentsIds: number[];
   updates: Update[];
   allowComments: boolean;
+  userName?: string;
 }

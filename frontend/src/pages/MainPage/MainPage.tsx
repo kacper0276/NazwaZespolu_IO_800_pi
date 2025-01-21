@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import styles from "./MainPage.module.scss";
 import CommentsModal from "../../components/Modals/CommentsModal/CommentsModal";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 import { t } from "i18next";
+import { GoalType } from "../../types/IGoal";
+import { useApiJson } from "../../config/api";
+import { useUser } from "../../context/UserContext";
+import { toast } from "react-toastify";
+import { ApiResponse } from "../../types/api.types";
+import Spinner from "../../components/Spinner/Spinner";
 
 const posts = [
   {
@@ -47,8 +53,8 @@ const posts = [
     author: "Bob Williams",
   },
 ];
-const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
-  const [likes, setLikes] = useState(post.likes);
+const Post: React.FC<{ post: GoalType }> = ({ post }) => {
+  const [likes, setLikes] = useState(post.reactions);
   const [liked, setLiked] = useState(false);
   const [bouncing, setBouncing] = useState(false);
   const [showComments, setShowComments] = useState(false);
@@ -79,7 +85,7 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
       <div className={`${styles.postCard} card`}>
         {post.images.length > 1 ? (
           <div
-            id={`carousel-${post.id}`}
+            id={`carousel-${post._id}`}
             className="carousel slide"
             data-bs-ride="carousel"
           >
@@ -89,14 +95,18 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
                   key={index}
                   className={`carousel-item ${index === 0 ? "active" : ""}`}
                 >
-                  <img src={image} className="d-block w-100" alt={post.title} />
+                  <img
+                    src={image}
+                    className="d-block w-100"
+                    alt={post.description}
+                  />
                 </div>
               ))}
             </div>
             <button
               className="carousel-control-prev"
               type="button"
-              data-bs-target={`#carousel-${post.id}`}
+              data-bs-target={`#carousel-${post._id}`}
               data-bs-slide="prev"
             >
               <span
@@ -108,7 +118,7 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
             <button
               className="carousel-control-next"
               type="button"
-              data-bs-target={`#carousel-${post.id}`}
+              data-bs-target={`#carousel-${post._id}`}
               data-bs-slide="next"
             >
               <span
@@ -119,12 +129,16 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
             </button>
           </div>
         ) : (
-          <img src={post.images[0]} className="card-img-top" alt={post.title} />
+          <img
+            src={`goalsImg/${post.image}`}
+            className="card-img-top"
+            alt={post.description}
+          />
         )}
         <div className="card-body">
-          <h5 className="card-title">{post.title}</h5>
+          <h5 className="card-title">{post.description}</h5>
           <p className="card-text">
-            <small>Posted by {post.author}</small>
+            <small>Posted by {post.userName}</small>
           </p>
           <div className="card-text">
             <div className={styles.reactionContainer}>
@@ -142,7 +156,7 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
                 className={styles.commentsContainer}
                 onClick={() => setShowComments(true)}
               >
-                💬 {post.comments} comments
+                💬 {post.commentsIds.length} comments
               </span>
             </div>
           </div>
@@ -159,16 +173,41 @@ const Post: React.FC<{ post: (typeof posts)[0] }> = ({ post }) => {
 
 const MainPage: React.FC = () => {
   useWebsiteTitle(t("main-page"));
+  const api = useApiJson();
+  const userHook = useUser();
+  const [posts, setPosts] = useState<GoalType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoading(true);
+    api
+      .get<ApiResponse<GoalType[]>>(
+        `goals/main-page-posts/${userHook.user?.profileId}`
+      )
+      .then((res) => {
+        setPosts(res.data.data ?? []);
+      })
+      .catch((_err) => {
+        toast.error(t("error-fetching-posts"));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <div className={`${styles.homepage} container-fluid`}>
       <div className="row justify-content-center mx-0">
         <div className="col-md-8">
-          <div className={styles.postsContainer}>
-            {posts.map((post) => (
-              <Post key={post.id} post={post} />
-            ))}
-          </div>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <div className={styles.postsContainer}>
+              {posts.map((post) => (
+                <Post key={post._id} post={post} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
