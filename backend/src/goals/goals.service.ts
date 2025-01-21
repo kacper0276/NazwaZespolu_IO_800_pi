@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { GoalRepository } from './goals.repository';
 import { Goal } from './entities/goal.entity';
 import { likeAction } from './dto/likeAction.dto';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class GoalsService {
@@ -63,5 +64,17 @@ export class GoalsService {
 
   async findPostsForMainPageByProfileId(profileId: string) {
     return this.goalsRepository.findPostsForMainPageByProfileId(profileId);
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async checkGoalsEndDate() {
+    const goals = await this.findAll();
+    const currentDate = new Date();
+
+    for (const goal of goals) {
+      if (goal.endDate < currentDate && !goal.isDone) {
+        await this.updateGoal(goal.id, { isDone: true });
+      }
+    }
   }
 }
