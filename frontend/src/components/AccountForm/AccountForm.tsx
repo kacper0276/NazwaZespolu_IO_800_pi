@@ -31,7 +31,9 @@ const AccountForm: FC = () => {
     y: 0,
     height: 100,
   });
-  const [completedProfileCrop, setCompletedProfileCrop] = useState<Crop | null>(null);
+  const [completedProfileCrop, setCompletedProfileCrop] = useState<Crop | null>(
+    null
+  );
   const profileImageRef = useRef<HTMLImageElement | null>(null);
   const profilePreviewCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -44,7 +46,8 @@ const AccountForm: FC = () => {
     y: 0,
     height: 100,
   });
-  const [completedBackgroundCrop, setCompletedBackgroundCrop] = useState<Crop | null>(null);
+  const [completedBackgroundCrop, setCompletedBackgroundCrop] =
+    useState<Crop | null>(null);
   const backgroundImageRef = useRef<HTMLImageElement | null>(null);
   const backgroundPreviewCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -58,7 +61,11 @@ const AccountForm: FC = () => {
   }, [userContext.user]);
 
   useEffect(() => {
-    if (completedProfileCrop && profileImageRef.current && profilePreviewCanvasRef.current) {
+    if (
+      completedProfileCrop &&
+      profileImageRef.current &&
+      profilePreviewCanvasRef.current
+    ) {
       updateProfilePreviewCanvas(
         profileImageRef.current,
         profilePreviewCanvasRef.current,
@@ -68,7 +75,11 @@ const AccountForm: FC = () => {
   }, [completedProfileCrop]);
 
   useEffect(() => {
-    if (completedBackgroundCrop && backgroundImageRef.current && backgroundPreviewCanvasRef.current) {
+    if (
+      completedBackgroundCrop &&
+      backgroundImageRef.current &&
+      backgroundPreviewCanvasRef.current
+    ) {
       updateBackgroundPreviewCanvas(
         backgroundImageRef.current,
         backgroundPreviewCanvasRef.current,
@@ -149,7 +160,9 @@ const AccountForm: FC = () => {
     }
   };
 
-  const handleBackgroundImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBackgroundImageChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (e.target.files?.[0]) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -203,7 +216,11 @@ const AccountForm: FC = () => {
   };
 
   const getCroppedProfileImage = () => {
-    if (!completedProfileCrop || !profileImageRef.current || !profilePreviewCanvasRef.current)
+    if (
+      !completedProfileCrop ||
+      !profileImageRef.current ||
+      !profilePreviewCanvasRef.current
+    )
       return null;
 
     const canvas = document.createElement("canvas");
@@ -242,7 +259,11 @@ const AccountForm: FC = () => {
   };
 
   const getCroppedBackgroundImage = () => {
-    if (!completedBackgroundCrop || !backgroundImageRef.current || !backgroundPreviewCanvasRef.current)
+    if (
+      !completedBackgroundCrop ||
+      !backgroundImageRef.current ||
+      !backgroundPreviewCanvasRef.current
+    )
       return null;
 
     const canvas = document.createElement("canvas");
@@ -316,10 +337,10 @@ const AccountForm: FC = () => {
 
   return (
     <div className={styles.formContainer}>
-      <h2>Ustawienia konta</h2>
+      <h2>{t("account-settings")}</h2>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.inputGroup}>
-          <label htmlFor="email">Email:</label>
+          <label htmlFor="email">{t("email")}:</label>
           <input
             type="email"
             id="email"
@@ -331,19 +352,19 @@ const AccountForm: FC = () => {
           />
         </div>
         <div className={styles.inputGroup}>
-          <label htmlFor="password">Nowe hasło:</label>
+          <label htmlFor="password">{t("new-password")}:</label>
           <input
             type="password"
             id="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
-            placeholder="Wpisz nowe hasło"
+            placeholder={t("enter-new-password")}
             className={styles.input}
           />
         </div>
         <div className={styles.inputGroup}>
-          <label htmlFor="firstname">Imię:</label>
+          <label htmlFor="firstname">{t("name")}:</label>
           <input
             type="text"
             id="firstname"
@@ -354,7 +375,7 @@ const AccountForm: FC = () => {
           />
         </div>
         <div className={styles.inputGroup}>
-          <label htmlFor="lastname">Nazwisko:</label>
+          <label htmlFor="lastname">{t("last-name")}:</label>
           <input
             type="text"
             id="lastname"
@@ -366,7 +387,7 @@ const AccountForm: FC = () => {
         </div>
 
         <div className={styles.imageGroup}>
-          <label>Zdjęcie profilowe:</label>
+          <label>{t("profile-image")}:</label>
           <input
             type="file"
             accept="image/*"
@@ -404,7 +425,7 @@ const AccountForm: FC = () => {
         </div>
 
         <div className={styles.imageGroup}>
-          <label>Zdjęcie w tle:</label>
+          <label>{t("background-image")}:</label>
           <input
             type="file"
             accept="image/*"
@@ -441,7 +462,7 @@ const AccountForm: FC = () => {
         </div>
 
         <button type="submit" className={styles.submitButton}>
-          Zapisz zmiany
+          {t("save-changes")}
         </button>
       </form>
     </div>

@@ -6,11 +6,13 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import { ApiResponse } from "../../types/api.types";
 import { Opinion } from "../../types/IOpinion";
+import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 
 const ContactSupportForm: FC = () => {
+  const { t } = useTranslation();
+  useWebsiteTitle(t("send-opinion"));
   const user = useUser();
   const api = useApiJson();
-  const { t } = useTranslation();
   const [rating, setRating] = useState<number>(0);
   const [hoverRating, setHoverRating] = useState<number | null>(null);
   const [opinion, setOpinion] = useState<string>("");
@@ -74,11 +76,11 @@ const ContactSupportForm: FC = () => {
 
   return (
     <div className={styles.formContainer}>
-      <h2>Wyślij nam swoją opinię</h2>
+      <h2>{t("send-us-your-opinion")}</h2>
 
       <form onSubmit={sendOpinion}>
         <textarea
-          placeholder="Podziel się swoimi myślami..."
+          placeholder={`${t("share-your-thoughts")}...`}
           className={styles.textArea}
           onChange={(e) => setOpinion(e.target.value)}
         ></textarea>
@@ -86,7 +88,7 @@ const ContactSupportForm: FC = () => {
         <div className={styles.ratingContainer}>{renderTrees()}</div>
 
         <button type="submit" className={styles.submitButton}>
-          Wyślij opinię
+          {t("send-opinion")}
         </button>
       </form>
     </div>

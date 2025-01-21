@@ -73,7 +73,7 @@ export class GoalsController {
   async findById(@Param('id') id: string, @Res() response: Response) {
     const goal = await this.goalsService.findById(Number(id));
     if (!goal) {
-      throw new HttpException('Challange not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('challange-not-found', HttpStatus.NOT_FOUND);
     }
 
     response.status(HttpStatus.OK).send({
@@ -161,7 +161,7 @@ export class GoalsController {
         updateGoalDto,
       );
       if (!updatedGoal) {
-        throw new HttpException('Challange not found', HttpStatus.NOT_FOUND);
+        throw new HttpException('challange-not-found', HttpStatus.NOT_FOUND);
       }
 
       response.status(HttpStatus.OK).send({
@@ -177,7 +177,7 @@ export class GoalsController {
   async deleteGoal(@Param('id') id: string, @Res() response: Response) {
     const deletedGoal = await this.goalsService.deleteGoal(Number(id));
     if (!deletedGoal) {
-      throw new HttpException('Challange not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('challange-not-found', HttpStatus.NOT_FOUND);
     }
 
     response.status(HttpStatus.OK).send({

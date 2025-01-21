@@ -54,7 +54,7 @@ export class ProfilesController {
   async findById(@Param('id') id: string, @Res() response: Response) {
     const profile = await this.profilesService.findById(id);
     if (!profile) {
-      throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('profile-not-found', HttpStatus.NOT_FOUND);
     }
 
     response.status(HttpStatus.OK).send({
@@ -70,7 +70,7 @@ export class ProfilesController {
   ) {
     const profile = await this.profilesService.findByUserId(userId);
     if (!profile) {
-      throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('profile-not-found', HttpStatus.NOT_FOUND);
     }
 
     response.status(HttpStatus.OK).send({
@@ -88,7 +88,7 @@ export class ProfilesController {
       const users = await this.profilesService.getFollowersAndFollowing(id);
 
       response.status(HttpStatus.OK).send({
-        message: 'followers-and-following',
+        message: 'followers-and-following-list',
         data: users,
       });
     } catch (error) {
@@ -96,7 +96,7 @@ export class ProfilesController {
         throw error;
       } else {
         throw new HttpException(
-          'Internal server error',
+          'a-server-error-occurred',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
@@ -115,7 +115,7 @@ export class ProfilesController {
         updateProfileDto,
       );
       if (!updatedProfile) {
-        throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+        throw new HttpException('profile-not-found', HttpStatus.NOT_FOUND);
       }
 
       response.status(HttpStatus.OK).send({
@@ -145,7 +145,7 @@ export class ProfilesController {
         throw error;
       } else {
         throw new HttpException(
-          'Internal server error',
+          'a-server-error-occurred',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
@@ -169,7 +169,7 @@ export class ProfilesController {
         throw error;
       } else {
         throw new HttpException(
-          'Internal server error',
+          'Ia-server-error-occurred',
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
@@ -180,7 +180,7 @@ export class ProfilesController {
   async deleteProfile(@Param('id') id: number, @Res() response: Response) {
     const deletedProfile = await this.profilesService.deleteProfile(id);
     if (!deletedProfile) {
-      throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('profile-not-found', HttpStatus.NOT_FOUND);
     }
 
     response.status(HttpStatus.OK).send({

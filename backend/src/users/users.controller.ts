@@ -27,26 +27,6 @@ import { diskStorage } from 'multer';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { User } from './entities/user.entity';
 
-const storageProfileImage = {
-  storage: diskStorage({
-    destination: '../frontend/public/profileImages',
-    filename: (req, file, cb) => {
-      const name = Date.now() + Math.floor(Math.random() * 100) + '.jpg';
-      cb(null, name);
-    },
-  }),
-};
-
-const storageBackgroundImage = {
-  storage: diskStorage({
-    destination: '../frontend/public/backgroundImages',
-    filename: (req, file, cb) => {
-      const name = Date.now() + Math.floor(Math.random() * 100) + '.jpg';
-      cb(null, name);
-    },
-  }),
-};
-
 @ApiBearerAuth('access-token')
 @Controller('users')
 export class UsersController {
@@ -125,7 +105,7 @@ export class UsersController {
   ) {
     const user = await this.usersService.getUserById(userId);
     if (!user) {
-      throw new HttpException('Profile not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('user-not-found', HttpStatus.NOT_FOUND);
     }
     response.status(HttpStatus.OK).send({
       message: 'user-data',

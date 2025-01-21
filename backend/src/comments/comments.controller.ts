@@ -55,7 +55,7 @@ export class CommentsController {
   async findById(@Param('id') id: string, @Res() response: Response) {
     const comment = await this.commentsService.findById(id);
     if (!comment) {
-      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('not-found-comment', HttpStatus.NOT_FOUND);
     }
 
     response.status(HttpStatus.OK).send({
@@ -76,7 +76,7 @@ export class CommentsController {
         updateCommentDto,
       );
       if (!updatedComment) {
-        throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+        throw new HttpException('not-found-comment', HttpStatus.NOT_FOUND);
       }
 
       response.status(HttpStatus.OK).send({
@@ -92,7 +92,7 @@ export class CommentsController {
   async deleteComment(@Param('id') id: string, @Res() response: Response) {
     const deletedComment = await this.commentsService.deleteComment(id);
     if (!deletedComment) {
-      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('not-found-comment', HttpStatus.NOT_FOUND);
     }
 
     response.status(HttpStatus.OK).send({

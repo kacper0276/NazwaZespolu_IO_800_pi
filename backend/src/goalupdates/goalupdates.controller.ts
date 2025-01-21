@@ -72,7 +72,7 @@ export class GoalUpdateController {
     const goalUpdate = await this.goalUpdateService.findById(id);
     if (!goalUpdate) {
       throw new HttpException(
-        'Challange update not found',
+        'challange-update-not-found',
         HttpStatus.NOT_FOUND,
       );
     }
@@ -109,7 +109,7 @@ export class GoalUpdateController {
       );
       if (!updatedGoalUpdate) {
         throw new HttpException(
-          'Challange update not found',
+          'challange-update-not-found',
           HttpStatus.NOT_FOUND,
         );
       }
@@ -128,7 +128,7 @@ export class GoalUpdateController {
     const deletedGoalUpdate = await this.goalUpdateService.deleteGoalUpdate(id);
     if (!deletedGoalUpdate) {
       throw new HttpException(
-        'Challange update not found',
+        'challange-update-not-found',
         HttpStatus.NOT_FOUND,
       );
     }

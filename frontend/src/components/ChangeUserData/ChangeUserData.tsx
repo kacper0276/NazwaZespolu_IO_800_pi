@@ -9,9 +9,11 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import ReactCrop, { Crop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
+import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 
 const ChangeUserData: FC = () => {
   const { t } = useTranslation();
+  useWebsiteTitle(t("change-users-data"));
   const [users, setUsers] = useState<UserType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -173,7 +175,7 @@ const ChangeUserData: FC = () => {
   const onBackgroundImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const { width, height } = e.currentTarget;
     const targetAspect = 1140 / 200;
-    
+
     let cropWidth = width;
     let cropHeight = width / targetAspect;
 
@@ -388,7 +390,7 @@ const ChangeUserData: FC = () => {
         <thead className={styles.tableHead}>
           <tr className={styles.tableRow}>
             <th className={styles.tableHeader}>{t("email")}</th>
-            <th className={styles.tableHeader}>{t("first-name")}</th>
+            <th className={styles.tableHeader}>{t("name")}</th>
             <th className={styles.tableHeader}>{t("last-name")}</th>
             <th className={styles.tableHeader}>{t("role")}</th>
             <th className={styles.tableHeader}>{t("actions")}</th>
@@ -437,7 +439,7 @@ const ChangeUserData: FC = () => {
               </div>
 
               <div className={styles.formGroup}>
-                <label>{t("first-name")}</label>
+                <label>{t("name")}</label>
                 <input
                   type="text"
                   value={formData.firstname}
@@ -452,119 +454,122 @@ const ChangeUserData: FC = () => {
                 <input
                   type="text"
                   value={formData.lastname}
-                  onChange={(e) =>setFormData({ ...formData, lastname: e.target.value })
-                }
-              />
-            </div>
+                  onChange={(e) =>
+                    setFormData({ ...formData, lastname: e.target.value })
+                  }
+                />
+              </div>
 
-            <div className={styles.formGroup}>
-              <label>{t("role")}</label>
-              <input
-                type="text"
-                value={formData.role}
-                onChange={(e) =>
-                  setFormData({ ...formData, role: e.target.value })
-                }
-              />
-            </div>
+              <div className={styles.formGroup}>
+                <label>{t("role")}</label>
+                <input
+                  type="text"
+                  value={formData.role}
+                  onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value })
+                  }
+                />
+              </div>
 
-            <div className={styles.formGroup}>
-              <label>{t("profile-image")}</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleFileChange(e, "profile")}
-                className={styles.fileInput}
-              />
+              <div className={styles.formGroup}>
+                <label>{t("profile-image")}</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, "profile")}
+                  className={styles.fileInput}
+                />
 
-              {profileImage && (
-                <div className={styles.imageEditContainer}>
-                  <div className={styles.cropContainer}>
-                    <ReactCrop
-                      crop={profileCrop}
-                      onChange={(percentCrop) => setProfileCrop(percentCrop)}
-                      onComplete={(c) => setCompletedProfileCrop(c)}
-                      circularCrop
-                      aspect={1}
-                    >
-                      <img
-                        ref={profileImageRef}
-                        src={profileImage}
-                        onLoad={onProfileImageLoad}
-                        alt="Crop me"
+                {profileImage && (
+                  <div className={styles.imageEditContainer}>
+                    <div className={styles.cropContainer}>
+                      <ReactCrop
+                        crop={profileCrop}
+                        onChange={(percentCrop) => setProfileCrop(percentCrop)}
+                        onComplete={(c) => setCompletedProfileCrop(c)}
+                        circularCrop
+                        aspect={1}
+                      >
+                        <img
+                          ref={profileImageRef}
+                          src={profileImage}
+                          onLoad={onProfileImageLoad}
+                          alt="Crop me"
+                        />
+                      </ReactCrop>
+                    </div>
+
+                    <div className={styles.previewContainer}>
+                      <canvas
+                        ref={profilePreviewCanvasRef}
+                        className={styles.circularPreview}
                       />
-                    </ReactCrop>
+                    </div>
                   </div>
+                )}
+              </div>
 
-                  <div className={styles.previewContainer}>
-                    <canvas
-                      ref={profilePreviewCanvasRef}
-                      className={styles.circularPreview}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
+              <div className={styles.formGroup}>
+                <label>{t("background-image")}</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, "background")}
+                  className={styles.fileInput}
+                />
 
-            <div className={styles.formGroup}>
-              <label>{t("background-image")}</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleFileChange(e, "background")}
-                className={styles.fileInput}
-              />
+                {backgroundImage && (
+                  <div className={styles.imageEditContainer}>
+                    <div className={styles.cropContainer}>
+                      <ReactCrop
+                        crop={backgroundCrop}
+                        onChange={(percentCrop) =>
+                          setBackgroundCrop(percentCrop)
+                        }
+                        onComplete={(c) => setCompletedBackgroundCrop(c)}
+                        aspect={1140 / 200}
+                      >
+                        <img
+                          ref={backgroundImageRef}
+                          src={backgroundImage}
+                          onLoad={onBackgroundImageLoad}
+                          alt="Crop me"
+                        />
+                      </ReactCrop>
+                    </div>
 
-              {backgroundImage && (
-                <div className={styles.imageEditContainer}>
-                  <div className={styles.cropContainer}>
-                    <ReactCrop
-                      crop={backgroundCrop}
-                      onChange={(percentCrop) => setBackgroundCrop(percentCrop)}
-                      onComplete={(c) => setCompletedBackgroundCrop(c)}
-                      aspect={1140 / 200}
-                    >
-                      <img
-                        ref={backgroundImageRef}
-                        src={backgroundImage}
-                        onLoad={onBackgroundImageLoad}
-                        alt="Crop me"
+                    <div className={styles.backgroundPreviewContainer}>
+                      <canvas
+                        ref={backgroundPreviewCanvasRef}
+                        className={styles.backgroundPreview}
                       />
-                    </ReactCrop>
+                    </div>
                   </div>
+                )}
+              </div>
 
-                  <div className={styles.backgroundPreviewContainer}>
-                    <canvas
-                      ref={backgroundPreviewCanvasRef}
-                      className={styles.backgroundPreview}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <div className={styles.buttonContainer}>
-              <button
-                type="button"
-                onClick={handleModalClose}
-                className={styles.cancelButton}
-              >
-                {t("cancel")}
-              </button>
-              <button
-                type="button"
-                onClick={handleSave}
-                className={styles.saveButton}
-              >
-                {t("save-changes")}
-              </button>
-            </div>
-          </form>
-        </div>
-      </Modal>
-    )}
-  </div>
-);
+              <div className={styles.buttonContainer}>
+                <button
+                  type="button"
+                  onClick={handleModalClose}
+                  className={styles.cancelButton}
+                >
+                  {t("cancel")}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSave}
+                  className={styles.saveButton}
+                >
+                  {t("save-changes")}
+                </button>
+              </div>
+            </form>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
 };
 
 export default ChangeUserData;

@@ -44,10 +44,4 @@ export class AuthController {
   async refreshToken(@Body() refreshDto: { refreshToken: string }) {
     return this.authService.refreshToken(refreshDto.refreshToken);
   }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('test')
-  async test() {
-    return 'TEST';
-  }
 }

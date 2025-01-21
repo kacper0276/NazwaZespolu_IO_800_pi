@@ -51,7 +51,7 @@ export class OpinionsController {
       const res = await this.opinionsService.getAllActiveOpinions();
 
       response.status(HttpStatus.OK).send({
-        message: 'successfully-fetch-all-active',
+        message: 'successfully-fetch-all-active-opinions',
         data: res,
       });
     } catch (error) {

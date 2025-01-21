@@ -52,7 +52,7 @@ export class PaymentsController {
   async findById(@Param('id') id: string, @Res() response: Response) {
     const payment = await this.paymentsService.findAll();
     if (!payment) {
-      throw new HttpException('Payment not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('payment-not-found', HttpStatus.NOT_FOUND);
     }
 
     response.status(HttpStatus.OK).send({
@@ -73,7 +73,7 @@ export class PaymentsController {
         updatePaymentDto,
       );
       if (!updatedPayment) {
-        throw new HttpException('Payment not found', HttpStatus.NOT_FOUND);
+        throw new HttpException('payment-not-found', HttpStatus.NOT_FOUND);
       }
 
       response.status(HttpStatus.OK).send({
@@ -89,7 +89,7 @@ export class PaymentsController {
   async deletePayment(@Param('id') id: string, @Res() response: Response) {
     const deletedPayment = await this.paymentsService.deletePayment(id);
     if (!deletedPayment) {
-      throw new HttpException('Payment not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('payment-not-found', HttpStatus.NOT_FOUND);
     }
 
     response.status(HttpStatus.OK).send({
