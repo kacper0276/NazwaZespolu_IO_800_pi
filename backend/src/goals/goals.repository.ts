@@ -92,4 +92,49 @@ export class GoalRepository {
     await user.save();
     await post.save();
   }
+
+  async findPostsForMainPageByProfileId(profileId: string) {
+    const profile = await this.profileModel.findById(profileId).exec();
+
+    if (!profile) {
+      return null;
+    }
+
+    const followedProfilesIds = profile.following;
+
+    if (followedProfilesIds.length === 0) {
+      return [];
+    }
+
+    const posts = await this.goalModel
+      .find({
+        profileId: { $in: followedProfilesIds },
+        isPost: true,
+        visibility: 'public',
+      })
+      .sort({ startDate: -1 })
+      .exec();
+
+    const postsWithUserName = await Promise.all(
+      posts.map(async (post) => {
+        const profile = await this.profileModel.findById(post.profileId).exec();
+        let userName = '';
+
+        if (profile) {
+          const user = await this.userModel
+            .findById(profile.userId)
+            .select('firstname lastname')
+            .exec();
+
+          if (user) {
+            userName = `${user.firstname} ${user.lastname}`;
+          }
+        }
+
+        return { ...post.toObject(), userName };
+      }),
+    );
+
+    return postsWithUserName;
+  }
 }

@@ -60,4 +60,8 @@ export class GoalsService {
   async likeActionMethod(likeActionData: likeAction) {
     return this.goalsRepository.likeActionMethod(likeActionData);
   }
+
+  async findPostsForMainPageByProfileId(profileId: string) {
+    return this.goalsRepository.findPostsForMainPageByProfileId(profileId);
+  }
 }

@@ -135,6 +135,20 @@ export class GoalsController {
     });
   }
 
+  @Get('main-page-posts/:profileId')
+  async findPostsForMainPageByProfileId(
+    @Param('profileId') profileId: string,
+    @Res() response: Response,
+  ) {
+    const posts =
+      await this.goalsService.findPostsForMainPageByProfileId(profileId);
+
+    response.status(HttpStatus.OK).send({
+      message: 'posts-main-page',
+      data: posts,
+    });
+  }
+
   @Put(':id')
   async updateGoal(
     @Param('id') id: string,
