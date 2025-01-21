@@ -1,10 +1,13 @@
 .homepage {
+  min-height: 100vh;
   position: relative;
   background-image: url("../../assets/images/ForestBG.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  padding-left: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 
   &::before {
     content: "";
