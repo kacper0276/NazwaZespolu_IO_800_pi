@@ -16,6 +16,9 @@ export class Payment extends Document {
 
   @Prop({ required: true, type: Number })
   amount: number;
+
+  @Prop({ required: true, type: String })
+  profileId: string;
 }
 
 export const PaymentSchema = SchemaFactory.createForClass(Payment);
