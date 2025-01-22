@@ -51,7 +51,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
 
   const handleAddComment = () => {
     if (newCommentText.trim() === "") {
-      setError("Comment cannot be empty.");
+      setError(t("comment-cannot-be-empty"));
       return;
     }
 
@@ -193,7 +193,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
                     setIsDescriptionExpanded(!isDescriptionExpanded)
                   }
                 >
-                  {isDescriptionExpanded ? " Show less" : " Read more"}
+                  {isDescriptionExpanded ? t("show-less") : t("read-more")}
                 </span>
               )}
             </div>
@@ -201,7 +201,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
             {post.allowComments ? (
               <>
                 <div className={styles.commentsSection}>
-                  <h3 className={styles.commentsHeader}>Comments</h3>
+                  <h3 className={styles.commentsHeader}>{t("comments")}</h3>
                   {comments.length > 0 ? (
                     <ul className={styles.commentsList}>
                       {comments.map((comment, index) => (
@@ -215,9 +215,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
                       ))}
                     </ul>
                   ) : (
-                    <p className={styles.noComments}>
-                      No comments yet. Be the first to comment!
-                    </p>
+                    <p className={styles.noComments}>{t("no-comments-yet")}</p>
                   )}
                 </div>
 
@@ -227,7 +225,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
                   <div className={styles.commentInputWrapper}>
                     <textarea
                       className={styles.newCommentInput}
-                      placeholder="Write your comment..."
+                      placeholder={t("write-your-comment-here")}
                       value={newCommentText}
                       onChange={(e) => setNewCommentText(e.target.value)}
                     ></textarea>
@@ -235,7 +233,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
                       className={styles.addCommentButton}
                       onClick={handleAddComment}
                     >
-                      Add Comment
+                      {t("add-comment")}
                     </button>
                     {error && <p className={styles.errorMessage}>{error}</p>}
                   </div>

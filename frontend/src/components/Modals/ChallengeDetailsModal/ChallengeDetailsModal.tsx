@@ -10,6 +10,7 @@ import { ApiResponse } from "../../../types/api.types";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import Spinner from "../../Spinner/Spinner";
+import useWebsiteTitle from "../../../hooks/useWebsiteTitle";
 
 type ChallengeDetailsModalProps = {
   challenge: GoalType | null;
@@ -22,6 +23,7 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation();
+  useWebsiteTitle(t("challenge-details"));
   const navigate = useNavigate();
   const api = useApiJson();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -87,7 +89,7 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
             &times;
           </button>
           <h2 className={styles.modalTitle}>{challenge.name}</h2>
-          <span className={styles.modalLabel}>Opis:</span>
+          <span className={styles.modalLabel}>{t("description")}:</span>
           <p
             className={styles.modalText}
             style={{ maxHeight: "4.5rem", overflow: "auto" }}
@@ -96,19 +98,19 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
           </p>
 
           <p className={styles.modalText}>
-            <span className={styles.modalLabel}>Data rozpoczęcia:</span>{" "}
+            <span className={styles.modalLabel}>{t("start-date")}:</span>{" "}
             {convertIsoToLocal(challenge.startDate + "")}
           </p>
           <p className={styles.modalText}>
-            <span className={styles.modalLabel}>Data zakończenia:</span>{" "}
+            <span className={styles.modalLabel}>{t("end-date")}:</span>{" "}
             {convertIsoToLocal(challenge.endDate + "")}
           </p>
           <p className={styles.modalText}>
-            <span className={styles.modalLabel}>Dni do końca:</span>{" "}
+            <span className={styles.modalLabel}>{t("days-to-end")}:</span>{" "}
             {calculateDaysLeft(challenge.endDate + "")}
           </p>
           <p className={styles.modalText}>
-            <span className={styles.modalLabel}>Postęp:</span>{" "}
+            <span className={styles.modalLabel}>{t("progress")}:</span>{" "}
             {calculatePercentage(
               challenge.startDate + "",
               challenge.endDate + ""
@@ -116,18 +118,18 @@ const ChallengeDetailsModal: React.FC<ChallengeDetailsModalProps> = ({
             %
           </p>
           <p className={styles.modalText}>
-          <span className={styles.modalLabel}>Tagi:</span>{" "}
-          {challenge.tags.map((tag, index) => (
-            <span key={index} className={styles.tag}>
-              {tag}
-            </span>
-          ))}
-        </p>
+            <span className={styles.modalLabel}>{t("tags")}:</span>{" "}
+            {challenge.tags.map((tag, index) => (
+              <span key={index} className={styles.tag}>
+                {tag}
+              </span>
+            ))}
+          </p>
 
           <div className={styles.updateSection}>
-            <h3 className={styles.modalTitle}>Codzienne aktualizacje:</h3>
+            <h3 className={styles.modalTitle}>{t("daily-updates")}:</h3>
             <button className={styles.addUpdateBtn} onClick={handleButtonClick}>
-              Dodaj nową aktualizację
+              {t("add-new-update")}
             </button>
 
             <ul className={styles.updateList}>

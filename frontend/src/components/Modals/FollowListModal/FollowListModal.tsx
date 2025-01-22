@@ -3,6 +3,7 @@ import styles from "./FollowListModal.module.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { UserType } from "../../../types/IUser";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface FollowListModalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ const FollowListModal: React.FC<FollowListModalProps> = ({
   listType,
   users,
 }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState<UserType[]>([]);
@@ -70,12 +72,12 @@ const FollowListModal: React.FC<FollowListModalProps> = ({
           <input
             type="text"
             className={styles.searchInput}
-            placeholder="Wyszukaj użytkownika..."
+            placeholder={t("search-user")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           {filteredUsers.length === 0 ? (
-            <p className={styles.noResults}>Nie znaleziono użytkowników.</p>
+            <p className={styles.noResults}>{t("not-found-user")}.</p>
           ) : (
             <ul className={styles.userList}>
               {filteredUsers.map((user) => (

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CommentsModal.module.scss";
+import { useTranslation } from "react-i18next";
 import { CommentType } from "../../../types/IComment";
 import { useApiJson } from "../../../config/api";
 import { useUser } from "../../../context/UserContext";
@@ -58,11 +59,13 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
 
     return () => {
       document.body.style.overflow = "";
+      document.body.style.overflow = "";
     };
   }, [show, commentsIds, api]);
 
   const handleAddComment = async () => {
     if (newComment.trim() === "") {
+      setError(t("comment-cannot-be-empty"));
       setError(t("comment-cannot-be-empty"));
       return;
     }
@@ -103,6 +106,7 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
       >
         <div className={styles.modalHeader}>
           <h5 className={styles.modalTitle}>{t("comments")}</h5>
+          <h5 className={styles.modalTitle}>{t("comments")}</h5>
           <button
             type="button"
             className={styles.closeButton}
@@ -141,10 +145,12 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
             </ul>
           ) : (
             <p className={styles.noComments}>{t("no-comments-yet")}</p>
+
           )}
         </div>
         <div className={styles.modalFooter}>
           <button className={styles.closeFooterButton} onClick={onClose}>
+            {t("close")}
             {t("close")}
           </button>
         </div>
