@@ -106,7 +106,6 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
       >
         <div className={styles.modalHeader}>
           <h5 className={styles.modalTitle}>{t("comments")}</h5>
-          <h5 className={styles.modalTitle}>{t("comments")}</h5>
           <button
             type="button"
             className={styles.closeButton}
@@ -150,7 +149,6 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
         </div>
         <div className={styles.modalFooter}>
           <button className={styles.closeFooterButton} onClick={onClose}>
-            {t("close")}
             {t("close")}
           </button>
         </div>
