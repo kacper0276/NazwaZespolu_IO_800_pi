@@ -60,6 +60,15 @@
         flex: 1;
       }
     }
+    .profileLink {
+      color: #f0f0f0;          
+      text-decoration: none;  
+      cursor: pointer;      
+    }
+    
+    .profileLink:hover {
+      text-decoration: underline;
+    }
     .commentsContainer {
       font-size: 20px;
       margin-left: 20px;
