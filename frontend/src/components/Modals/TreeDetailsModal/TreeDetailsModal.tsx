@@ -100,7 +100,7 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
                   {new Date(challenge.endDate).toLocaleDateString()}
                 </p>
                 <p className={styles.durationDays}>
-                  Duration: {getDurationInDays()} days
+                  {t("duration")}: {getDurationInDays()} {t("days")}
                 </p>
               </div>
 
@@ -112,7 +112,7 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
                   {challenge.treeSkin === "StandardSkin"
                     ? "Standard"
                     : "Premium"}{" "}
-                  Tree
+                  {t("tree")}
                 </span>
               </div>
 
@@ -133,7 +133,7 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
                     challenge.startDate + "",
                     challenge.endDate + ""
                   )}
-                  % Complete
+                  % {t("complete")}
                 </span>
               </div>
 
@@ -146,7 +146,7 @@ const TreeDetailModal: React.FC<TreeDetailModalProps> = ({
               </div>
 
               <div className={styles.updatesSection}>
-                <h3 className={styles.updatesHeader}>Challenge Updates</h3>
+                <h3 className={styles.updatesHeader}>{t("daily-updates")}</h3>
                 <div className={styles.updatesList}>
                   {loading ? (
                     <Spinner />

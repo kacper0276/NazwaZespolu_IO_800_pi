@@ -301,6 +301,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
       }
     }
 
+    // TODO: Szybko endpoint na aktualizację profilu
     try {
       await api.patch("endpoint", formData);
       toast.success(t("profile-updated"));
@@ -313,20 +314,20 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <h2 className={styles.modalTitle}>Edytuj profil</h2>
+        <h2 className={styles.modalTitle}>{t("edit-profile")}</h2>
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
-            <label>Opis profilu</label>
+            <label>{t("profile-description")}</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Napisz coś o sobie..."
+              placeholder={t("write-something-about-you")}
             />
           </div>
 
           <div className={styles.formGroup}>
-            <label>Zdjęcie profilowe</label>
+            <label>{t("profile-image")}</label>
             <input
               type="file"
               accept="image/*"
@@ -364,7 +365,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
           </div>
 
           <div className={styles.formGroup}>
-            <label>Zdjęcie w tle</label>
+            <label>{t("background-image")}</label>
             <input
               type="file"
               accept="image/*"
@@ -377,9 +378,7 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
                 <div className={styles.cropContainer}>
                   <ReactCrop
                     crop={backgroundCrop}
-                    onChange={(percentCrop) =>
-                      setBackgroundCrop(percentCrop)
-                    }
+                    onChange={(percentCrop) => setBackgroundCrop(percentCrop)}
                     onComplete={(c) => setCompletedBackgroundCrop(c)}
                     aspect={1140 / 200}
                   >
@@ -408,10 +407,10 @@ const ProfileEditModal: React.FC<ProfileEditModalProps> = ({
               onClick={onClose}
               className={styles.cancelButton}
             >
-              Anuluj
+              {t("cancel")}
             </button>
             <button type="submit" className={styles.saveButton}>
-              Zapisz zmiany
+              {t("save-changes")}
             </button>
           </div>
         </form>

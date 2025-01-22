@@ -107,5 +107,75 @@
   "language-settings": "Ustawienia języka",
   "english": "Angielski",
   "polish": "Polski",
-  "jp": "日本語"
+  "jp": "日本語",
+
+  "challenge-details": "Szczegóły wyzwania",
+  "error-fetching-updates": "Błąd podczas pobierania aktualizacji",
+  "description": "Opis",
+  "start-date": "Data rozpoczęcia",
+  "end-date": "Data zakończenia",
+  "days-to-end": "Dni do końca",
+  "progress": "Postęp",
+  "tags": "Tagi",
+  "daily-updates": "Codzienne aktualizacje",
+  "add-new-update": "Dodaj nową aktualizację",
+
+  "comment-cannot-be-empty": "Komentarz nie może być pusty",
+  "comments": "Komentarze",
+  "add-comment": "Dodaj komentarz",
+  "write-your-comment-here": "Napisz swój komentarz tutaj",
+  "no-comments-yet": "Jeszcze brak komentarzy",
+  "close": "Zamknij",
+
+  "search-user": "Wyszukaj użytkownika",
+  "not-found-user": "Nie znaleziono użytkownika",
+
+  "full-size": "Pełny rozmiar",
+
+  "select-payment-method": "Wybierz sposób płatności",
+  "credit-debit-card": "Karta kredytowa/debetowa",
+  "paypal": "PayPal",
+  "bank-transfer": "Przelew bankowy",
+  "card-number": "Numer karty",
+  "expiry-date": "Data ważności",
+  "cvv": "CVV",
+  "cardholder-name": "Właściciel karty",
+  "full-name": "Imię i nazwisko",
+  "premium-plan": "Plan premium",
+  "monthly": "Miesięczny",
+  "total": "Łącznie",
+  "buy-now": "Kup teraz",
+
+  "error-adding-comment": "Błąd podczas dodawania komentarza",
+  "show-less": "Pokaż mniej",
+  "read-more": "Czytaj więcej",
+
+  "duration": "Czas trwania",
+  "days": "dni",
+  "tree": "Drzewo",
+  "complete": "Ukończony",
+
+  "edit-profile": "Edytuj profil",
+  "profile-description": "Opis profilu",
+  "write-something-about-you": "Napisz coś o sobie",
+
+  "error-fetching-users": "Błąd podczas pobierania użytkowników",
+  "error-closing-opinion": "Błąd podczas zamykania opinii",
+  "error-deleting-opinion": "Błąd podczas usuwania opinii",
+  "users-opinions": "Opinie użytkowników",
+  "no-opinions-to-display": "Brak opinii do wyświetlenia",
+  "rating": "Ocena",
+  "opinion": "Opinia",
+  "close-opinion": "Zamknij opinię",
+  "delete-opinion": "Usuń opinię",
+
+  "edit-user-data": "Edytuj dane użytkownika",
+  "admin": "Administrator",
+  "user": "Użytkownik",
+  "moderator": "Moderator",
+  "is-activated": "Jest aktywowany",
+
+  "statute": "Regulamin",
+  "contact": "Kontakt",
+  "privacy-policy": "Polityka prywatności"
 }

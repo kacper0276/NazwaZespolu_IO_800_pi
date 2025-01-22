@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CommentsModal.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface Comment {
   author: string;
@@ -17,6 +18,7 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
   onClose,
   comments: initialComments,
 }) => {
+  const { t } = useTranslation();
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [newComment, setNewComment] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -29,24 +31,24 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
     }
 
     return () => {
-      document.body.style.overflow = ""; 
+      document.body.style.overflow = "";
     };
   }, [show]);
 
   const handleAddComment = () => {
     if (newComment.trim() === "") {
-      setError("Comment cannot be empty."); 
+      setError(t("comment-cannot-be-empty"));
       return;
     }
 
     const newCommentObject: Comment = {
-      author: "Anonymous User", // Placeholder dla nazwy użytkownika
+      author: t("username"), // Placeholder dla nazwy użytkownika
       text: newComment.trim(),
     };
 
     setComments((prevComments) => [newCommentObject, ...prevComments]); // Dodaj nowy komentarz na górę
-    setNewComment(""); 
-    setError(""); 
+    setNewComment("");
+    setError("");
   };
 
   if (!show) return null;
@@ -55,7 +57,7 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
     <div className={styles.modalOverlay}>
       <div className={styles.modalContainer}>
         <div className={styles.modalHeader}>
-          <h5 className={styles.modalTitle}>Comments</h5>
+          <h5 className={styles.modalTitle}>{t("comments")}</h5>
           <button
             type="button"
             className={styles.closeButton}
@@ -68,10 +70,11 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
 
         {/* Sekcja formularza na górze */}
         <div className={styles.newCommentSection}>
-          {error && <div className={styles.errorMessage}>{error}</div>} {/* Wyświetlanie błędu */}
+          {error && <div className={styles.errorMessage}>{error}</div>}{" "}
+          {/* Wyświetlanie błędu */}
           <textarea
             className={styles.newCommentInput}
-            placeholder="Write your comment here..."
+            placeholder={t("write-your-comment-here")}
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
           />
@@ -79,7 +82,7 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
             className={styles.addCommentButton}
             onClick={handleAddComment}
           >
-            Add Comment
+            {t("add-comment")}
           </button>
         </div>
 
@@ -97,14 +100,12 @@ const CommentsModal: React.FC<CommentsModalProps> = ({
               ))}
             </ul>
           ) : (
-            <p className={styles.noComments}>
-              No comments yet. Be the first to comment!
-            </p>
+            <p className={styles.noComments}>{t("no-comments-yet")}</p>
           )}
         </div>
         <div className={styles.modalFooter}>
           <button className={styles.closeFooterButton} onClick={onClose}>
-            Close
+            {t("close")}
           </button>
         </div>
       </div>

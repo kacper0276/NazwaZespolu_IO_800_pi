@@ -66,19 +66,21 @@ const ShowUsersOpinion: FC = () => {
     <div className={styles.mainContainer}>
       {loading && <Spinner />}
 
-      <h2>Opinie użytkowników</h2>
+      <h2>{t("users-opinions")}</h2>
 
-      {!loading && opinions.length === 0 && <p>Brak opinii do wyświetlenia.</p>}
+      {!loading && opinions.length === 0 && (
+        <p>{t("no-opinions-to-display")}.</p>
+      )}
 
       {!loading && opinions.length > 0 && (
         <table className={styles.opinionsTable}>
           <thead>
             <tr>
-              <th>Email użytkownika</th>
-              <th>Rola</th>
-              <th>Ocena</th>
-              <th>Opinia</th>
-              <th>Akcje</th>
+              <th>{t("email")}</th>
+              <th>{t("role")}</th>
+              <th>{t("rating")}</th>
+              <th>{t("opinion")}</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>

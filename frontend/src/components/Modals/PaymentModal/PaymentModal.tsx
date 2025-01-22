@@ -39,7 +39,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
         navigate("/");
       })
       .catch((_err) => {
-        toast.error(t("error"));
+        toast.error(t("a-server-error-occurred"));
       });
   };
 
@@ -47,7 +47,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
         <div className={styles.modalHeader}>
-          <h2>Select Payment Method</h2>
+          <h2>{t("select-payment-method")}</h2>
           <button className={styles.closeButton} onClick={onClose}>
             ×
           </button>
@@ -64,7 +64,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
             />
             <label htmlFor="card">
               <i className="bi bi-credit-card"></i>
-              Credit/Debit Card
+              {t("credit-debit-card")}
             </label>
           </div>
 
@@ -78,7 +78,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
             />
             <label htmlFor="paypal">
               <i className="bi bi-paypal"></i>
-              PayPal
+              {t("paypal")}
             </label>
           </div>
 
@@ -92,47 +92,49 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ isOpen, onClose }) => {
             />
             <label htmlFor="bank">
               <i className="bi bi-bank"></i>
-              Bank Transfer
+              {t("bank-transfer")}
             </label>
           </div>
         </div>
 
         <div className={styles.paymentDetails}>
           <div className={styles.formGroup}>
-            <label>Card Number</label>
+            <label>{t("card-number")}</label>
             <input type="text" placeholder="XXXX XXXX XXXX XXXX" />
           </div>
 
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
-              <label>Expiry Date</label>
+              <label>{t("expiry-date")}</label>
               <input type="text" placeholder="MM/YY" />
             </div>
             <div className={styles.formGroup}>
-              <label>CVV</label>
+              <label>{t("cvv")}</label>
               <input type="text" placeholder="XXX" />
             </div>
           </div>
 
           <div className={styles.formGroup}>
-            <label>Cardholder Name</label>
-            <input type="text" placeholder="Full Name" />
+            <label>{t("cardholder-name")}</label>
+            <input type="text" placeholder={t("full-name")} />
           </div>
         </div>
 
         <div className={styles.summary}>
           <div className={styles.summaryItem}>
-            <span>Premium Plan (Monthly)</span>
+            <span>
+              {t("premium-plan")} ({t("monthly")})
+            </span>
             <span>$15.00</span>
           </div>
           <div className={`${styles.summaryItem} ${styles.total}`}>
-            <span>Total</span>
+            <span>{t("total")}</span>
             <span>$15.00</span>
           </div>
         </div>
 
         <button className={styles.payButton} onClick={payForPremiumAccount}>
-          Pay Now
+          {t("buy-now")}
         </button>
       </div>
     </div>

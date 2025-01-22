@@ -1,6 +1,8 @@
 import { FC, useState } from "react";
 import { UserType } from "../../types/IUser";
 import styles from "./UserEditForm.module.scss";
+import { useTranslation } from "react-i18next";
+import useWebsiteTitle from "../../hooks/useWebsiteTitle";
 
 interface UserFormProps {
   user: UserType;
@@ -9,6 +11,8 @@ interface UserFormProps {
 }
 
 const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
+  const { t } = useTranslation();
+  useWebsiteTitle(t("edit-user-data"));
   const [formData, setFormData] = useState<UserType>({ ...user, password: "" });
   const [profileImage, setProfileImage] = useState<File | undefined>(undefined);
   const [backgroundImage, setBackgroundImage] = useState<File | undefined>(
@@ -43,7 +47,7 @@ const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
   return (
     <form className={styles.form}>
       <label className={styles.label}>
-        Email:
+        {t("email")}:
         <input
           className={styles.input}
           type="email"
@@ -52,7 +56,7 @@ const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
         />
       </label>
       <label className={styles.label}>
-        Password:
+        {t("password")}:
         <input
           className={styles.input}
           type="text"
@@ -61,7 +65,7 @@ const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
         />
       </label>
       <label className={styles.label}>
-        First Name:
+        {t("name")}:
         <input
           className={styles.input}
           type="text"
@@ -70,7 +74,7 @@ const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
         />
       </label>
       <label className={styles.label}>
-        Last Name:
+        {t("last-name")}:
         <input
           className={styles.input}
           type="text"
@@ -79,19 +83,19 @@ const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
         />
       </label>
       <label className={styles.label}>
-        Role:
+        {t("role")}:
         <select
           className={styles.select}
           value={formData.role}
           onChange={(e) => handleInputChange("role", e.target.value)}
         >
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
-          <option value="moderator">Moderator</option>
+          <option value="admin">{t("admin")}</option>
+          <option value="user">{t("user")}</option>
+          <option value="moderator">{t("moderator")}</option>
         </select>
       </label>
       <label className={styles.label}>
-        Is Activated:
+        {t("is-activated")}:
         <input
           className={styles.checkbox}
           type="checkbox"
@@ -100,7 +104,7 @@ const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
         />
       </label>
       <label className={styles.label}>
-        Profile Image:
+        {t("profile-image")}:
         <input
           type="file"
           accept="image/*"
@@ -108,7 +112,7 @@ const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
         />
       </label>
       <label className={styles.label}>
-        Background Image:
+        {t("background-image")}:
         <input
           type="file"
           accept="image/*"
@@ -121,14 +125,14 @@ const UserEditForm: FC<UserFormProps> = ({ user, onSave, onCancel }) => {
           type="button"
           onClick={handleSubmit}
         >
-          Save
+          {t("save-changes")}
         </button>
         <button
           className={`${styles.button} ${styles.cancelButton}`}
           type="button"
           onClick={onCancel}
         >
-          Cancel
+          {t("cancel")}
         </button>
       </div>
     </form>
