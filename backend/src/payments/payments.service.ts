@@ -114,15 +114,9 @@ export class PaymentsService {
           <div class="email-body">
             <p>Witaj, ${email}</p>
             <p>
-              Dziękujemy za dokonanie płatności. Poniżej znajdziesz szczegóły
-              transakcji:
+              Dziękujemy za dokonanie płatności. Poniżej w załączniku znajdziesz szczegóły
+              transakcji
             </p>
-            <div class="details">
-              <p><strong>Numer płatności:</strong> ${payment.paymentNumber}</p>
-              <p><strong>Metoda płatności:</strong> ${payment.paymentMethod}</p>
-              <p><strong>Status płatności:</strong> ${payment.paymentStatus}</p>
-              <p><strong>Kwota:</strong> ${payment.amount} $</p>
-            </div>
             <p>Jeśli masz jakiekolwiek pytania, skontaktuj się z nami.</p>
             <p>Pozdrawiamy,<br />Zespół Administracji Serwisu</p>
             <a href="mailto:support@example.com" class="cta">Skontaktuj się z nami</a>
