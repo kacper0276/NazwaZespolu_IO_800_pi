@@ -173,6 +173,7 @@ const Sidebar: React.FC = () => {
                 className={styles.profileLink}
               >
                 {t("sidebar.viewProfile")}
+                {t("view-profile")}
               </a>
             </div>
           )}
@@ -189,6 +190,9 @@ const Sidebar: React.FC = () => {
           >
             <i className="bi bi-search"></i>
             {!isMinimized && <span className={styles.navSpan}>{t("nav.search")}</span>}
+            {!isMinimized && (
+              <span className={styles.navSpan}>{t("search")}</span>
+            )}
           </div>
 
           {/* Notifications */}
@@ -201,6 +205,7 @@ const Sidebar: React.FC = () => {
             <i className="bi bi-bell"></i>
             {!isMinimized && (
               <span className={styles.navSpan}>{t("nav.notifications")}</span>
+              <span className={styles.navSpan}>{t("notifications")}</span>
             )}
           </div>
 
@@ -213,6 +218,9 @@ const Sidebar: React.FC = () => {
           >
             <i className="bi bi-chat-dots"></i>
             {!isMinimized && <span className={styles.navSpan}>{t("nav.messages")}</span>}
+            {!isMinimized && (
+              <span className={styles.navSpan}>{t("messages")}</span>
+            )}
           </div>
 
           {/* Home */}
@@ -224,6 +232,9 @@ const Sidebar: React.FC = () => {
           >
             <i className="bi bi-house"></i>
             {!isMinimized && <span className={styles.navSpan}>{t("nav.home")}</span>}
+            {!isMinimized && (
+              <span className={styles.navSpan}>{t("home")}</span>
+            )}
           </NavLink>
 
           {/* Premium */}
@@ -235,6 +246,9 @@ const Sidebar: React.FC = () => {
           >
             <i className="bi bi-star"></i>
             {!isMinimized && <span className={styles.navSpan}>{t("nav.premium")}</span>}
+            {!isMinimized && (
+              <span className={styles.navSpan}>{t("premium")}</span>
+            )}
           </NavLink>
         </nav>
 
@@ -243,6 +257,7 @@ const Sidebar: React.FC = () => {
           <NavLink to="/settings" className={styles.settingsButton}>
             <i className="bi bi-gear"></i>
             {!isMinimized && <span>{t("nav.settings")}</span>}
+            {!isMinimized && <span>{t("settings")}</span>}
           </NavLink>
         </div>
       </div>
@@ -257,6 +272,7 @@ const Sidebar: React.FC = () => {
           {activePanel === "search" && (
             <>
               <h5>{t("search.title")}</h5>
+              <h5>{t("search")}</h5>
               <div className={`${styles.searchModeSwitcher} mb-3`}>
                 <button
                   className={`${styles.switchButton} ${
@@ -265,6 +281,7 @@ const Sidebar: React.FC = () => {
                   onClick={() => toggleSearchMode("users")}
                 >
                   {t("search.users")}
+                  {t("users")}
                 </button>
                 <button
                   className={`${styles.switchButton} ${
@@ -273,6 +290,7 @@ const Sidebar: React.FC = () => {
                   onClick={() => toggleSearchMode("posts")}
                 >
                   {t("search.posts")}
+                  {t("posts")}
                 </button>
               </div>
               {searchMode === "users" && (
@@ -282,14 +300,19 @@ const Sidebar: React.FC = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder={t("search.searchUsers")}
+                    placeholder={t("search-user")}
                     className={styles.searchBox}
                   />
                   <div className={styles.scrollableContainer}>
                     {isLoading && <p>{t("search.loading")}</p>}
+                    {isLoading && <p>{t("loading-results")}</p>}
                     {!isLoading &&
                       results.length === 0 &&
                       debouncedUsername && (
                         <p>{t("search.noResults", { query: debouncedUsername })}</p>
+                        <p>
+                          {t("no-results-for")} "{debouncedUsername}"
+                        </p>
                       )}
                     <ul>
                       {results.map((user) => (
@@ -316,6 +339,7 @@ const Sidebar: React.FC = () => {
                                 onClick={() => startChat(user)}
                               >
                                 {t("search.startChat")}
+                                {t("start-chat")}
                               </button>
                               <button
                                 className={styles.optionButton}
@@ -323,6 +347,7 @@ const Sidebar: React.FC = () => {
                                 disabled={user.profileId === ""}
                               >
                                 {t("search.viewProfile")}
+                                {t("view-profile")}
                               </button>
                             </div>
                           )}
@@ -340,11 +365,15 @@ const Sidebar: React.FC = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder={t("search.searchPosts")}
+                    placeholder={t("search-posts")}
                     className={styles.searchBox}
                   />
                   <div className={styles.scrollableContainer}>
                     {filteredPosts.length === 0 && debouncedUsername && (
                       <p>{t("search.noResults", { query: debouncedUsername })}</p>
+                      <p>
+                        {t("no-results-for")} "{debouncedUsername}"
+                      </p>
                     )}
                     <ul>
                       {filteredPosts.map((post) => (
@@ -364,6 +393,7 @@ const Sidebar: React.FC = () => {
           {activePanel === "notifications" && (
             <div className={styles.notificationsPanel}>
               <h5>{t("notifications.title")}</h5>
+              <h5>{t("notifications")}</h5>
               {notifications.length > 0 ? (
                 <div className={styles.notificationsContainer}>
                   <ul className={styles.notificationsList}>
@@ -382,6 +412,9 @@ const Sidebar: React.FC = () => {
                 </div>
               ) : (
                 <p className={styles.noNotifications}>{t("notifications.noNew")}</p>
+                <p className={styles.noNotifications}>
+                  {t("no-new-notifications")}
+                </p>
               )}
               <button
                 className={styles.clearBtn}
@@ -389,23 +422,30 @@ const Sidebar: React.FC = () => {
                 disabled={notifications.length === 0}
               >
                 {t("notifications.clearAll")}
+                {t("clear-all")}
               </button>
             </div>
           )}
           {activePanel === "messages" && (
             <>
               <h5>{t("messages.title")}</h5>
+              <h5>{t("messages")}</h5>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder={t("messages.searchByEmail")}
+                placeholder={t("search-user-by-email")}
                 className={styles.searchBox}
               />
               <div className={styles.scrollableContainerMessages}>
                 {isLoading && <p>{t("messages.loading")}</p>}
+                {isLoading && <p>{t("loading-results")}...</p>}
                 {!isLoading && results.length === 0 && debouncedUsername && (
                   <p>{t("messages.noResults", { query: debouncedUsername })}</p>
+                  <p>
+                    {t("no-results-for")} "{debouncedUsername}"
+                  </p>
                 )}
                 <ul>
                   {results.map((user) => (

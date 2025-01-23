@@ -33,7 +33,7 @@ interface Challenge {
 
 const ChallengeCreation: React.FC = () => {
   const { t } = useTranslation();
-  useWebsiteTitle(t("create-challenge"));
+  useWebsiteTitle(t("create-your-challenge"));
   const api = useApiMultipart();
   const userHook = useUser();
 

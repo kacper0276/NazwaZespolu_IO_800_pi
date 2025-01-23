@@ -40,7 +40,7 @@ const ActivateAccount: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Trwa aktywacja konta</h1>
+      <h1>{t("account-activation-is-in-progress")}</h1>
     </div>
   );
 };
