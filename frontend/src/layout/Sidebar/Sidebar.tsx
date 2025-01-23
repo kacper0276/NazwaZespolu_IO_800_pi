@@ -241,7 +241,7 @@ const Sidebar: React.FC = () => {
           >
             <i className="bi bi-search"></i>
             {!isMinimized && (
-              <span className={styles.navSpan}>{t("search")}</span>
+              <span className={styles.navSpan}>{t("nav.search")}</span>
             )}
           </div>
 
@@ -267,7 +267,7 @@ const Sidebar: React.FC = () => {
           >
             <i className="bi bi-chat-dots"></i>
             {!isMinimized && (
-              <span className={styles.navSpan}>{t("messages")}</span>
+              <span className={styles.navSpan}>{t("nav.messages")}</span>
             )}
           </div>
 
@@ -280,7 +280,7 @@ const Sidebar: React.FC = () => {
           >
             <i className="bi bi-house"></i>
             {!isMinimized && (
-              <span className={styles.navSpan}>{t("home")}</span>
+              <span className={styles.navSpan}>{t("nav.home")}</span>
             )}
           </NavLink>
 
@@ -293,7 +293,7 @@ const Sidebar: React.FC = () => {
           >
             <i className="bi bi-star"></i>
             {!isMinimized && (
-              <span className={styles.navSpan}>{t("premium")}</span>
+              <span className={styles.navSpan}>{t("nav.premium")}</span>
             )}
           </NavLink>
         </nav>
