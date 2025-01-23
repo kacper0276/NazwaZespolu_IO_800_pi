@@ -103,6 +103,31 @@ export class ProfilesController {
     }
   }
 
+  @Get('get-followers-notifications/:profileId')
+  async getFollowersNotifications(
+    @Param('profileId') profileId: string,
+    @Res() response: Response,
+  ) {
+    try {
+      const users =
+        await this.profilesService.getFollowersNotifications(profileId);
+
+      response.status(HttpStatus.OK).send({
+        message: 'followers-notifications',
+        data: users,
+      });
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      } else {
+        throw new HttpException(
+          'a-server-error-occurred',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+    }
+  }
+
   @Put(':id')
   async updateProfile(
     @Param('id') id: string,
