@@ -194,5 +194,9 @@
   "search-posts": "Szukaj postów",
   "no-new-notifications": "Brak nowych powiadomień",
   "clear-all": "Wyczyść",
-  "search-user-by-email": "Szukaj użytkownika przez email"
+  "search-user-by-email": "Szukaj użytkownika przez email",
+
+  "account-activation-is-in-progress": "Trwa aktywacja konta",
+
+  "create-your-challenge": "Utwórz swoje wyzwanie"
 }
