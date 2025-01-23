@@ -177,5 +177,156 @@
 
   "statute": "Regulamin",
   "contact": "Kontakt",
-  "privacy-policy": "Polityka prywatności"
+  "privacy-policy": "Polityka prywatności",
+
+  "challenge-name": "Nazwa Wyzwania",
+  "add-tag-placeholder": "Dodaj tag i naciśnij Enter",
+  "challenge-difficulty": "Trudność Challenge'u",
+  "select-valid-dates": "Wybierz poprawne daty",
+  "select-tree-skin": "Wybierz skórkę Drzewka",
+  "standard-skin": "Standardowa Skórka",
+  "premium-skin": "Premium Skórka",
+  "daily-reminder": "Codzienne Przypomnienie",
+  "upload-image": "Prześlij Obrazek",
+  "visibility": "Widoczność",
+  "public": "Publiczny",
+  "private": "Prywatny",
+  "allow-comments": "Zezwól na Komentarze",
+  "add-as-post": "Dodaj jako Post",
+  "create-challenge-button": "Utwórz Challenge",
+  "tag-errors": {
+    "empty": "Tag nie może być pusty.",
+    "too-long": "Tag nie może przekraczać 20 znaków.",
+    "no-numbers": "Tag nie może zawierać cyfr.",
+    "no-duplicates": "Tag nie może być zduplikowany.",
+    "max-tags": "Możesz dodać maksymalnie 5 tagów."
+  },
+
+  "nav": {
+    "search": "Szukaj",
+    "notifications": "Powiadomienia", 
+    "messages": "Wiadomości",
+    "home": "Strona główna",
+    "premium": "Premium",
+    "settings": "Ustawienia"
+},
+"sidebar": {
+    "userProfileAlt": "Zdjęcie profilowe użytkownika",
+    "viewProfile": "Wyświetl profil"
+},
+"search": {
+    "title": "Wyszukiwanie",
+    "users": "Użytkownicy",
+    "posts": "Posty",
+    "searchUsers": "Szukaj użytkowników...",
+    "searchPosts": "Szukaj postów...",
+    "loading": "Ładowanie wyników...",
+    "noResults": "Brak wyników dla \"{{query}}\"",
+    "startChat": "Rozpocznij czat",
+    "viewProfile": "Wyświetl profil",
+    "userAvatar": "Avatar użytkownika"
+},
+"notifications": {
+  "title": "Notifications",
+  "noNew": "No new notifications",
+  "clearAll": "Clear All"
+},
+"messages": {
+    "title": "Wiadomości", 
+    "searchByEmail": "Szukaj użytkownika po adresie e-mail...",
+    "loading": "Ładowanie wyników...",
+    "noResults": "Brak wyników dla \"{{query}}\"",
+    "userAvatar": "Avatar użytkownika"
+},
+"error": {
+    "fetchUsers": "Błąd podczas pobierania użytkowników"
+},
+"posts": {
+    "firstPost": {
+        "title": "Pierwszy post",
+        "content": "Ale super post"
+    },
+    "secondPost": {
+        "title": "DRUGI",
+        "content": "Ten jeszcze lepszy"
+    },
+    "thirdPost": {
+        "title": "TRZECI",
+        "content": "superowy"
+    }
+},
+"settings": "Ustawienia",
+"your_account": "Twoje Konto",
+"privacy_and_safety": "Prywatność i Bezpieczeństwo", 
+"contact_support": "Kontakt ze Wsparciem",
+"language": "Język",
+"logout": "Wyloguj",
+"admin_settings": "Ustawienia Administratora",
+"select_option": "Wybierz opcję z menu",
+"change-user-data": "Zmień Dane Użytkownika",
+"show-users-opinion": "Pokaż Opinie",
+"admin_option_3": "Opcja Administratora 3",
+"admin_option_3_content": "To jest placeholder treści opcji administratora.",
+"title": "Wybierz Swoją Wersję",
+"plans": {
+    "standard": {
+        "name": "Standardowy",
+        "price": "Darmowy",
+        "features": [
+            "Podstawowy Dostęp do Funkcji",
+            "Dostęp do Treści Publicznych", 
+            "Wsparcie Społeczności",
+            "Limit 15 Projektów Jednocześnie"
+        ]
+    },
+    "premium": {
+        "name": "Premium",
+        "price": "15 zł / miesiąc",
+        "features": [
+            "Wszystkie Funkcje Standardowe",
+            "Specjalne Oznaczenie Nicku",
+            "Priorytetowe Wsparcie", 
+            "Nieograniczona Liczba Projektów",
+            "Ekskluzywne Skórki",
+            "Reklamy Usunięte"
+        ],
+        "purchaseButton": "Kup Teraz"
+    }
+  
+},
+
+"main-page": "Strona główna",
+"posted-by": "Zapostowane przez",
+"treeactions": "Drzewakcje",
+"previous": "Poprzedni",
+"next": "Następny",
+"error-fetching-posts": "Błąd podczas pobierania postów",
+"no-posts": "Brak dostępnych postów",
+
+"add-note": "Dodaj notatkę",
+"add-challenge-update": "Dodaj aktualizację wyzwania",
+"update-content": "Treść aktualizacji",
+"update-progress-placeholder": "Opisz swój postęp w wyzwaniu...",
+"add-photo-optional": "Dodaj zdjęcie (opcjonalne)",
+"add-update": "Dodaj aktualizację",
+"note-added-success": "Aktualizacja dodana pomyślnie",
+"error-adding-note": "Błąd podczas dodawania aktualizacji",
+
+"posts-profile-count": "Posty",
+"posts-tab": "Posty",
+"profile-page-title": "Profil",
+"challenges": "Wyzwania",
+"forest": "Las",
+"unfollow-success": "Pomyślnie przestano obserwować użytkownika.",
+"follow-success": "Pomyślnie zaobserwowano użytkownika.",
+"error-follow-action": "Wystąpił błąd podczas zmiany statusu obserwowania.",
+"error-fetching-profile": "Nie udało się załadować profilu. Spróbuj ponownie.",
+"description-updated": "Opis został zaktualizowany.",
+"error-updating-description": "Wystąpił błąd podczas aktualizacji opisu.",
+"unfollow": "Przestań obserwować",
+"follow": "Obserwuj",
+"send-message": "Wyślij wiadomość",
+"followers": "Obserwujący",
+"following": "Obserwowani",
+"error-fetching-follow-data": "Nie udało się załadować danych obserwujących."
 }

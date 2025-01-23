@@ -124,27 +124,27 @@ const ChallengeCreation: React.FC = () => {
       const trimmedTag = tagInput.trim();
 
       if (!trimmedTag) {
-        setErrorMessage("Tag cannot be empty.");
+        setErrorMessage(t("tag-errors.empty"));
         return;
       }
 
       if (trimmedTag.length > 20) {
-        setErrorMessage("Tag cannot exceed 20 characters.");
+        setErrorMessage(t("tag-errors.too-long"));
         return;
       }
 
       if (/\d/.test(trimmedTag)) {
-        setErrorMessage("Tag cannot contain numbers.");
+        setErrorMessage(t("tag-errors.no-numbers"));
         return;
       }
 
       if (challenge.tags.includes(trimmedTag)) {
-        setErrorMessage("Tag cannot be duplicated.");
+        setErrorMessage(t("tag-errors.no-duplicates"));
         return;
       }
 
       if (challenge.tags.length >= 5) {
-        setErrorMessage("You can only add up to 5 tags.");
+        setErrorMessage(t("tag-errors.max-tags"));
         return;
       }
 
@@ -195,11 +195,11 @@ const ChallengeCreation: React.FC = () => {
   return (
     <div className={styles.formContainer}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h2 className={styles.title}>Create a Challenge</h2>
+        <h2 className={styles.title}>{t("create-challenge")}</h2>
 
         <div className={styles.inputGroup}>
           <label htmlFor="name" className={styles.label}>
-            Challenge Name
+            {t("challenge-name")}
           </label>
           <input
             type="text"
@@ -214,7 +214,7 @@ const ChallengeCreation: React.FC = () => {
 
         <div className={styles.inputGroup}>
           <label htmlFor="description" className={styles.label}>
-            Description
+            {t("description")}
           </label>
           <textarea
             id="description"
@@ -228,7 +228,7 @@ const ChallengeCreation: React.FC = () => {
 
         <div className={styles.inputGroup}>
           <label htmlFor="tags" className={styles.label}>
-            Tags
+            {t("tags")}
           </label>
           <input
             type="text"
@@ -238,7 +238,7 @@ const ChallengeCreation: React.FC = () => {
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
             onKeyDown={handleAddTag}
-            placeholder="Add a tag and press Enter"
+            placeholder={t("add-tag-placeholder")}
           />
           {errorMessage && (
             <p className={`${styles.errorMessage} customErrorClass`}>
@@ -263,7 +263,7 @@ const ChallengeCreation: React.FC = () => {
 
         <div className={styles.inputGroup}>
           <label htmlFor="startDate" className={styles.label}>
-            Start Date
+            {t("start-date")}
           </label>
           <input
             type="date"
@@ -279,7 +279,7 @@ const ChallengeCreation: React.FC = () => {
 
         <div className={styles.inputGroup}>
           <label htmlFor="endDate" className={styles.label}>
-            End Date
+            {t("end-date")}
           </label>
           <input
             type="date"
@@ -295,13 +295,15 @@ const ChallengeCreation: React.FC = () => {
         </div>
 
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Challenge Difficulty</label>
+          <label className={styles.label}>{t("challenge-difficulty")}</label>
           <div
             className={`${styles.difficultyDisplay} ${
               challenge.difficulty ? styles.difficultyBorder : ""
             }`}
           >
-            {challenge.difficulty ? challenge.difficulty : "Select valid dates"}
+            {challenge.difficulty
+              ? challenge.difficulty
+              : t("select-valid-dates")}
           </div>
         </div>
 
@@ -310,7 +312,7 @@ const ChallengeCreation: React.FC = () => {
           challenge.difficulty === "Duże drzewo") && (
           <div className={styles.inputGroup}>
             <label htmlFor="treeSkin" className={styles.label}>
-              Select Tree Skin
+              {t("select-tree-skin")}
             </label>
             <select
               id="skins"
@@ -318,8 +320,8 @@ const ChallengeCreation: React.FC = () => {
               onChange={handleSkinChange}
               className={styles.select}
             >
-              <option value="StandardSkin">Standard Skin</option>
-              <option value="PremiumSkin">Premium Skin</option>
+              <option value="StandardSkin">{t("standard-skin")}</option>
+              <option value="PremiumSkin">{t("premium-skin")}</option>
             </select>
             <div className={styles.skinPreview}>
               {challenge.difficulty === "Krzew" && (
@@ -369,13 +371,13 @@ const ChallengeCreation: React.FC = () => {
             onChange={handleCheckboxChange}
           />
           <label htmlFor="dailyReminder" className={styles.checkboxLabel}>
-            Daily Reminder
+            {t("daily-reminder")}
           </label>
         </div>
 
         <div className={styles.inputGroup}>
           <label htmlFor="image" className={styles.label}>
-            Upload Image
+            {t("upload-image")}
           </label>
           <input
             type="file"
@@ -387,7 +389,7 @@ const ChallengeCreation: React.FC = () => {
         </div>
 
         <div className={styles.radioGroup}>
-          <label className={styles.label}>Visibility:</label>
+          <label className={styles.label}>{t("visibility")}:</label>
           <div>
             <input
               type="radio"
@@ -399,7 +401,7 @@ const ChallengeCreation: React.FC = () => {
               onChange={handleRadioChange}
             />
             <label htmlFor="visibilityPublic" className={styles.radioLabel}>
-              Public
+              {t("public")}
             </label>
           </div>
           <div>
@@ -413,7 +415,7 @@ const ChallengeCreation: React.FC = () => {
               onChange={handleRadioChange}
             />
             <label htmlFor="visibilityPrivate" className={styles.radioLabel}>
-              Private
+              {t("private")}
             </label>
           </div>
         </div>
@@ -428,7 +430,7 @@ const ChallengeCreation: React.FC = () => {
             onChange={handleCheckboxChange}
           />
           <label htmlFor="allowComments" className={styles.checkboxLabel}>
-            Allow Comments
+            {t("allow-comments")}
           </label>
         </div>
 
@@ -442,12 +444,11 @@ const ChallengeCreation: React.FC = () => {
             onChange={handleCheckboxChange}
           />
           <label htmlFor="isPost" className={styles.checkboxLabel}>
-            Add as post
+            {t("add-as-post")}
           </label>
         </div>
-
         <button type="submit" className={`${styles.submitButton}`}>
-          Create Challenge
+          {t("create-challenge-button")}
         </button>
       </form>
     </div>

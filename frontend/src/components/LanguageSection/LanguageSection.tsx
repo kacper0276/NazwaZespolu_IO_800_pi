@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect }  from "react";
 import { useTranslation } from "react-i18next";
 import { Lang } from "../../enums/lang.enum";
 import styles from "./LanguageSection.module.scss";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
+
+
 
 const LanguageSection: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -10,9 +12,17 @@ const LanguageSection: React.FC = () => {
 
   const setLang = (lang: Lang) => {
     i18n.changeLanguage(lang);
+    localStorage.setItem('appLanguage', lang);
   };
 
+  useEffect(() => {
+    const savedLang = localStorage.getItem('appLanguage') as Lang;
+    if (savedLang) {
+      i18n.changeLanguage(savedLang);
+    }
+  }, []);
   return (
+    
     <div className={styles.languageSection}>
       <h2>{t("language-settings")}</h2>
       <div className={styles.languageOptions}>
