@@ -79,7 +79,7 @@ export class GoalsController {
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   async findById(@Param('id') id: string, @Res() response: Response) {
-    const goal = await this.goalsService.findById(Number(id));
+    const goal = await this.goalsService.findById(id);
     if (!goal) {
       throw new HttpException('challange-not-found', HttpStatus.NOT_FOUND);
     }
@@ -162,13 +162,13 @@ export class GoalsController {
     });
   }
 
-  @Get('get-posts-by-tag')
+  @Get('get-posts/by-tag')
   @UseGuards(JwtAuthGuard)
   async getPostsByTag(@Query('tag') tag: string, @Res() response: Response) {
     const posts = await this.goalsService.findPostsByTag(tag);
 
     response.status(HttpStatus.OK).send({
-      message: 'posts-main-page',
+      message: 'posts-by-tag',
       data: posts,
     });
   }
@@ -181,10 +181,7 @@ export class GoalsController {
     @Res() response: Response,
   ) {
     try {
-      const updatedGoal = await this.goalsService.updateGoal(
-        Number(id),
-        updateGoalDto,
-      );
+      const updatedGoal = await this.goalsService.updateGoal(id, updateGoalDto);
       if (!updatedGoal) {
         throw new HttpException('challange-not-found', HttpStatus.NOT_FOUND);
       }
@@ -201,7 +198,7 @@ export class GoalsController {
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   async deleteGoal(@Param('id') id: string, @Res() response: Response) {
-    const deletedGoal = await this.goalsService.deleteGoal(Number(id));
+    const deletedGoal = await this.goalsService.deleteGoal(id);
     if (!deletedGoal) {
       throw new HttpException('challange-not-found', HttpStatus.NOT_FOUND);
     }

@@ -25,7 +25,7 @@ export class GoalsService {
     return this.goalsRepository.findAll();
   }
 
-  async findById(id: number): Promise<Goal | null> {
+  async findById(id: string): Promise<Goal | null> {
     return this.goalsRepository.findById(id);
   }
 
@@ -48,13 +48,13 @@ export class GoalsService {
   }
 
   async updateGoal(
-    id: number,
+    id: string,
     updateGoalDto: Partial<Goal>,
   ): Promise<Goal | null> {
     return this.goalsRepository.updateGoal(id, updateGoalDto);
   }
 
-  async deleteGoal(id: number): Promise<Goal | null> {
+  async deleteGoal(id: string): Promise<Goal | null> {
     return this.goalsRepository.deleteGoal(id);
   }
 

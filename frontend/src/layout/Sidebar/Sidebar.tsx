@@ -146,15 +146,14 @@ const Sidebar: React.FC = () => {
   useEffect(() => {
     const fetchPostsByTag = async () => {
       if (searchMode === "posts" && debouncedUsername.trim()) {
+        console.log(debouncedUsername.toLowerCase());
         try {
           const response = await api.get<ApiResponse<GoalType[]>>(
-            "goals/get-posts-by-tag",
+            "goals/get-posts/by-tag",
             {
               params: { tag: debouncedUsername.toLowerCase() },
             }
           );
-
-          console.log(response);
 
           const posts = response.data.data ?? [];
           setFilteredPosts(posts);

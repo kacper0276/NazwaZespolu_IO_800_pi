@@ -36,8 +36,8 @@ export class GoalRepository {
     return this.goalModel.find().exec();
   }
 
-  async findById(id: number): Promise<Goal | null> {
-    return this.goalModel.findById(id).exec();
+  async findById(id: string): Promise<Goal | null> {
+    return this.goalModel.findById({ _id: id }).exec();
   }
 
   async findByProfileId(profileId: string): Promise<Goal[] | null> {
@@ -63,15 +63,15 @@ export class GoalRepository {
   }
 
   async updateGoal(
-    id: number,
+    id: string,
     updateData: Partial<Goal>,
   ): Promise<Goal | null> {
     return this.goalModel
-      .findByIdAndUpdate(id, updateData, { new: true })
+      .findByIdAndUpdate({ _id: id }, updateData, { new: true })
       .exec();
   }
 
-  async deleteGoal(id: number): Promise<Goal | null> {
+  async deleteGoal(id: string): Promise<Goal | null> {
     return this.goalModel.findByIdAndDelete(id).exec();
   }
 
@@ -141,7 +141,7 @@ export class GoalRepository {
   async findPostsByTag(tag: string) {
     const posts = await this.goalModel
       .find({
-        tags: { $in: tag },
+        tags: { $elemMatch: { $regex: tag, $options: 'i' } },
         isPost: true,
         visibility: 'public',
       })
