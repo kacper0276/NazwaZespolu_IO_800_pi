@@ -12,6 +12,7 @@ import {
   UploadedFile,
   Res,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
 import { GoalsService } from './goals.service';
 import { Goal } from './entities/goal.entity';
@@ -20,6 +21,9 @@ import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { likeAction } from './dto/likeAction.dto';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 const storage = {
   storage: diskStorage({
@@ -36,9 +40,9 @@ const storage = {
 @Controller('goals')
 export class GoalsController {
   constructor(private readonly goalsService: GoalsService) {}
-
   @Post()
   @UseInterceptors(FileInterceptor('image', storage))
+  @UseGuards(JwtAuthGuard)
   async createGoal(
     @Body() createGoalDto: Partial<Goal>,
     @UploadedFile() file: Express.Multer.File,
@@ -59,7 +63,9 @@ export class GoalsController {
     }
   }
 
-  @Get()
+  @Get('all-goals')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   async findAll(@Res() response: Response) {
     const goals = await this.goalsService.findAll();
 
@@ -70,6 +76,7 @@ export class GoalsController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   async findById(@Param('id') id: string, @Res() response: Response) {
     const goal = await this.goalsService.findById(Number(id));
     if (!goal) {
@@ -83,6 +90,7 @@ export class GoalsController {
   }
 
   @Get('find-by-profile/:profileId')
+  @UseGuards(JwtAuthGuard)
   async findByProfileId(
     @Param('profileId') profileId: string,
     @Res() response: Response,
@@ -96,6 +104,7 @@ export class GoalsController {
   }
 
   @Get('find-by-profile-and-complete-is-false/:profileId')
+  @UseGuards(JwtAuthGuard)
   async findByProfileIdAndDoneIsFalse(
     @Param('profileId') profileId: string,
     @Res() response: Response,
@@ -110,6 +119,7 @@ export class GoalsController {
   }
 
   @Get('find-complete-by-profile/:profileId')
+  @UseGuards(JwtAuthGuard)
   async findCompleteByProfileId(
     @Param('profileId') profileId: string,
     @Res() response: Response,
@@ -123,6 +133,7 @@ export class GoalsController {
   }
 
   @Get('find-posts-by-profile/:profileId')
+  @UseGuards(JwtAuthGuard)
   async findPostsByProfileId(
     @Param('profileId') profileId: string,
     @Res() response: Response,
@@ -136,6 +147,7 @@ export class GoalsController {
   }
 
   @Get('main-page-posts/:profileId')
+  @UseGuards(JwtAuthGuard)
   async findPostsForMainPageByProfileId(
     @Param('profileId') profileId: string,
     @Res() response: Response,
@@ -150,6 +162,7 @@ export class GoalsController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   async updateGoal(
     @Param('id') id: string,
     @Body() updateGoalDto: Partial<Goal>,
@@ -174,6 +187,7 @@ export class GoalsController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async deleteGoal(@Param('id') id: string, @Res() response: Response) {
     const deletedGoal = await this.goalsService.deleteGoal(Number(id));
     if (!deletedGoal) {
@@ -187,6 +201,7 @@ export class GoalsController {
   }
 
   @Patch('like-action')
+  @UseGuards(JwtAuthGuard)
   async likeActionMethod(
     @Body() likeActionData: likeAction,
     @Res() response: Response,

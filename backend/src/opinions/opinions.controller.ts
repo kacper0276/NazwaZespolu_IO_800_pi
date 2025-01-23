@@ -9,11 +9,15 @@ import {
   Post,
   Put,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { OpinionsService } from './opinions.service';
 import { Response } from 'express';
 import { opinionData } from './dto/opinion.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiBearerAuth('access-token')
 @Controller('opinions')
@@ -21,6 +25,7 @@ export class OpinionsController {
   constructor(private readonly opinionsService: OpinionsService) {}
 
   @Post('')
+  @UseGuards(JwtAuthGuard)
   async createNewOpinion(
     @Res() response: Response,
     @Body() opinionData: opinionData,
@@ -46,6 +51,8 @@ export class OpinionsController {
   }
 
   @Get('all-active')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   async getAllActiveOpinions(@Res() response: Response) {
     try {
       const res = await this.opinionsService.getAllActiveOpinions();
@@ -62,6 +69,7 @@ export class OpinionsController {
   }
 
   @Put('close/:id')
+  @UseGuards(JwtAuthGuard)
   async closeOpinion(@Res() response: Response, @Param('id') id: string) {
     try {
       const res = await this.opinionsService.update(id, { closed: true });
@@ -78,6 +86,7 @@ export class OpinionsController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async deleteOpinion(@Res() response: Response, @Param('id') id: string) {
     try {
       const res = await this.opinionsService.delete(id);

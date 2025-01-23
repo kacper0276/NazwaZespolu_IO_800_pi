@@ -11,6 +11,7 @@ import {
   Res,
   UseInterceptors,
   UploadedFile,
+  UseGuards,
 } from '@nestjs/common';
 import { GoalUpdateService } from './goalupdates.service';
 import { GoalUpdate } from './entities/goalupdate.entity';
@@ -18,6 +19,9 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { Response } from 'express';
 import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 const storage = {
   storage: diskStorage({
@@ -37,6 +41,7 @@ export class GoalUpdateController {
 
   @Post()
   @UseInterceptors(FileInterceptor('image', storage))
+  @UseGuards(JwtAuthGuard)
   async createGoalUpdate(
     @Body() createGoalUpdateDto: Partial<GoalUpdate>,
     @UploadedFile() file: Express.Multer.File,
@@ -57,7 +62,9 @@ export class GoalUpdateController {
     }
   }
 
-  @Get()
+  @Get('all-goalupdates')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   async findAll(@Res() response: Response) {
     const goalUpdates = await this.goalUpdateService.findAll();
 
@@ -68,6 +75,7 @@ export class GoalUpdateController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   async findById(@Param('id') id: string, @Res() response: Response) {
     const goalUpdate = await this.goalUpdateService.findById(id);
     if (!goalUpdate) {
@@ -84,6 +92,7 @@ export class GoalUpdateController {
   }
 
   @Get('goal/:goalId')
+  @UseGuards(JwtAuthGuard)
   async findByPostId(
     @Param('goalId') goalId: string,
     @Res() response: Response,
@@ -97,6 +106,7 @@ export class GoalUpdateController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   async updateGoalUpdate(
     @Param('id') id: string,
     @Body() updateGoalUpdateDto: Partial<GoalUpdate>,
@@ -124,6 +134,7 @@ export class GoalUpdateController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
   async deleteGoalUpdate(@Param('id') id: string, @Res() response: Response) {
     const deletedGoalUpdate = await this.goalUpdateService.deleteGoalUpdate(id);
     if (!deletedGoalUpdate) {

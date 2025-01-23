@@ -9,11 +9,15 @@ import {
   HttpException,
   HttpStatus,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { Payment } from './entities/payment.entity';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Response } from 'express';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @ApiBearerAuth('access-token')
 @Controller('payments')
@@ -21,6 +25,7 @@ export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async createPayment(
     @Body() createPaymentDto: Partial<Payment>,
     @Res() response: Response,
@@ -38,7 +43,9 @@ export class PaymentsController {
     }
   }
 
-  @Get()
+  @Get('all-payments')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   async findAll(@Res() response: Response) {
     const payments = await this.paymentsService.findAll();
 
@@ -49,6 +56,8 @@ export class PaymentsController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   async findById(@Param('id') id: string, @Res() response: Response) {
     const payment = await this.paymentsService.findAll();
     if (!payment) {
@@ -62,6 +71,8 @@ export class PaymentsController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   async updatePayment(
     @Param('id') id: string,
     @Body() updatePaymentDto: Partial<Payment>,
@@ -86,6 +97,8 @@ export class PaymentsController {
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   async deletePayment(@Param('id') id: string, @Res() response: Response) {
     const deletedPayment = await this.paymentsService.deletePayment(id);
     if (!deletedPayment) {
