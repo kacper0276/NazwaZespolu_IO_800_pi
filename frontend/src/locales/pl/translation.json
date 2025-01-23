@@ -3,7 +3,7 @@
   "username": "Nazwa użytkownika",
   "password": "Hasło",
   "remember-me": "Zapamiętaj mnie",
-  "forgot-password": "Zapomniałeś hasła",
+  "forgot-password": "Zapomniałeś hasła?",
   "welcome-to-login": "Witaj na stronie logowania",
   "dontt-have-an-account": "Nie masz jeszcze konta",
   "sign-up": "Zarejestruj się",
@@ -21,7 +21,7 @@
   "a-server-error-occurred": "Wystąpił błąd serwera",
   "passwords-do-not-match": "Hasła się nie zgadzają",
   "a-user-with-this-email-already-exists": "Użytkownik o tym e-mailu już istnieje",
-  "user-registered": "Zarejestrowano użytkownika",
+  "user-registered": "Pomyślnie zarejestrowano użytkownika",
 
   "successfully-logged-in": "Pomyślnie zalogowano",
   "invalid-user-data": "Nieprawidłowe dane użytkownika",
@@ -151,7 +151,7 @@
   "read-more": "Czytaj więcej",
 
   "duration": "Czas trwania",
-  "days": "dni",
+  "days": "Dni",
   "tree": "Drzewo",
   "complete": "Ukończony",
 
