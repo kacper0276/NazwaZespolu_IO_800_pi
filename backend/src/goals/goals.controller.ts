@@ -13,6 +13,7 @@ import {
   Res,
   Patch,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { GoalsService } from './goals.service';
 import { Goal } from './entities/goal.entity';
@@ -154,6 +155,17 @@ export class GoalsController {
   ) {
     const posts =
       await this.goalsService.findPostsForMainPageByProfileId(profileId);
+
+    response.status(HttpStatus.OK).send({
+      message: 'posts-main-page',
+      data: posts,
+    });
+  }
+
+  @Get('get-posts-by-tag')
+  @UseGuards(JwtAuthGuard)
+  async getPostsByTag(@Query('tag') tag: string, @Res() response: Response) {
+    const posts = await this.goalsService.findPostsByTag(tag);
 
     response.status(HttpStatus.OK).send({
       message: 'posts-main-page',

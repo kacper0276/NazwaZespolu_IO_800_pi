@@ -66,6 +66,10 @@ export class GoalsService {
     return this.goalsRepository.findPostsForMainPageByProfileId(profileId);
   }
 
+  async findPostsByTag(tag: string) {
+    return this.goalsRepository.findPostsByTag(tag);
+  }
+
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async checkGoalsEndDate() {
     const goals = await this.findAll();
