@@ -4,6 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import styles from "./MainPage.module.scss";
 import CommentsModal from "../../components/Modals/CommentsModal/CommentsModal";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
+import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { GoalType } from "../../types/IGoal";
 import { useApiJson } from "../../config/api";
@@ -13,8 +14,8 @@ import { ApiResponse } from "../../types/api.types";
 import Spinner from "../../components/Spinner/Spinner";
 import localStorageService from "../../services/localStorage.service";
 
-
 const Post: React.FC<{ post: GoalType }> = ({ post }) => {
+  const { t } = useTranslation();
   const api = useApiJson();
   const userHook = useUser();
   const [likes, setLikes] = useState(post.reactions);
@@ -89,7 +90,7 @@ const Post: React.FC<{ post: GoalType }> = ({ post }) => {
                 className="carousel-control-prev-icon"
                 aria-hidden="true"
               ></span>
-              <span className="visually-hidden">Previous</span>
+              <span className="visually-hidden">{t("previous")}</span>
             </button>
             <button
               className="carousel-control-next"
@@ -101,7 +102,7 @@ const Post: React.FC<{ post: GoalType }> = ({ post }) => {
                 className="carousel-control-next-icon"
                 aria-hidden="true"
               ></span>
-              <span className="visually-hidden">Next</span>
+              <span className="visually-hidden">{t("next")}</span>
             </button>
           </div>
         ) : (
@@ -115,7 +116,7 @@ const Post: React.FC<{ post: GoalType }> = ({ post }) => {
           <h5 className="card-title">{post.description}</h5>
           <p className="card-text">
             <small>
-              Posted by{" "}
+              {t("posted-by")}{" "}
               <a
                 href={`/profile-page/${post.profileId}`}
                 className={styles.profileLink}
@@ -135,13 +136,13 @@ const Post: React.FC<{ post: GoalType }> = ({ post }) => {
                 >
                   {liked ? "🌳" : "🌱"}
                 </span>{" "}
-                {likes} Treeactions
+                {likes} {t("treeactions")}
               </span>
               <span
                 className={styles.commentsContainer}
                 onClick={() => setShowComments(true)}
               >
-                💬 {post.commentsIds.length} comments
+                💬 {post.commentsIds.length} {t("comments")}
               </span>
             </div>
           </div>
@@ -151,7 +152,7 @@ const Post: React.FC<{ post: GoalType }> = ({ post }) => {
         show={showComments}
         onClose={() => setShowComments(false)}
         postId={post._id}
-        commentsIds={post.commentsIds.map(String)} // Konwersja na tablicę stringów
+        commentsIds={post.commentsIds.map(String)}
         allowComments={post.allowComments}
       />
     </div>
@@ -159,6 +160,7 @@ const Post: React.FC<{ post: GoalType }> = ({ post }) => {
 };
 
 const MainPage: React.FC = () => {
+  const { t } = useTranslation();
   useWebsiteTitle(t("main-page"));
   const api = useApiJson();
   const userHook = useUser();
@@ -190,9 +192,13 @@ const MainPage: React.FC = () => {
             <Spinner />
           ) : (
             <div className={styles.postsContainer}>
-              {posts.map((post) => (
-                <Post key={post._id} post={post} />
-              ))}
+              {posts.length === 0 ? (
+                <p>{t("no-posts")}</p>
+              ) : (
+                posts.map((post) => (
+                  <Post key={post._id} post={post} />
+                ))
+              )}
             </div>
           )}
         </div>

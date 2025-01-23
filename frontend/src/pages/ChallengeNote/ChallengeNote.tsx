@@ -34,16 +34,14 @@ const ChallengeNote: React.FC = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("message", note.text);
-
     if (goalId) formData.append("goalId", goalId);
-
     if (note.image) formData.append("image", note.image);
 
     api
       .post<ApiResponse<null>>(`goal-updates`, formData)
       .then((res) => {
         if (res.status === 201) {
-          toast.success(t(res.data.message));
+          toast.success(t("note-added-success"));
           navigate(-1);
         }
       })
@@ -55,11 +53,10 @@ const ChallengeNote: React.FC = () => {
   return (
     <div className={styles.formContainer}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h2 className={styles.title}>Dodaj aktualizację wyzwania</h2>
-
+        <h2 className={styles.title}>{t("add-challenge-update")}</h2>
         <div className={styles.inputGroup}>
           <label htmlFor="text" className={styles.label}>
-            Treść aktualizacji
+            {t("update-content")}
           </label>
           <textarea
             id="text"
@@ -67,14 +64,13 @@ const ChallengeNote: React.FC = () => {
             value={note.text}
             onChange={handleChange}
             required
-            placeholder="Opisz swój postęp w wyzwaniu..."
+            placeholder={t("update-progress-placeholder")}
             rows={4}
           />
         </div>
-
         <div className={styles.inputGroup}>
           <label htmlFor="image" className={styles.label}>
-            Dodaj zdjęcie (opcjonalne)
+            {t("add-photo-optional")}
           </label>
           <input
             type="file"
@@ -84,9 +80,8 @@ const ChallengeNote: React.FC = () => {
             onChange={handleImageChange}
           />
         </div>
-
         <button type="submit" className={styles.submitButton}>
-          Dodaj aktualizację
+          {t("add-update")}
         </button>
       </form>
     </div>

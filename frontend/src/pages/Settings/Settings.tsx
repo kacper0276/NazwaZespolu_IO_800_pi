@@ -46,8 +46,8 @@ const Settings: React.FC = () => {
         return <ShowUsersOpinion />;
       case "admin-option-3":
         return <p>{t("admin_option_3_content")}</p>;
-        case "language":
-          return <LanguageSection />;
+      case "language":
+        return <LanguageSection />;
       default:
         return <p>{t("select_option")}</p>;
     }
@@ -128,12 +128,6 @@ const Settings: React.FC = () => {
                     onClick={() => setActiveSection("show-users-opinion")}
                   >
                     {t("show-users-opinion")}
-                  </button>
-                  <button
-                    className={styles.settingsButton}
-                    onClick={() => setActiveSection("admin-option-3")}
-                  >
-                    {t("admin_option_3")}
                   </button>
                 </div>
               </div>

@@ -25,5 +25,308 @@
 
   "successfully-logged-in": "Successfully logged in",
   "invalid-user-data": "Invalid user data",
-  "your-account-has-been-successfully-activated": "Your account has been successfully activated"
+  "your-account-has-been-successfully-activated": "Your account has been successfully activated",
+  
+  "user-not-found": "User not found",
+  "user-data": "User data",
+  "search-results": "Search results",
+  "all-users": "All users",
+  "remove-user": "User removed",
+  "user-details-successfully-changed": "User details successfully changed",
+
+  "create-comment": "Comment created",
+  "all-comments": "All comments",
+  "comment-data": "Comment data",
+  "update-comment": "Comment updated",
+  "remove-comment": "Comment removed",
+  "not-found-comment": "Comment not found",
+
+  "create-challenge": "Challenge created",
+  "all-challanges": "All challenges",
+  "challange-not-found": "Challenge not found",
+  "challange-data": "Challenge data",
+  "profile-challanges": "Profile challenges",
+  "complete-challanges": "Completed challenges",
+  "profile-posts": "Profile posts",
+  "posts-main-page": "Main page posts",
+  "update-challange": "Challenge updated",
+  "remove-challange": "Challenge removed",
+  "like-action-succesfully": "Reaction action successfully performed",
+
+  "create-challangeupdate": "Challenge update created",
+  "all-challangeupdates": "All challenge updates",
+  "challange-update-not-found": "Challenge update not found",
+  "challangeupdate-data": "Challenge update data",
+  "goalchallange-for-post": "Updates for the post",
+  "update-challangeupdate": "Challenge update updated",
+  "remove-challangeupdate": "Challenge update removed",
+
+  "successfully-send-opinion": "Opinion successfully sent",
+  "successfully-fetch-all-active-opinions": "All active opinions successfully fetched",
+  "opinion-closed": "Opinion closed",
+  "opinion-deleted": "Opinion deleted",
+
+  "send-payment-details-on-email": "Payment details sent to email",
+  "all-payments": "All payments",
+  "payment-not-found": "Payment not found",
+  "payment-data": "Payment data",
+  "update-payment": "Payment updated",
+  "remove-payment": "Payment removed",
+
+  "create-profile": "Profile created",
+  "all-profiles": "All profiles",
+  "profile-not-found": "Profile not found",
+  "profile-data": "Profile data",
+  "followers-and-following-list": "Followers and following list",
+  "update-profile": "Profile updated",
+  "follow-action-successful": "Follow action successfully performed",
+  "successful-change-description": "Description successfully changed",
+  "remove-profile": "Profile removed",
+
+  "edit-your-data": "Edit your data",
+  "profile-updated": "Profile updated",
+  "error-updating-profile": "Error updating profile",
+  "account-settings": "Account settings",
+  "new-password": "New password",
+  "enter-new-password": "Enter new password",
+  "profile-image": "Profile image",
+  "background-image": "Background image",
+  "save-changes": "Save changes",
+
+  "change-users-data": "Change users' data",
+  "role": "Role",
+  "actions": "Actions",
+  "edit": "Edit",
+  "delete": "Delete",
+  "edit-user": "Edit user",
+  "cancel": "Cancel",
+
+  "send-opinion": "Send opinion",
+  "send-us-your-opinion": "Send us your opinion",
+  "share-your-thoughts": "Share your thoughts",
+
+  "language-settings": "Language settings",
+  "english": "English",
+  "polish": "Polish",
+  "jp": "Japanese",
+
+  "challenge-details": "Challenge details",
+  "error-fetching-updates": "Error fetching updates",
+  "description": "Description",
+  "start-date": "Start date",
+  "end-date": "End date",
+  "days-to-end": "Days to end",
+  "progress": "Progress",
+  "tags": "Tags",
+  "daily-updates": "Daily updates",
+  "add-new-update": "Add new update",
+
+  "comment-cannot-be-empty": "Comment cannot be empty",
+  "comments": "Comments",
+  "add-comment": "Add comment",
+  "write-your-comment-here": "Write your comment here",
+  "no-comments-yet": "No comments yet",
+  "close": "Close",
+
+  "search-user": "Search user",
+  "not-found-user": "User not found",
+
+  "full-size": "Full size",
+
+  "select-payment-method": "Select payment method",
+  "credit-debit-card": "Credit/Debit card",
+  "paypal": "PayPal",
+  "bank-transfer": "Bank transfer",
+  "card-number": "Card number",
+  "expiry-date": "Expiry date",
+  "cvv": "CVV",
+  "cardholder-name": "Cardholder name",
+  "full-name": "Full name",
+  "premium-plan": "Premium plan",
+  "monthly": "Monthly",
+  "total": "Total",
+  "buy-now": "Buy now",
+
+  "error-adding-comment": "Error adding comment",
+  "show-less": "Show less",
+  "read-more": "Read more",
+
+  "duration": "Duration",
+  "days": "Days",
+  "tree": "Tree",
+  "complete": "Complete",
+
+  "edit-profile": "Edit profile",
+  "profile-description": "Profile description",
+  "write-something-about-you": "Write something about yourself",
+
+  "error-fetching-users": "Error fetching users",
+  "error-closing-opinion": "Error closing opinion",
+  "error-deleting-opinion": "Error deleting opinion",
+  "users-opinions": "Users' opinions",
+  "no-opinions-to-display": "No opinions to display",
+  "rating": "Rating",
+  "opinion": "Opinion",
+  "close-opinion": "Close opinion",
+  "delete-opinion": "Delete opinion",
+
+  "edit-user-data": "Edit user data",
+  "admin": "Administrator",
+  "user": "User",
+  "moderator": "Moderator",
+  "is-activated": "Is activated",
+
+  "statute": "Terms and conditions",
+  "contact": "Contact",
+  "privacy-policy": "Privacy policy",
+
+  "challenge-name": "Challenge Name",
+  "add-tag-placeholder": "Add a tag and press Enter",
+  "challenge-difficulty": "Challenge Difficulty",
+  "select-valid-dates": "Select valid dates",
+  "select-tree-skin": "Select Tree Skin",
+  "standard-skin": "Standard Skin",
+  "premium-skin": "Premium Skin",
+  "daily-reminder": "Daily Reminder",
+  "upload-image": "Upload Image",
+  "visibility": "Visibility",
+  "public": "Public",
+  "private": "Private",
+  "allow-comments": "Allow Comments",
+  "add-as-post": "Add as post",
+  "create-challenge-button": "Create Challenge",
+  "tag-errors": {
+    "empty": "Tag cannot be empty.",
+    "too-long": "Tag cannot exceed 20 characters.",
+    "no-numbers": "Tag cannot contain numbers.",
+    "no-duplicates": "Tag cannot be duplicated.",
+    "max-tags": "You can only add up to 5 tags."
+  },
+
+
+  "nav": {
+        "search": "Search",
+        "notifications": "Notifications", 
+        "messages": "Messages",
+        "home": "Home",
+        "premium": "Premium",
+        "settings": "Settings"
+    },
+    "sidebar": {
+        "userProfileAlt": "User Profile Picture",
+        "viewProfile": "View Profile"
+    },
+    "search": {
+        "title": "Search",
+        "users": "Users",
+        "posts": "Posts",
+        "searchUsers": "Search users...",
+        "searchPosts": "Search posts...",
+        "loading": "Loading results...",
+        "noResults": "No results for \"{{query}}\"",
+        "startChat": "Start Chat",
+        "viewProfile": "View Profile",
+        "userAvatar": "User Avatar"
+    },
+    "notifications": {
+        "title": "Notifications",
+        "noNew": "No new notifications",
+        "clearAll": "Clear All"
+    },
+    "messages": {
+        "title": "Messages", 
+        "searchByEmail": "Search user by email...",
+        "loading": "Loading results...",
+        "noResults": "No results for \"{{query}}\"",
+        "userAvatar": "User Avatar"
+    },
+    "error": {
+        "fetchUsers": "Error fetching users"
+    },
+    "posts": {
+        "firstPost": {
+            "title": "First Post",
+            "content": "Such a great post"
+        },
+        "secondPost": {
+            "title": "SECOND",
+            "content": "This one is even better"
+        },
+        "thirdPost": {
+            "title": "THIRD",
+            "content": "super awesome"
+        }
+    },
+    "settings": "Settings",
+    "your_account": "Your Account",
+    "privacy_and_safety": "Privacy and Safety", 
+    "contact_support": "Contact Support",
+    "language": "Language",
+    "logout": "Logout",
+    "admin_settings": "Admin Settings",
+    "select_option": "Select an option from the menu",
+    "change-user-data": "Change User Data",
+    "show-users-opinion": "Show Users Opinion",
+    "admin_option_3": "Admin Option 3",
+    "admin_option_3_content": "This is an admin option content placeholder.",
+    "title": "Choose Your Version",
+    "plans": {
+        "standard": {
+            "name": "Standard",
+            "price": "Free",
+            "features": [
+                "Basic Access to Features",
+                "Access to Public Content", 
+                "Community Support",
+                "15 Projects at once Limit"
+            ]
+        },
+        "premium": {
+            "name": "Premium",
+            "price": "15$ / month",
+            "features": [
+                "All Standard Features",
+                "Special Mark in Nickname",
+                "Priority Support", 
+                "Unlimited Projects at once",
+                "Premium Skins",
+                "Ads removed"
+            ],
+            "purchaseButton": "Purchase Now"
+        }
+    },
+
+  "main-page": "Main Page",
+  "posted-by": "Posted by",
+  "treeactions": "Treeactions",
+  "previous": "Previous",
+  "next": "Next",
+  "error-fetching-posts": "Error fetching posts",
+  "no-posts": "No posts available",
+
+  "add-note": "Add Note",
+  "add-challenge-update": "Add Challenge Update",
+  "update-content": "Update Content",
+  "update-progress-placeholder": "Describe your progress in the challenge...",
+  "add-photo-optional": "Add a photo (optional)",
+  "add-update": "Add Update",
+  "note-added-success": "Update added successfully",
+  "error-adding-note": "Error adding update",
+
+  "posts-profile-count": "Posts",
+  "posts-tab": "Posty",
+  "challenges": "Challenges",
+  "forest": "Forest",
+  "unfollow-success": "Successfully unfollowed the user.",
+  "follow-success": "Successfully followed the user.",
+  "error-follow-action": "An error occurred while changing follow status.",
+  "error-fetching-profile": "Failed to load the profile. Please try again.",
+  "description-updated": "Description has been updated.",
+  "error-updating-description": "An error occurred while updating the description.",
+  "unfollow": "Unfollow",
+  "follow": "Follow",
+  "send-message": "Send message",
+  "followers": "Followers",
+  "following": "Following",
+  "error-fetching-follow-data": "Failed to load follower data."
 }

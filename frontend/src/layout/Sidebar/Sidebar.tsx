@@ -194,6 +194,7 @@ const Sidebar: React.FC = () => {
     { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
     { id: 3, title: "TRZECI", content: "superowy" },
   ];
+
   return (
     <div className="d-flex">
       {/* Sidebar */}
@@ -208,7 +209,7 @@ const Sidebar: React.FC = () => {
                 ? `/profileImages/${userHook.user.profileImage}`
                 : ProfilePicPlaceholder
             }
-            alt="User Profile"
+            alt={t("sidebar.userProfileAlt")}
             className={`${styles.profilePicture}`}
             onError={(e) => {
               e.currentTarget.src = ProfilePicPlaceholder;
@@ -223,7 +224,7 @@ const Sidebar: React.FC = () => {
                 href={`/profile-page/${userHook.user?.profileId}`}
                 className={styles.profileLink}
               >
-                {t("view-profile")}
+                {t("sidebar.viewProfile")}
               </a>
             </div>
           )}
@@ -253,7 +254,7 @@ const Sidebar: React.FC = () => {
           >
             <i className="bi bi-bell"></i>
             {!isMinimized && (
-              <span className={styles.navSpan}>{t("notifications")}</span>
+              <span className={styles.navSpan}>{t("nav.notifications")}</span>
             )}
           </div>
 
@@ -301,7 +302,7 @@ const Sidebar: React.FC = () => {
         <div className={styles.settingsSection}>
           <NavLink to="/settings" className={styles.settingsButton}>
             <i className="bi bi-gear"></i>
-            {!isMinimized && <span>{t("settings")}</span>}
+            {!isMinimized && <span>{t("nav.settings")}</span>}
           </NavLink>
         </div>
       </div>
@@ -315,7 +316,7 @@ const Sidebar: React.FC = () => {
         <div className="p-3 w-100 text-white text-wrap">
           {activePanel === "search" && (
             <>
-              <h5>{t("search")}</h5>
+              <h5>{t("search.title")}</h5>
               <div className={`${styles.searchModeSwitcher} mb-3`}>
                 <button
                   className={`${styles.switchButton} ${
@@ -323,7 +324,7 @@ const Sidebar: React.FC = () => {
                   }`}
                   onClick={() => toggleSearchMode("users")}
                 >
-                  {t("users")}
+                  {t("search.users")}
                 </button>
                 <button
                   className={`${styles.switchButton} ${
@@ -331,7 +332,7 @@ const Sidebar: React.FC = () => {
                   }`}
                   onClick={() => toggleSearchMode("posts")}
                 >
-                  {t("posts")}
+                  {t("search.posts")}
                 </button>
               </div>
               {searchMode === "users" && (
@@ -340,10 +341,11 @@ const Sidebar: React.FC = () => {
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder={t("search-user")}
+                    placeholder={t("search.searchUsers")}
                     className={styles.searchBox}
                   />
                   <div className={styles.scrollableContainer}>
+                    {isLoading && <p>{t("search.loading")}</p>}
                     {isLoading && <p>{t("loading-results")}</p>}
                     {!isLoading &&
                       results.length === 0 &&
@@ -364,6 +366,7 @@ const Sidebar: React.FC = () => {
                           <img
                             src={ProfilePicPlaceholder}
                             className={styles.userAvatar}
+                            alt={t("search.userAvatar")}
                           />
                           <strong>
                             {user.firstname} {user.lastname}
@@ -375,6 +378,7 @@ const Sidebar: React.FC = () => {
                                 className={styles.optionButton}
                                 onClick={() => startChat(user)}
                               >
+                                {t("search.startChat")}
                                 {t("start-chat")}
                               </button>
                               <button
@@ -382,6 +386,7 @@ const Sidebar: React.FC = () => {
                                 onClick={() => goToProfile(user)}
                                 disabled={user.profileId === ""}
                               >
+                                {t("search.viewProfile")}
                                 {t("view-profile")}
                               </button>
                             </div>
@@ -399,7 +404,7 @@ const Sidebar: React.FC = () => {
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder={t("search-posts")}
+                    placeholder={t("search.searchPosts")}
                     className={styles.searchBox}
                   />
                   <div className={styles.scrollableContainer}>
@@ -425,7 +430,7 @@ const Sidebar: React.FC = () => {
           )}
           {activePanel === "notifications" && (
             <div className={styles.notificationsPanel}>
-              <h5>{t("notifications")}</h5>
+              <h5>{t("notifications.title")}</h5>
               {notifications.length > 0 ? (
                 <div className={styles.notificationsContainer}>
                   <ul className={styles.notificationsList}>
@@ -452,26 +457,24 @@ const Sidebar: React.FC = () => {
                 onClick={clearNotifications}
                 disabled={notifications.length === 0}
               >
-                {t("clear-all")}
+                {t("notifications.clearAll")}
               </button>
             </div>
           )}
           {activePanel === "messages" && (
             <>
-              <h5>{t("messages")}</h5>
+              <h5>{t("messages.title")}</h5>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder={t("search-user-by-email")}
+                placeholder={t("messages.searchByEmail")}
                 className={styles.searchBox}
               />
               <div className={styles.scrollableContainerMessages}>
-                {isLoading && <p>{t("loading-results")}...</p>}
+                {isLoading && <p>{t("messages.loading")}</p>}
                 {!isLoading && results.length === 0 && debouncedUsername && (
-                  <p>
-                    {t("no-results-for")} "{debouncedUsername}"
-                  </p>
+                  <p>{t("messages.noResults", { query: debouncedUsername })}</p>
                 )}
                 <ul>
                   {results.map((user) => (
@@ -483,6 +486,7 @@ const Sidebar: React.FC = () => {
                       <img
                         src={ProfilePicPlaceholder}
                         className={styles.userAvatar}
+                        alt={t("messages.userAvatar")}
                       />
                       <strong>
                         {user.firstname} {user.lastname}

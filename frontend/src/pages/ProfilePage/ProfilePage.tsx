@@ -4,7 +4,6 @@ import FollowListModal from "../../components/Modals/FollowListModal/FollowListM
 import PostDetailModal from "../../components/Modals/PostDetailsModal/PostDetailsModal";
 import ProfilePicPlaceholder from "../../assets/images/ProfilePic.jpg";
 import BackgroundPicPlaceholder from "../../assets/images/bgplaceholder.jpg";
-// import ProfileEditModal from "../../components/Modals/ProfileEditModal/ProfileEditModal";
 import ChallengesTab from "./ChallengeTab/ChallengesTab";
 import PostsTab from "./PostsTab/PostsTab";
 import ForestTab from "./ForestTab/ForestTab";
@@ -25,11 +24,11 @@ const ProfilePage: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
-  useWebsiteTitle(t("posts"));
+  useWebsiteTitle(t("profile-page-title"));
   const api = useApiJson();
   const userHook = useUser();
   const { profileId } = useParams();
-  const [activeTab, setActiveTab] = useState("posty");
+  const [activeTab, setActiveTab] = useState("posts");
   const [isModalOpen, setModalOpen] = useState(false);
   const [currentListType, setCurrentListType] = useState<
     "followers" | "following"
@@ -74,7 +73,7 @@ const ProfilePage: React.FC = () => {
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case "posty":
+      case "posts":
         return (
           <PostsTab
             posts={posts}
@@ -82,9 +81,9 @@ const ProfilePage: React.FC = () => {
             profileId={userHook.user?.profileId ?? ""}
           />
         );
-      case "wyzwania":
+      case "challenges":
         return <ChallengesTab />;
-      case "las":
+      case "forest":
         return <ForestTab />;
       default:
         return null;
@@ -94,16 +93,13 @@ const ProfilePage: React.FC = () => {
   const followAction = async () => {
     if (!userHook.user || !profileData) return;
 
-    // Zapisujemy poprzednie wartości na wypadek błędu
     const previousIsFollowing = isFollowing;
     const previousFollowersCount = localFollowersCount;
 
     try {
-      // Aktualizujemy stan lokalny natychmiast
       setIsFollowing(!isFollowing);
       setLocalFollowersCount((prev) => (isFollowing ? prev - 1 : prev + 1));
 
-      // Wysyłamy zmianę do bazy danych w tle
       await api.patch<ApiResponse<null>>(
         `profiles/follow?follower=${userHook.user.profileId}&followee=${profileData._id}`
       );
@@ -112,7 +108,6 @@ const ProfilePage: React.FC = () => {
         t(previousIsFollowing ? "unfollow-success" : "follow-success")
       );
     } catch (err) {
-      // W przypadku błędu przywracamy poprzedni stan
       setIsFollowing(previousIsFollowing);
       setLocalFollowersCount(previousFollowersCount);
       toast.error(t("error-follow-action"));
@@ -265,13 +260,13 @@ const ProfilePage: React.FC = () => {
                           onClick={() => setIsEditModalOpen(false)}
                           className={styles.cancelEditButton}
                         >
-                          Anuluj
+                          {t("cancel")}
                         </button>
                         <button
                           onClick={handleSaveDescription}
                           className={styles.saveDescriptionButton}
                         >
-                          Zapisz zmiany
+                          {t("save-changes")}
                         </button>
                       </div>
                     )}
@@ -282,39 +277,35 @@ const ProfilePage: React.FC = () => {
                       onClick={followAction}
                       className={styles.followButton}
                     >
-                      {isFollowing ? "Przestań obserwować" : "Obserwuj"}
+                      {isFollowing ? t("unfollow") : t("follow")}
                     </button>
                     <button
                       onClick={() => userData && startChat(userData)}
                       className={styles.chatButton}
                     >
-                      <i className="bi bi-chat-dots"></i> Wyślij wiadomość
+                      <i className="bi bi-chat-dots"></i> {t("send-message")}
                     </button>
                   </div>
                 )}
 
-                {/* {userData?.description && (
-                  <p className={styles.description}>
-                    {userData?.description ? userData.description : "Posty Tomka"}
-                  </p>
-                  )} */}
                 <p className={styles.stats}>
                   <span>
-                    <strong>{posts.length}</strong> posty
+                    <strong>{posts.length}</strong> {t("posts-profile-count")}
                   </span>
                   <span
                     onClick={() => openModal("followers")}
                     role="button"
                     className={styles.linkText}
                   >
-                    <strong>{localFollowersCount}</strong> obserwujących
+                    <strong>{localFollowersCount}</strong> {t("followers")}
                   </span>
                   <span
                     onClick={() => openModal("following")}
                     role="button"
                     className={styles.linkText}
                   >
-                    <strong>{profileData?.following.length}</strong> obserwowani
+                    <strong>{profileData?.following.length}</strong>{" "}
+                    {t("following")}
                   </span>
                 </p>
               </div>
@@ -323,41 +314,42 @@ const ProfilePage: React.FC = () => {
             <ul className={`nav nav-tabs ${styles.navTabs}`}>
               <li
                 className={`nav-item d-flex justify-content-center ${styles.navItem}`}
-                onClick={() => setActiveTab("posty")}
+                onClick={() => setActiveTab("posts")}
               >
                 <a
                   className={`nav-link ${styles.navLink} ${
-                    activeTab === "posty" ? styles.active : ""
+                    activeTab === "posts" ? styles.active : ""
                   }`}
                   href="#"
                 >
-                  <i className={`bi bi-grid ${styles.icon}`}></i> Posty
+                  <i className={`bi bi-grid ${styles.icon}`}></i> {t("posts-tab")}
                 </a>
               </li>
               <li
                 className={`nav-item d-flex justify-content-center ${styles.navItem}`}
-                onClick={() => setActiveTab("wyzwania")}
+                onClick={() => setActiveTab("challenges")}
               >
                 <a
                   className={`nav-link ${styles.navLink} ${
-                    activeTab === "wyzwania" ? styles.active : ""
+                    activeTab === "challenges" ? styles.active : ""
                   }`}
                   href="#"
                 >
-                  <i className={`${styles.icon} bi bi-trophy`}></i> Wyzwania
+                  <i className={`${styles.icon} bi bi-trophy`}></i>{" "}
+                  {t("challenges")}
                 </a>
               </li>
               <li
                 className={`nav-item d-flex justify-content-center ${styles.navItem}`}
-                onClick={() => setActiveTab("las")}
+                onClick={() => setActiveTab("forest")}
               >
                 <a
                   className={`nav-link ${styles.navLink} ${
-                    activeTab === "las" ? styles.active : ""
+                    activeTab === "forest" ? styles.active : ""
                   }`}
                   href="#"
                 >
-                  <i className={`bi bi-tree ${styles.icon}`}></i> Las
+                  <i className={`bi bi-tree ${styles.icon}`}></i> {t("forest")}
                 </a>
               </li>
             </ul>
@@ -376,14 +368,6 @@ const ProfilePage: React.FC = () => {
             listType={currentListType}
             users={followersAndFollowing}
           />
-          {/* <ProfileEditModal
-            isOpen={isEditModalOpen}
-            onClose={() => setIsEditModalOpen(false)}
-            //currentDescription={userData?.description || ''}
-            currentProfileImage={userData?.profileImage}
-            currentBackgroundImage={userData?.backgroundImage}
-            currentDescription={""}
-          /> */}
         </>
       )}
     </div>
