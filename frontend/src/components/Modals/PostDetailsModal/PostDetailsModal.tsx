@@ -157,7 +157,6 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
 
           <div className={styles.postDetails}>
             <h2 className={styles.postTitle}>{post.name}</h2>
-            <p className={styles.postAuthor}>By {post.name}</p>
 
             <div className={styles.reactionSection}>
               <span
@@ -173,7 +172,7 @@ const PostDetailModal: React.FC<PostDetailModalProps> = ({
                 >
                   {liked ? "🌳" : "🌱"}
                 </span>
-                {likes} Treeactions
+                {likes} {t("treeactions")}
               </span>
             </div>
 
