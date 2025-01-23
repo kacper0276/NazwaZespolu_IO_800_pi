@@ -62,7 +62,7 @@ const FollowListModal: React.FC<FollowListModalProps> = ({
       <div className={styles.modalContent}>
         <div className={styles.modalHeader}>
           <h2 className={styles.title}>
-            {listType === "followers" ? "Obserwujący" : "Obserwowani"}
+          {listType === "followers" ? t("followers") : t("following")}
           </h2>
           <button className={styles.closeButton} onClick={onClose}>
             ×
