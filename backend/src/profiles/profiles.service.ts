@@ -73,4 +73,8 @@ export class ProfilesService {
   }) {
     return this.profilesRepository.changeProfileDescription(changeData);
   }
+
+  async getFollowersNotifications(profileId: string) {
+    return this.profilesRepository.getFollowersNotifications(profileId);
+  }
 }

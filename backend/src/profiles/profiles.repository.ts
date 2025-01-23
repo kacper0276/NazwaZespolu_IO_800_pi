@@ -81,11 +81,30 @@ export class ProfilesRepository {
       .exec();
 
     if (!profile) {
-      throw new Error('Profile not found');
+      throw new Error('profile-not-found');
     }
 
     profile.description = changeData.description;
 
     return await profile.save();
+  }
+
+  async getFollowersNotifications(profileId: string) {
+    const profile = await this.profileModel.findById(profileId).exec();
+
+    if (!profile) {
+      throw new Error('profile-not-found');
+    }
+
+    const followersProfileIds = profile.followers;
+    const followersProfiles = await this.profileModel
+      .find({ _id: { $in: followersProfileIds } })
+      .exec();
+    const followersUserIds = followersProfiles.map((profile) => profile.userId);
+    const followers = await this.userModel
+      .find({ _id: { $in: followersUserIds } })
+      .exec();
+
+    return followers;
   }
 }
