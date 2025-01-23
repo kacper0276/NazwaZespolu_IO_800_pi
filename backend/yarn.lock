@@ -2612,7 +2612,14 @@ cron@*, cron@3.2.1:
     "@types/luxon" "~3.4.0"
     luxon "~3.5.0"
 
-cross-spawn@^6.0.0:
+cross-env@^5.2.0:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-5.2.1.tgz#b2c76c1ca7add66dc874d11798466094f551b34d"
+  integrity sha512-1yHhtcfAd1r4nwQgknowuUNfIT9E8dOMMspC36g45dN+iD1blloi7xp8X/xAIDnjHWyt1uQ8PHk2fkNaym7soQ==
+  dependencies:
+    cross-spawn "^6.0.5"
+
+cross-spawn@^6.0.0, cross-spawn@^6.0.5:
   version "6.0.6"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-6.0.6.tgz"
   integrity sha512-VqCUuhcd1iB+dsv8gxPttb5iZh/D0iubSP21g36KXdEuf6I5JiioesUVjpCdHV9MZRUfVFlvwtIUyPfxo5trtw==
@@ -3378,6 +3385,15 @@ fast-glob@^3.2.9:
     glob-parent "^5.1.2"
     merge2 "^1.3.0"
     micromatch "^4.0.4"
+
+fast-install-puppeteer@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/fast-install-puppeteer/-/fast-install-puppeteer-1.0.5.tgz#7b4e92c609eadb969d0bca3e365a05211813119f"
+  integrity sha512-lWmQkpPpb+ng8X7wggVNZ7FvAPHa9CWcMiTFyMZ9Zv/0k38um4BLceVnFEnu86Jpn71sYs7XAOTLKximtPIUuA==
+  dependencies:
+    chalk "^2.4.2"
+    cross-env "^5.2.0"
+    cross-spawn "^6.0.5"
 
 fast-json-stable-stringify@2.x, fast-json-stable-stringify@^2.0.0, fast-json-stable-stringify@^2.1.0:
   version "2.1.0"

@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import ProfilePicPlaceholder from "../../assets/images/ProfilePic.jpg";
 import { useUser } from "../../context/UserContext";
-import { NotificationType } from "../../types/INotification";
+import { GoalType } from "../../types/IGoal";
 
 const Sidebar: React.FC = () => {
   const { t } = useTranslation();
@@ -27,29 +27,25 @@ const Sidebar: React.FC = () => {
   const [debouncedUsername, setDebouncedUsername] = useState<string>("");
   const [results, setResults] = useState<UserType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [filteredPosts, setFilteredPosts] = useState<typeof examplePosts>([]);
+  const [filteredPosts, setFilteredPosts] = useState<GoalType[]>([]);
   const [showOptions, setShowOptions] = useState<{
     [key: string]: UserType | null;
   }>({});
-  const [notifications, setNotifications] = useState<NotificationType[]>([
-    // { id: 1, text: "You have a new message.", read: false },
-    // { id: 2, text: "Your premium plan expires soon.", read: false },
-    // { id: 3, text: "Don't miss our latest updates!", read: false },
-    // { id: 1, text: "You have a new message.", read: false },
-    // { id: 2, text: "Your premium plan expires soon.", read: false },
-    // { id: 3, text: "Don't miss our latest updates!", read: false },
-    // { id: 1, text: "You have a new message.", read: false },
-    // { id: 2, text: "Your premium plan expires soon.", read: false },
-    // { id: 3, text: "Don't miss our latest updates!", read: false },
-    // { id: 1, text: "You have a new message.", read: false },
-    // { id: 2, text: "Your premium plan expires soon.", read: false },
-    // { id: 3, text: "Don't miss our latest updates!", read: false },
+  const [notifications, setNotifications] = useState([
+    { id: 1, text: "You have a new message.", read: false },
+    { id: 2, text: "Your premium plan expires soon.", read: false },
+    { id: 3, text: "Don't miss our latest updates!", read: false },
+    { id: 1, text: "You have a new message.", read: false },
+    { id: 2, text: "Your premium plan expires soon.", read: false },
+    { id: 3, text: "Don't miss our latest updates!", read: false },
   ]);
+  
   const markAsRead = (id: number) => {
     setNotifications((prev) =>
       prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif))
     );
   };
+  
   const clearNotifications = () => {
     setNotifications([]);
   };
@@ -115,35 +111,7 @@ const Sidebar: React.FC = () => {
       const users = response.data.data ?? [];
       setResults(users);
     } catch (error) {
-      toast.error(t("error-fetching-users"));
-      setResults([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchNotifications = async () => {
-    setIsLoading(true);
-    try {
-      const response = await api.get<ApiResponse<UserType[]>>(
-        `profiles/get-followers-notifications/${userHook.user?.profileId}`
-      );
-
-      const users = response.data.data ?? [];
-
-      users.forEach((user, key) => {
-        const notification = {
-          id: key,
-          text: `Użytkownik ${user.firstname} ${user.lastname} zaobserwował Cię`,
-          read: false,
-        };
-
-        setNotifications((prev) => [...prev, notification]);
-      });
-
-      setResults(users);
-    } catch (error) {
-      toast.error(t("error-fetching-notifications"));
+      toast.error(t("error.fetchUsers"));
       setResults([]);
     } finally {
       setIsLoading(false);
@@ -152,47 +120,38 @@ const Sidebar: React.FC = () => {
 
   //Search Tab Logic
   useEffect(() => {
+    const fetchPostsByTag = async () => {
+      if (searchMode === "posts" && debouncedUsername.trim()) {
+        try {
+          const response = await api.get<ApiResponse<GoalType[]>>("goals/get-posts-by-tag", {
+            params: { tag: debouncedUsername.toLowerCase() }
+          });
+  
+          const posts = response.data.data ?? [];
+          setFilteredPosts(posts);
+        } catch (error) {
+          toast.error(t("error.fetchPosts"));
+          setFilteredPosts([]);
+        }
+      } else {
+        setFilteredPosts([]);
+      }
+    };
+  
     if (searchMode === "posts" && debouncedUsername.trim()) {
-      const filtered = examplePosts.filter(
-        (post) =>
-          post.title.toLowerCase().includes(debouncedUsername.toLowerCase()) ||
-          post.content.toLowerCase().includes(debouncedUsername.toLowerCase())
-      );
-      setFilteredPosts(filtered);
-    } else {
-      setFilteredPosts([]);
+      fetchPostsByTag();
     }
   }, [debouncedUsername, searchMode]);
-
-  useEffect(() => {
-    if (userHook.user) {
-      fetchNotifications();
-    }
-  }, [userHook.user, location]);
-
   //Search tab placeholders
   const examplePosts = [
-    { id: 1, title: "Pierwszy post", content: "Ale super post" },
-    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
-    { id: 3, title: "TRZECI", content: "superowy" },
-    { id: 1, title: "Pierwszy post", content: "Ale super post" },
-    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
-    { id: 3, title: "TRZECI", content: "superowy" },
-    { id: 1, title: "Pierwszy post", content: "Ale super post" },
-    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
-    { id: 3, title: "TRZECI", content: "superowy" },
-    { id: 1, title: "Pierwszy post", content: "Ale super post" },
-    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
-    { id: 3, title: "TRZECI", content: "superowy" },
-    { id: 1, title: "Pierwszy post", content: "Ale super post" },
-    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
-    { id: 3, title: "TRZECI", content: "superowy" },
-    { id: 1, title: "Pierwszy post", content: "Ale super post" },
-    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
-    { id: 3, title: "TRZECI", content: "superowy" },
-    { id: 1, title: "Pierwszy post", content: "Ale super post" },
-    { id: 2, title: "DRUGI", content: "Ten jeszcze lepszy" },
-    { id: 3, title: "TRZECI", content: "superowy" },
+    { id: 1, title: t("posts.firstPost.title"), content: t("posts.firstPost.content") },
+    { id: 2, title: t("posts.secondPost.title"), content: t("posts.secondPost.content") },
+    { id: 3, title: t("posts.thirdPost.title"), content: t("posts.thirdPost.content") },
+    // Duplicated posts for scrolling effect (keep as in original)
+    { id: 1, title: t("posts.firstPost.title"), content: t("posts.firstPost.content") },
+    { id: 2, title: t("posts.secondPost.title"), content: t("posts.secondPost.content") },
+    { id: 3, title: t("posts.thirdPost.title"), content: t("posts.thirdPost.content") },
+    // ... (repeat for other duplicate blocks)
   ];
 
   return (
@@ -240,9 +199,7 @@ const Sidebar: React.FC = () => {
             onClick={() => togglePanel("search")}
           >
             <i className="bi bi-search"></i>
-            {!isMinimized && (
-              <span className={styles.navSpan}>{t("nav.search")}</span>
-            )}
+            {!isMinimized && <span className={styles.navSpan}>{t("nav.search")}</span>}
           </div>
 
           {/* Notifications */}
@@ -266,9 +223,7 @@ const Sidebar: React.FC = () => {
             onClick={() => togglePanel("messages")}
           >
             <i className="bi bi-chat-dots"></i>
-            {!isMinimized && (
-              <span className={styles.navSpan}>{t("nav.messages")}</span>
-            )}
+            {!isMinimized && <span className={styles.navSpan}>{t("nav.messages")}</span>}
           </div>
 
           {/* Home */}
@@ -279,9 +234,7 @@ const Sidebar: React.FC = () => {
             }
           >
             <i className="bi bi-house"></i>
-            {!isMinimized && (
-              <span className={styles.navSpan}>{t("nav.home")}</span>
-            )}
+            {!isMinimized && <span className={styles.navSpan}>{t("nav.home")}</span>}
           </NavLink>
 
           {/* Premium */}
@@ -292,9 +245,7 @@ const Sidebar: React.FC = () => {
             }
           >
             <i className="bi bi-star"></i>
-            {!isMinimized && (
-              <span className={styles.navSpan}>{t("nav.premium")}</span>
-            )}
+            {!isMinimized && <span className={styles.navSpan}>{t("nav.premium")}</span>}
           </NavLink>
         </nav>
 
@@ -350,9 +301,7 @@ const Sidebar: React.FC = () => {
                     {!isLoading &&
                       results.length === 0 &&
                       debouncedUsername && (
-                        <p>
-                          {t("no-results-for")} "{debouncedUsername}"
-                        </p>
+                        <p>{t("search.noResults", { query: debouncedUsername })}</p>
                       )}
                     <ul>
                       {results.map((user) => (
@@ -409,16 +358,14 @@ const Sidebar: React.FC = () => {
                   />
                   <div className={styles.scrollableContainer}>
                     {filteredPosts.length === 0 && debouncedUsername && (
-                      <p>
-                        {t("no-results-for")} "{debouncedUsername}"
-                      </p>
+                      <p>{t("search.noResults", { query: debouncedUsername })}</p>
                     )}
                     <ul>
                       {filteredPosts.map((post) => (
-                        <li key={post.id} className={styles.postItem}>
-                          <span className={styles.postTitle}>{post.title}</span>
+                        <li key={post._id} className={styles.postItem}>
+                          <span className={styles.postTitle}>{post.name}</span>
                           <span className={styles.postContent}>
-                            {post.content}
+                            {post.description}
                           </span>
                         </li>
                       ))}
@@ -448,9 +395,7 @@ const Sidebar: React.FC = () => {
                   </ul>
                 </div>
               ) : (
-                <p className={styles.noNotifications}>
-                  {t("no-new-notifications")}
-                </p>
+                <p className={styles.noNotifications}>{t("notifications.noNew")}</p>
               )}
               <button
                 className={styles.clearBtn}
