@@ -26,7 +26,7 @@
   "successfully-logged-in": "Successfully logged in",
   "invalid-user-data": "Invalid user data",
   "your-account-has-been-successfully-activated": "Your account has been successfully activated",
-  
+
   "user-not-found": "User not found",
   "user-data": "User data",
   "search-results": "Search results",
@@ -203,98 +203,97 @@
     "max-tags": "You can only add up to 5 tags."
   },
 
-
   "nav": {
-        "search": "Search",
-        "notifications": "Notifications", 
-        "messages": "Messages",
-        "home": "Home",
-        "premium": "Premium",
-        "settings": "Settings"
+    "search": "Search",
+    "notifications": "Notifications",
+    "messages": "Messages",
+    "home": "Home",
+    "premium": "Premium",
+    "settings": "Settings"
+  },
+  "sidebar": {
+    "userProfileAlt": "User Profile Picture",
+    "viewProfile": "View Profile"
+  },
+  "search": {
+    "title": "Search",
+    "users": "Users",
+    "posts": "Posts",
+    "searchUsers": "Search users...",
+    "searchPosts": "Search posts...",
+    "loading": "Loading results...",
+    "noResults": "No results for \"{{query}}\"",
+    "startChat": "Start Chat",
+    "viewProfile": "View Profile",
+    "userAvatar": "User Avatar"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNew": "No new notifications",
+    "clearAll": "Clear All"
+  },
+  "messages": {
+    "title": "Messages",
+    "searchByEmail": "Search user by email...",
+    "loading": "Loading results...",
+    "noResults": "No results for \"{{query}}\"",
+    "userAvatar": "User Avatar"
+  },
+  "error": {
+    "fetchUsers": "Error fetching users"
+  },
+  "posts": {
+    "firstPost": {
+      "title": "First Post",
+      "content": "Such a great post"
     },
-    "sidebar": {
-        "userProfileAlt": "User Profile Picture",
-        "viewProfile": "View Profile"
+    "secondPost": {
+      "title": "SECOND",
+      "content": "This one is even better"
     },
-    "search": {
-        "title": "Search",
-        "users": "Users",
-        "posts": "Posts",
-        "searchUsers": "Search users...",
-        "searchPosts": "Search posts...",
-        "loading": "Loading results...",
-        "noResults": "No results for \"{{query}}\"",
-        "startChat": "Start Chat",
-        "viewProfile": "View Profile",
-        "userAvatar": "User Avatar"
+    "thirdPost": {
+      "title": "THIRD",
+      "content": "super awesome"
+    }
+  },
+  "settings": "Settings",
+  "your_account": "Your Account",
+  "privacy_and_safety": "Privacy and Safety",
+  "contact_support": "Contact Support",
+  "language": "Language",
+  "logout": "Logout",
+  "admin_settings": "Admin Settings",
+  "select_option": "Select an option from the menu",
+  "change-user-data": "Change User Data",
+  "show-users-opinion": "Show Users Opinion",
+  "admin_option_3": "Admin Option 3",
+  "admin_option_3_content": "This is an admin option content placeholder.",
+  "title": "Choose Your Version",
+  "plans": {
+    "standard": {
+      "name": "Standard",
+      "price": "Free",
+      "features": [
+        "Basic Access to Features",
+        "Access to Public Content",
+        "Community Support",
+        "15 Projects at once Limit"
+      ]
     },
-    "notifications": {
-        "title": "Notifications",
-        "noNew": "No new notifications",
-        "clearAll": "Clear All"
-    },
-    "messages": {
-        "title": "Messages", 
-        "searchByEmail": "Search user by email...",
-        "loading": "Loading results...",
-        "noResults": "No results for \"{{query}}\"",
-        "userAvatar": "User Avatar"
-    },
-    "error": {
-        "fetchUsers": "Error fetching users"
-    },
-    "posts": {
-        "firstPost": {
-            "title": "First Post",
-            "content": "Such a great post"
-        },
-        "secondPost": {
-            "title": "SECOND",
-            "content": "This one is even better"
-        },
-        "thirdPost": {
-            "title": "THIRD",
-            "content": "super awesome"
-        }
-    },
-    "settings": "Settings",
-    "your_account": "Your Account",
-    "privacy_and_safety": "Privacy and Safety", 
-    "contact_support": "Contact Support",
-    "language": "Language",
-    "logout": "Logout",
-    "admin_settings": "Admin Settings",
-    "select_option": "Select an option from the menu",
-    "change-user-data": "Change User Data",
-    "show-users-opinion": "Show Users Opinion",
-    "admin_option_3": "Admin Option 3",
-    "admin_option_3_content": "This is an admin option content placeholder.",
-    "title": "Choose Your Version",
-    "plans": {
-        "standard": {
-            "name": "Standard",
-            "price": "Free",
-            "features": [
-                "Basic Access to Features",
-                "Access to Public Content", 
-                "Community Support",
-                "15 Projects at once Limit"
-            ]
-        },
-        "premium": {
-            "name": "Premium",
-            "price": "15$ / month",
-            "features": [
-                "All Standard Features",
-                "Special Mark in Nickname",
-                "Priority Support", 
-                "Unlimited Projects at once",
-                "Premium Skins",
-                "Ads removed"
-            ],
-            "purchaseButton": "Purchase Now"
-        }
-    },
+    "premium": {
+      "name": "Premium",
+      "price": "15$ / month",
+      "features": [
+        "All Standard Features",
+        "Special Mark in Nickname",
+        "Priority Support",
+        "Unlimited Projects at once",
+        "Premium Skins",
+        "Ads removed"
+      ],
+      "purchaseButton": "Purchase Now"
+    }
+  },
 
   "main-page": "Main Page",
   "posted-by": "Posted by",
@@ -328,5 +327,6 @@
   "send-message": "Send message",
   "followers": "Followers",
   "following": "Following",
-  "error-fetching-follow-data": "Failed to load follower data."
+  "error-fetching-follow-data": "Failed to load follower data.",
+  "no-results-for": "No results for"
 }
