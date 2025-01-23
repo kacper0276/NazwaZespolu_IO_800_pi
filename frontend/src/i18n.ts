@@ -16,9 +16,11 @@ const resources = {
   },
 };
 
+const savedLang = localStorage.getItem("appLanguage");
+
 i18n.use(initReactI18next).init({
   resources,
-  lng: "pl",
+  lng: savedLang || "pl",
   fallbackLng: "pl",
   interpolation: {
     escapeValue: false,

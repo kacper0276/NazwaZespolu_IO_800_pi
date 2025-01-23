@@ -23,8 +23,10 @@ const LanguageSection: React.FC = () => {
         type: "json",
         data: { lang },
       })
-      .then((res) => {
-        console.log(res);
+      .then((_res) => {
+        console.log(lang);
+
+        localStorage.setItem("appLanguage", lang);
       })
       .catch((_err) => {
         toast.error(t("error"));

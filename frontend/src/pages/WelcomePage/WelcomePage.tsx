@@ -45,6 +45,15 @@ const WelcomePage: FC = () => {
         loginDataRes.refreshToken
       );
 
+      apiJson.get(`settings/user/${res.data.data.user._id}`).then((res) => {
+        const userSettings = res.data[0];
+        const lang = userSettings?.data?.lang || "pl";
+
+        localStorageService.setItem("appLanguage", lang);
+
+        i18n.changeLanguage(lang);
+      });
+
       toast.success(t(res.data.message));
 
       navigate("/");
