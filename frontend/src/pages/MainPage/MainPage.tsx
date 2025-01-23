@@ -11,79 +11,55 @@ import { useUser } from "../../context/UserContext";
 import { toast } from "react-toastify";
 import { ApiResponse } from "../../types/api.types";
 import Spinner from "../../components/Spinner/Spinner";
+import localStorageService from "../../services/localStorage.service";
 
-const posts = [
-  {
-    id: 1,
-    images: ["https://via.placeholder.com/400x500"],
-    title: "Friendly Fire turns 10!",
-    likes: 924,
-    comments: 27,
-    author: "John Doe",
-  },
-  {
-    id: 2,
-    images: [
-      "https://via.placeholder.com/400x500",
-      "https://via.placeholder.com/400x500",
-    ],
-    title: "Legendary Update 2.3!",
-    likes: 1120,
-    comments: 34,
-    author: "Jane Smith",
-  },
-  {
-    id: 3,
-    images: [
-      "https://via.placeholder.com/400x500",
-      "https://via.placeholder.com/400x500",
-      "https://via.placeholder.com/400x500",
-    ],
-    title: "Come and Visit us",
-    likes: 169,
-    comments: 10,
-    author: "Alice Johnson",
-  },
-  {
-    id: 4,
-    images: ["https://via.placeholder.com/400x500"],
-    title: "Hello!",
-    likes: 15435345,
-    comments: 2,
-    author: "Bob Williams",
-  },
-];
+
 const Post: React.FC<{ post: GoalType }> = ({ post }) => {
+  const api = useApiJson();
+  const userHook = useUser();
   const [likes, setLikes] = useState(post.reactions);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState<boolean>(false);
   const [bouncing, setBouncing] = useState(false);
   const [showComments, setShowComments] = useState(false);
 
-  const handleLike = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-    if ((event.target as HTMLElement).classList.contains(styles.icon)) {
-      if (!liked) {
-        setLikes(likes + 1);
-      } else {
-        setLikes(likes - 1);
-      }
-      setLiked(!liked);
+  console.log("Post data:", post);
 
-      setBouncing(true);
-      setTimeout(() => setBouncing(false), 400);
+  const handleLike = async () => {
+    const data = {
+      userId: userHook.user?._id,
+      postId: post._id,
+    };
+
+    const res = await api.patch<ApiResponse<null>>(`goals/like-action`, data);
+
+    if (res.status === 200) {
+      if (!liked) {
+        userHook.user?.likedPost.push(post._id);
+        setLikes(likes + 1);
+        setLiked(true);
+      } else {
+        userHook.user?.likedPost.splice(
+          userHook.user.likedPost.indexOf(post._id.toString()),
+          1
+        );
+        setLikes(likes - 1);
+        setLiked(false);
+      }
+      localStorageService.setItem("user", userHook.user);
     }
+
+    setBouncing(true);
+    setTimeout(() => setBouncing(false), 400);
   };
 
-  const sampleComments = Array.from({ length: 30 }, (_, i) => ({
-    author: `User${i + 1}`,
-    text: `This is comment number ${
-      i + 1
-    }. Great post! Very great Thank you for posting Nice nice nice`,
-  }));
+  useEffect(() => {
+    setLiked(userHook.user?.likedPost.includes(post._id) ?? false);
+  }, [post, userHook.user?.likedPost]);
 
   return (
     <div className={`${styles.post} mb-4`}>
       <div className={`${styles.postCard} card`}>
-        {post.images.length > 1 ? (
+        {post.images?.length > 1 ? (
           <div
             id={`carousel-${post._id}`}
             className="carousel slide"
@@ -138,8 +114,17 @@ const Post: React.FC<{ post: GoalType }> = ({ post }) => {
         <div className="card-body">
           <h5 className="card-title">{post.description}</h5>
           <p className="card-text">
-            <small>Posted by {post.userName}</small>
+            <small>
+              Posted by{" "}
+              <a
+                href={`/profile-page/${post.profileId}`}
+                className={styles.profileLink}
+              >
+                {post.userName}
+              </a>
+            </small>
           </p>
+
           <div className="card-text">
             <div className={styles.reactionContainer}>
               <span className={styles["like-button"]} onClick={handleLike}>
@@ -165,7 +150,9 @@ const Post: React.FC<{ post: GoalType }> = ({ post }) => {
       <CommentsModal
         show={showComments}
         onClose={() => setShowComments(false)}
-        comments={sampleComments}
+        postId={post._id}
+        commentsIds={post.commentsIds.map(String)} // Konwersja na tablicę stringów
+        allowComments={post.allowComments}
       />
     </div>
   );
