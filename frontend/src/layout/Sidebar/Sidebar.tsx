@@ -170,41 +170,6 @@ const Sidebar: React.FC = () => {
       fetchPostsByTag();
     }
   }, [debouncedUsername, searchMode]);
-  //Search tab placeholders
-  const examplePosts = [
-    {
-      id: 1,
-      title: t("posts.firstPost.title"),
-      content: t("posts.firstPost.content"),
-    },
-    {
-      id: 2,
-      title: t("posts.secondPost.title"),
-      content: t("posts.secondPost.content"),
-    },
-    {
-      id: 3,
-      title: t("posts.thirdPost.title"),
-      content: t("posts.thirdPost.content"),
-    },
-    // Duplicated posts for scrolling effect (keep as in original)
-    {
-      id: 1,
-      title: t("posts.firstPost.title"),
-      content: t("posts.firstPost.content"),
-    },
-    {
-      id: 2,
-      title: t("posts.secondPost.title"),
-      content: t("posts.secondPost.content"),
-    },
-    {
-      id: 3,
-      title: t("posts.thirdPost.title"),
-      content: t("posts.thirdPost.content"),
-    },
-    // ... (repeat for other duplicate blocks)
-  ];
 
   return (
     <div className="d-flex">
