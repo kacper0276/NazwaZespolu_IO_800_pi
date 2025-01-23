@@ -134,7 +134,7 @@
 
   "select-payment-method": "ワイビアーズ・スポーソーブ・プラトノシー",
   "credit-debit-card": "カーター・クレディトワ・スラッシュ・デベトワ",
-  "paypal": "PayPal",
+  "paypal": "PayPalu",
   "bank-transfer": "プルゼルー・バンコウィー",
   "card-number": "ニューマー・カーティー",
   "expiry-date": "データー・ワズノシー",
@@ -177,6 +177,156 @@
 
   "statute": "レガラミン",
   "contact": "コンタクト",
-  "privacy-policy": "ポリティカー・プリワトノシー"
-}
+  "privacy-policy": "ポリティカー・プリワトノシー",
 
+  "challenge-name": "ナズワ・ワイズワニア",
+  "add-tag-placeholder": "ドダッジ・タグ・アイ・ナシスニッジ・エンター",
+  "challenge-difficulty": "トラドノスク・ワイズワニア",
+  "select-valid-dates": "ワイビアーズ・ポプローン・デーティー",
+  "select-tree-skin": "ワイビアーズ・スコーク・ドルズーカー",
+  "standard-skin": "スタンダードワ・スコーカー",
+  "premium-skin": "プリーミアム・スコーカー",
+  "daily-reminder": "コドジエン・プルジポムニエニー",
+  "upload-image": "プルゼスリッジ・オブレーゼック",
+  "visibility": "ウィドクズノスク",
+  "public": "パブリクズニー",
+  "private": "プリワトニー",
+  "allow-comments": "ゼズウォル・ナー・コーメンターズ",
+  "add-as-post": "ドダッジ・ジャッコー・ポースト",
+  "create-challenge-button": "アトワーズ・ワイズワニー",
+  "tag-errors": {
+    "empty": "タグ・ニー・モーズ・ビック・パスティー",
+    "too-long": "タグ・ニー・モーズ・プルゼクラクザック・トウェンティー・ズナッコー",
+    "no-numbers": "タグ・ニー・モーズ・ザウィアーラック・シフ",
+    "no-duplicates": "タグ・ニー・モーズ・ビック・ズダプリコウェーニー",
+    "max-tags": "モーゼスズ・ドダック・マクシマルニー・ファイブ・タゴー"
+  },
+
+  "nav": {
+    "search": "スザキャッジ",
+    "notifications": "ポウィアドミエニア",
+    "messages": "ウィアドーモーシー",
+    "home": "ストロナー・グローナー",
+    "premium": "プリーミアム",
+    "settings": "アスタウィエニア"
+  },
+  "sidebar": {
+    "userProfileAlt": "ズドジェシー・プロフィローウー・アジトコーニカー",
+    "viewProfile": "ワイスウィエタル・プロフィル"
+  },
+  "search": {
+    "title": "ワイスザキワニー",
+    "users": "アジトコーニシー",
+    "posts": "ポスティー",
+    "searchUsers": "スザキャッジ・アジトコーニッコー…",
+    "searchPosts": "スザキャッジ・ポストー…",
+    "loading": "ラドワニー・ワイニッコー…",
+    "noResults": "ブラック・ワイニッコー・ドラー・\"{{query}}\"",
+    "startChat": "ロズポクズニッジ・クザット",
+    "viewProfile": "ワイスウィエタル・プロフィル",
+    "userAvatar": "ズドジェシー・プロフィローウー・アジトコーニカー"
+  },
+  "notifications": {
+    "title": "ポウィアドミエニー",
+    "noNew": "ブラック・ノウィッチ・ポウィアドミエン",
+    "clearAll": "ワイズクジスク・ウースジストキー"
+  },
+  "messages": {
+    "title": "ウィアドーモーシー",
+    "searchByEmail": "スザキャッジ・アジトコーニカー・ピーオー・アドレシー・イー・メール…",
+    "loading": "ラドワニー・ワイニッコー…",
+    "noResults": "ブラック・ワイニッコー・ドラー・\"{{query}}\"",
+    "userAvatar": "ズドジェシー・プロフィローウー・アジトコーニカー"
+  },
+  "error": {
+    "fetchUsers": "ブラッド・ポドクザズ・ポビアーラニア・アジトコーニッコー"
+  },
+  "posts": {
+    "firstPost": {
+      "title": "パイルーウスジー・ポースト",
+      "content": "エール・スーパー・ポースト"
+    },
+    "secondPost": {
+      "title": "ドラギー",
+      "content": "テン・ジェスズクズ・レプスジー"
+    },
+    "thirdPost": {
+      "title": "トルゼシー",
+      "content": "スーパーロウィー"
+    }
+  },
+  "settings": "アスタウィエニア",
+  "your_account": "トウォージ・コントー",
+  "privacy_and_safety": "プリワトノスク・アイ・ベズピエクゼンストウォー",
+  "contact_support": "コンタクト・ジー・ウースパーシエム",
+  "language": "ジェジック",
+  "logout": "ワイロガッジ",
+  "admin_settings": "アスタウィエニア・アドミニストラトーラー",
+  "select_option": "ワイビアーズ・オプクジ・ゼッド・メニュー",
+  "change-user-data": "ズミエン・デーン・アジトコーニカー",
+  "show-users-opinion": "ポキャズ・オピニー",
+  "admin_option_3": "オプクジャー・アドミニストラトーラー・3",
+  "admin_option_3_content": "ター・ジェスト・プレースホールダー・トレシー・オプクジー・アドミニストラトーラー",
+  "title": "ワイビアーズ・スウォッジャー・ワースジ",
+  "plans": {
+    "standard": {
+      "name": "スタンダードウィー",
+      "price": "ダーモウィー",
+      "features": [
+        "ポドスタウォウーイー・ドステップ・ドー・ファンククジー",
+        "ドステップ・ドー・トレシー・パブリクズニッチ",
+        "ウースパーシー・スポーレクズノシー",
+        "リミット・15・プロージェクトー・ジェドノクゼスニー"
+      ]
+    },
+    "premium": {
+      "name": "プリーミアム",
+      "price": "580¥/マイシアク",
+      "features": [
+        "ウースジストキー・ファンククジ・スタンダードーウー",
+        "スペクジャルン・オズナクゼニー・ニックー",
+        "プリアライテトーウー・ウースパーシー",
+        "ナイオグラニクゾナー・リクズバー・プロージェクトー",
+        "エクスクラジン・スコーキー",
+        "レクレーミー・アサニエット"
+      ],
+      "purchaseButton": "カップ・ターラズ"
+    }
+  },
+
+  "main-page": "ストロナー・グローナー",
+  "posted-by": "ザポストウェーン・プルゼズ",
+  "treeactions": "ドルズーアククジ",
+  "previous": "ポプルゼドニー",
+  "next": "ナステプニー",
+  "error-fetching-posts": "ブラッド・ポドクザズ・ポビアーラニア・ポストー",
+  "no-posts": "ブラック・ドステプニッチ・ポストー",
+
+  "add-note": "ドダッジ・ノタトク",
+  "add-challenge-update": "ドダッジ・アクツアリザクジ・ワイズワニア",
+  "update-content": "トレスク・アクツアリザクジー",
+  "update-progress-placeholder": "オピスズ・スウォッジ・ポステップ・ダブリュー・ワイズワニウー…",
+  "add-photo-optional": "ドダッジ・ズドジェシー（オプクジョナルン）",
+  "add-update": "ドダッジ・アクツアリザクジ",
+  "note-added-success": "アクツアリザクジャー・ドダナー・ポミスルニー",
+  "error-adding-note": "ブラッド・ポドクザズ・ドダワニア・アクツアリザクジー",
+
+  "posts-profile-count": "ポスティー",
+  "posts-tab": "ポスティー",
+  "profile-page-title": "プロフィル",
+  "challenges": "ワイズワニア",
+  "forest": "ラース",
+  "unfollow-success": "ポミスルニー・プルゼスタノー・オブサーウォワック・アジトコーニカー",
+  "follow-success": "ポミスルニー・ザオブサーウォワノー・アジトコーニカー",
+  "error-follow-action": "ワイスタピル・ブラッド・ポドクザズ・ズミアニー・スタタスー・オブサーウォワニア",
+  "error-fetching-profile": "ニー・アダロー・シー・ザラドワック・プロフィルー・スプロバッジ・ポーノーニー",
+  "description-updated": "オーピス・ゾスタル・ザクツアリゾウェーニー",
+  "error-updating-description": "ワイスタピル・ブラッド・ポドクザズ・アクツアリザクジー・オピスー",
+  "unfollow": "プルゼスタン・オブサーウォワック",
+  "follow": "オブサーワッジ",
+  "send-message": "ワイスリッジ・ウィアドーモースク",
+  "followers": "オブサーワジェーシー",
+  "following": "オブサーウォワニー",
+  "error-fetching-follow-data": "ニー・アダロー・シー・ザラドワック・デーニッチ・オブサーワジェーシッチ",
+  "no-results-for": "ブラック・ワイニッコー・ドラー"
+}

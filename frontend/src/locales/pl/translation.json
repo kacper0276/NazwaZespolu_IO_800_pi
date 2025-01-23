@@ -179,21 +179,21 @@
   "contact": "Kontakt",
   "privacy-policy": "Polityka prywatności",
 
-  "challenge-name": "Nazwa Wyzwania",
+  "challenge-name": "Nazwa wyzwania",
   "add-tag-placeholder": "Dodaj tag i naciśnij Enter",
-  "challenge-difficulty": "Trudność Challenge'u",
+  "challenge-difficulty": "Trudność wyzwania",
   "select-valid-dates": "Wybierz poprawne daty",
-  "select-tree-skin": "Wybierz skórkę Drzewka",
-  "standard-skin": "Standardowa Skórka",
-  "premium-skin": "Premium Skórka",
-  "daily-reminder": "Codzienne Przypomnienie",
-  "upload-image": "Prześlij Obrazek",
+  "select-tree-skin": "Wybierz skórkę drzewka",
+  "standard-skin": "Standardowa skórka",
+  "premium-skin": "Premium skórka",
+  "daily-reminder": "Codzienne przypomnienie",
+  "upload-image": "Prześlij obrazek",
   "visibility": "Widoczność",
   "public": "Publiczny",
   "private": "Prywatny",
-  "allow-comments": "Zezwól na Komentarze",
-  "add-as-post": "Dodaj jako Post",
-  "create-challenge-button": "Utwórz Challenge",
+  "allow-comments": "Zezwól na komentarze",
+  "add-as-post": "Dodaj jako post",
+  "create-challenge-button": "Utwórz wyzwanie",
   "tag-errors": {
     "empty": "Tag nie może być pusty.",
     "too-long": "Tag nie może przekraczać 20 znaków.",
@@ -224,19 +224,19 @@
     "noResults": "Brak wyników dla \"{{query}}\"",
     "startChat": "Rozpocznij czat",
     "viewProfile": "Wyświetl profil",
-    "userAvatar": "Avatar użytkownika"
+    "userAvatar": "Zdjęcie profilowe użytkownika"
   },
   "notifications": {
-    "title": "Notifications",
-    "noNew": "No new notifications",
-    "clearAll": "Clear All"
+    "title": "Powiadomienie",
+    "noNew": "Brak nowych powiadomień",
+    "clearAll": "Wyzczyść wszystkie"
   },
   "messages": {
     "title": "Wiadomości",
     "searchByEmail": "Szukaj użytkownika po adresie e-mail...",
     "loading": "Ładowanie wyników...",
     "noResults": "Brak wyników dla \"{{query}}\"",
-    "userAvatar": "Avatar użytkownika"
+    "userAvatar": "Zdjęcie profilowe użytkownika"
   },
   "error": {
     "fetchUsers": "Błąd podczas pobierania użytkowników"
@@ -256,41 +256,41 @@
     }
   },
   "settings": "Ustawienia",
-  "your_account": "Twoje Konto",
-  "privacy_and_safety": "Prywatność i Bezpieczeństwo",
-  "contact_support": "Kontakt ze Wsparciem",
+  "your_account": "Twoje konto",
+  "privacy_and_safety": "Prywatność i bezpieczeństwo",
+  "contact_support": "Kontakt ze wsparciem",
   "language": "Język",
   "logout": "Wyloguj",
-  "admin_settings": "Ustawienia Administratora",
+  "admin_settings": "Ustawienia administratora",
   "select_option": "Wybierz opcję z menu",
-  "change-user-data": "Zmień Dane Użytkownika",
-  "show-users-opinion": "Pokaż Opinie",
-  "admin_option_3": "Opcja Administratora 3",
+  "change-user-data": "Zmień dane użytkownika",
+  "show-users-opinion": "Pokaż opinie",
+  "admin_option_3": "Opcja administratora 3",
   "admin_option_3_content": "To jest placeholder treści opcji administratora.",
-  "title": "Wybierz Swoją Wersję",
+  "title": "Wybierz swoją wersję",
   "plans": {
     "standard": {
       "name": "Standardowy",
       "price": "Darmowy",
       "features": [
-        "Podstawowy Dostęp do Funkcji",
-        "Dostęp do Treści Publicznych",
-        "Wsparcie Społeczności",
-        "Limit 15 Projektów Jednocześnie"
+        "Podstawowy dostęp do funkcji",
+        "Dostęp do treści publicznych",
+        "Wsparcie społeczności",
+        "Limit 15 projektów jednocześnie"
       ]
     },
     "premium": {
       "name": "Premium",
       "price": "15 zł / miesiąc",
       "features": [
-        "Wszystkie Funkcje Standardowe",
-        "Specjalne Oznaczenie Nicku",
-        "Priorytetowe Wsparcie",
-        "Nieograniczona Liczba Projektów",
-        "Ekskluzywne Skórki",
-        "Reklamy Usunięte"
+        "Wszystkie funkcje standardowe",
+        "Specjalne oznaczenie nicku",
+        "Priorytetowe wsparcie",
+        "Nieograniczona liczba projektów",
+        "Ekskluzywne skórki",
+        "Reklamy usunięte"
       ],
-      "purchaseButton": "Kup Teraz"
+      "purchaseButton": "Kup teraz"
     }
   },
 
