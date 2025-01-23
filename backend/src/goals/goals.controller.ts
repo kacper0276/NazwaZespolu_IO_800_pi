@@ -161,6 +161,17 @@ export class GoalsController {
     });
   }
 
+  @Get('get-posts-by-tag')
+  @UseGuards(JwtAuthGuard)
+  async getPostsByTag(@Body() body: string, @Res() response: Response) {
+    const posts = await this.goalsService.findPostsByTag(body);
+
+    response.status(HttpStatus.OK).send({
+      message: 'posts-main-page',
+      data: posts,
+    });
+  }
+
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   async updateGoal(

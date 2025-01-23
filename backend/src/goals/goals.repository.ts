@@ -137,4 +137,17 @@ export class GoalRepository {
 
     return postsWithUserName;
   }
+
+  async findPostsByTag(tag: string) {
+    const posts = await this.goalModel
+      .find({
+        tags: { $in: tag },
+        isPost: true,
+        visibility: 'public',
+      })
+      .sort({ startDate: -1 })
+      .exec();
+
+    return posts;
+  }
 }
