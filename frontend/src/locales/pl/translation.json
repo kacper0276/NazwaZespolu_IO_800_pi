@@ -177,5 +177,22 @@
 
   "statute": "Regulamin",
   "contact": "Kontakt",
-  "privacy-policy": "Polityka prywatności"
+  "privacy-policy": "Polityka prywatności",
+
+  "view-profile": "Zobacz profil",
+  "search": "Szukaj",
+  "notifications": "Powiadomienia",
+  "messages": "Wiadomości",
+  "home": "Strona główna",
+  "premium": "Premium",
+  "settings": "Ustawienia",
+  "users": "Użytkownicy",
+  "posts": "Posty",
+  "loading-results": "Wczytywanie wyników",
+  "no-results-for": "Brak wyników dla",
+  "start-chat": "Rozpocznij chatować",
+  "search-posts": "Szukaj postów",
+  "no-new-notifications": "Brak nowych powiadomień",
+  "clear-all": "Wyczyść",
+  "search-user-by-email": "Szukaj użytkownika przez email"
 }

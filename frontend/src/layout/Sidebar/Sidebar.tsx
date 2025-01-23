@@ -188,7 +188,7 @@ const Sidebar: React.FC = () => {
                 href={`/profile-page/${userHook.user?.profileId}`}
                 className={styles.profileLink}
               >
-                View Profile
+                {t("view-profile")}
               </a>
             </div>
           )}
@@ -204,7 +204,9 @@ const Sidebar: React.FC = () => {
             onClick={() => togglePanel("search")}
           >
             <i className="bi bi-search"></i>
-            {!isMinimized && <span className={styles.navSpan}>Search</span>}
+            {!isMinimized && (
+              <span className={styles.navSpan}>{t("search")}</span>
+            )}
           </div>
 
           {/* Notifications */}
@@ -216,7 +218,7 @@ const Sidebar: React.FC = () => {
           >
             <i className="bi bi-bell"></i>
             {!isMinimized && (
-              <span className={styles.navSpan}>Notifications</span>
+              <span className={styles.navSpan}>{t("notifications")}</span>
             )}
           </div>
 
@@ -228,7 +230,9 @@ const Sidebar: React.FC = () => {
             onClick={() => togglePanel("messages")}
           >
             <i className="bi bi-chat-dots"></i>
-            {!isMinimized && <span className={styles.navSpan}>Messages</span>}
+            {!isMinimized && (
+              <span className={styles.navSpan}>{t("messages")}</span>
+            )}
           </div>
 
           {/* Home */}
@@ -239,7 +243,9 @@ const Sidebar: React.FC = () => {
             }
           >
             <i className="bi bi-house"></i>
-            {!isMinimized && <span className={styles.navSpan}>Home</span>}
+            {!isMinimized && (
+              <span className={styles.navSpan}>{t("home")}</span>
+            )}
           </NavLink>
 
           {/* Premium */}
@@ -250,7 +256,9 @@ const Sidebar: React.FC = () => {
             }
           >
             <i className="bi bi-star"></i>
-            {!isMinimized && <span className={styles.navSpan}>Premium</span>}
+            {!isMinimized && (
+              <span className={styles.navSpan}>{t("premium")}</span>
+            )}
           </NavLink>
         </nav>
 
@@ -258,7 +266,7 @@ const Sidebar: React.FC = () => {
         <div className={styles.settingsSection}>
           <NavLink to="/settings" className={styles.settingsButton}>
             <i className="bi bi-gear"></i>
-            {!isMinimized && <span>Settings</span>}
+            {!isMinimized && <span>{t("settings")}</span>}
           </NavLink>
         </div>
       </div>
@@ -272,7 +280,7 @@ const Sidebar: React.FC = () => {
         <div className="p-3 w-100 text-white text-wrap">
           {activePanel === "search" && (
             <>
-              <h5>Search</h5>
+              <h5>{t("search")}</h5>
               <div className={`${styles.searchModeSwitcher} mb-3`}>
                 <button
                   className={`${styles.switchButton} ${
@@ -280,7 +288,7 @@ const Sidebar: React.FC = () => {
                   }`}
                   onClick={() => toggleSearchMode("users")}
                 >
-                  Users
+                  {t("users")}
                 </button>
                 <button
                   className={`${styles.switchButton} ${
@@ -288,7 +296,7 @@ const Sidebar: React.FC = () => {
                   }`}
                   onClick={() => toggleSearchMode("posts")}
                 >
-                  Posts
+                  {t("posts")}
                 </button>
               </div>
               {searchMode === "users" && (
@@ -297,15 +305,17 @@ const Sidebar: React.FC = () => {
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Search users..."
+                    placeholder={t("search-user")}
                     className={styles.searchBox}
                   />
                   <div className={styles.scrollableContainer}>
-                    {isLoading && <p>Loading results...</p>}
+                    {isLoading && <p>{t("loading-results")}</p>}
                     {!isLoading &&
                       results.length === 0 &&
                       debouncedUsername && (
-                        <p>No results for "{debouncedUsername}"</p>
+                        <p>
+                          {t("no-results-for")} "{debouncedUsername}"
+                        </p>
                       )}
                     <ul>
                       {results.map((user) => (
@@ -330,14 +340,14 @@ const Sidebar: React.FC = () => {
                                 className={styles.optionButton}
                                 onClick={() => startChat(user)}
                               >
-                                Start Chat
+                                {t("start-chat")}
                               </button>
                               <button
                                 className={styles.optionButton}
                                 onClick={() => goToProfile(user)}
                                 disabled={user.profileId === ""}
                               >
-                                View Profile
+                                {t("view-profile")}
                               </button>
                             </div>
                           )}
@@ -354,12 +364,14 @@ const Sidebar: React.FC = () => {
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Search posts..."
+                    placeholder={t("search-posts")}
                     className={styles.searchBox}
                   />
                   <div className={styles.scrollableContainer}>
                     {filteredPosts.length === 0 && debouncedUsername && (
-                      <p>No results for "{debouncedUsername}"</p>
+                      <p>
+                        {t("no-results-for")} "{debouncedUsername}"
+                      </p>
                     )}
                     <ul>
                       {filteredPosts.map((post) => (
@@ -378,7 +390,7 @@ const Sidebar: React.FC = () => {
           )}
           {activePanel === "notifications" && (
             <div className={styles.notificationsPanel}>
-              <h5>Notifications</h5>
+              <h5>{t("notifications")}</h5>
               {notifications.length > 0 ? (
                 <div className={styles.notificationsContainer}>
                   <ul className={styles.notificationsList}>
@@ -396,31 +408,35 @@ const Sidebar: React.FC = () => {
                   </ul>
                 </div>
               ) : (
-                <p className={styles.noNotifications}>No new notifications</p>
+                <p className={styles.noNotifications}>
+                  {t("no-new-notifications")}
+                </p>
               )}
               <button
                 className={styles.clearBtn}
                 onClick={clearNotifications}
                 disabled={notifications.length === 0}
               >
-                Clear All
+                {t("clear-all")}
               </button>
             </div>
           )}
           {activePanel === "messages" && (
             <>
-              <h5>Messages</h5>
+              <h5>{t("messages")}</h5>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Search user by email..."
+                placeholder={t("search-user-by-email")}
                 className={styles.searchBox}
               />
               <div className={styles.scrollableContainerMessages}>
-                {isLoading && <p>Loading results...</p>}
+                {isLoading && <p>{t("loading-results")}...</p>}
                 {!isLoading && results.length === 0 && debouncedUsername && (
-                  <p>No results for "{debouncedUsername}"</p>
+                  <p>
+                    {t("no-results-for")} "{debouncedUsername}"
+                  </p>
                 )}
                 <ul>
                   {results.map((user) => (
