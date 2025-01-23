@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
 import ProfilePicPlaceholder from "../../assets/images/ProfilePic.jpg";
 import { useUser } from "../../context/UserContext";
+import { NotificationType } from "../../types/INotification";
 
 const Sidebar: React.FC = () => {
   const { t } = useTranslation();
@@ -30,19 +31,19 @@ const Sidebar: React.FC = () => {
   const [showOptions, setShowOptions] = useState<{
     [key: string]: UserType | null;
   }>({});
-  const [notifications, setNotifications] = useState([
-    { id: 1, text: "You have a new message.", read: false },
-    { id: 2, text: "Your premium plan expires soon.", read: false },
-    { id: 3, text: "Don't miss our latest updates!", read: false },
-    { id: 1, text: "You have a new message.", read: false },
-    { id: 2, text: "Your premium plan expires soon.", read: false },
-    { id: 3, text: "Don't miss our latest updates!", read: false },
-    { id: 1, text: "You have a new message.", read: false },
-    { id: 2, text: "Your premium plan expires soon.", read: false },
-    { id: 3, text: "Don't miss our latest updates!", read: false },
-    { id: 1, text: "You have a new message.", read: false },
-    { id: 2, text: "Your premium plan expires soon.", read: false },
-    { id: 3, text: "Don't miss our latest updates!", read: false },
+  const [notifications, setNotifications] = useState<NotificationType[]>([
+    // { id: 1, text: "You have a new message.", read: false },
+    // { id: 2, text: "Your premium plan expires soon.", read: false },
+    // { id: 3, text: "Don't miss our latest updates!", read: false },
+    // { id: 1, text: "You have a new message.", read: false },
+    // { id: 2, text: "Your premium plan expires soon.", read: false },
+    // { id: 3, text: "Don't miss our latest updates!", read: false },
+    // { id: 1, text: "You have a new message.", read: false },
+    // { id: 2, text: "Your premium plan expires soon.", read: false },
+    // { id: 3, text: "Don't miss our latest updates!", read: false },
+    // { id: 1, text: "You have a new message.", read: false },
+    // { id: 2, text: "Your premium plan expires soon.", read: false },
+    // { id: 3, text: "Don't miss our latest updates!", read: false },
   ]);
   const markAsRead = (id: number) => {
     setNotifications((prev) =>
@@ -121,6 +122,34 @@ const Sidebar: React.FC = () => {
     }
   };
 
+  const fetchNotifications = async () => {
+    setIsLoading(true);
+    try {
+      const response = await api.get<ApiResponse<UserType[]>>(
+        `profiles/get-followers-notifications/${userHook.user?.profileId}`
+      );
+
+      const users = response.data.data ?? [];
+
+      users.forEach((user, key) => {
+        const notification = {
+          id: key,
+          text: `Użytkownik ${user.firstname} ${user.lastname} zaobserwował Cię`,
+          read: false,
+        };
+
+        setNotifications((prev) => [...prev, notification]);
+      });
+
+      setResults(users);
+    } catch (error) {
+      toast.error(t("error-fetching-notifications"));
+      setResults([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   //Search Tab Logic
   useEffect(() => {
     if (searchMode === "posts" && debouncedUsername.trim()) {
@@ -134,6 +163,12 @@ const Sidebar: React.FC = () => {
       setFilteredPosts([]);
     }
   }, [debouncedUsername, searchMode]);
+
+  useEffect(() => {
+    if (userHook.user) {
+      fetchNotifications();
+    }
+  }, [userHook.user, location]);
 
   //Search tab placeholders
   const examplePosts = [
