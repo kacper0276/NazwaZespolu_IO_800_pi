@@ -205,7 +205,6 @@ const Sidebar: React.FC = () => {
             <i className="bi bi-bell"></i>
             {!isMinimized && (
               <span className={styles.navSpan}>{t("nav.notifications")}</span>
-              <span className={styles.navSpan}>{t("notifications")}</span>
             )}
           </div>
 
@@ -300,7 +299,6 @@ const Sidebar: React.FC = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder={t("search.searchUsers")}
-                    placeholder={t("search-user")}
                     className={styles.searchBox}
                   />
                   <div className={styles.scrollableContainer}>
@@ -310,9 +308,6 @@ const Sidebar: React.FC = () => {
                       results.length === 0 &&
                       debouncedUsername && (
                         <p>{t("search.noResults", { query: debouncedUsername })}</p>
-                        <p>
-                          {t("no-results-for")} "{debouncedUsername}"
-                        </p>
                       )}
                     <ul>
                       {results.map((user) => (
@@ -365,15 +360,11 @@ const Sidebar: React.FC = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder={t("search.searchPosts")}
-                    placeholder={t("search-posts")}
                     className={styles.searchBox}
                   />
                   <div className={styles.scrollableContainer}>
                     {filteredPosts.length === 0 && debouncedUsername && (
                       <p>{t("search.noResults", { query: debouncedUsername })}</p>
-                      <p>
-                        {t("no-results-for")} "{debouncedUsername}"
-                      </p>
                     )}
                     <ul>
                       {filteredPosts.map((post) => (
@@ -412,9 +403,6 @@ const Sidebar: React.FC = () => {
                 </div>
               ) : (
                 <p className={styles.noNotifications}>{t("notifications.noNew")}</p>
-                <p className={styles.noNotifications}>
-                  {t("no-new-notifications")}
-                </p>
               )}
               <button
                 className={styles.clearBtn}
@@ -435,7 +423,6 @@ const Sidebar: React.FC = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder={t("messages.searchByEmail")}
-                placeholder={t("search-user-by-email")}
                 className={styles.searchBox}
               />
               <div className={styles.scrollableContainerMessages}>
@@ -443,9 +430,6 @@ const Sidebar: React.FC = () => {
                 {isLoading && <p>{t("loading-results")}...</p>}
                 {!isLoading && results.length === 0 && debouncedUsername && (
                   <p>{t("messages.noResults", { query: debouncedUsername })}</p>
-                  <p>
-                    {t("no-results-for")} "{debouncedUsername}"
-                  </p>
                 )}
                 <ul>
                   {results.map((user) => (
