@@ -7,6 +7,35 @@ export class SettingsService {
   constructor(private readonly settingsRepository: SettingsRepository) {}
 
   async createSetting(setting: Partial<Setting>): Promise<Setting> {
+    const existingSettings = await this.settingsRepository.findByUserId(
+      setting.userId,
+    );
+
+    if (existingSettings && existingSettings.length > 0) {
+      const existingSetting = existingSettings[0];
+      const updatedData = { ...existingSetting.data };
+
+      for (const [key, value] of Object.entries(setting.data)) {
+        if (existingSetting.data[key] !== value) {
+          updatedData[key] = value;
+        }
+      }
+
+      const updatedSetting = await this.settingsRepository.updateByUserId(
+        setting.userId,
+        {
+          data: updatedData,
+        },
+      );
+
+      if (!updatedSetting) {
+        throw new NotFoundException(
+          `Setting for user with id ${setting.userId} not found`,
+        );
+      }
+      return updatedSetting;
+    }
+
     return this.settingsRepository.create(setting);
   }
 

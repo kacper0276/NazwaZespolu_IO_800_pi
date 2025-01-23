@@ -1,28 +1,43 @@
-import React, { useEffect }  from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Lang } from "../../enums/lang.enum";
 import styles from "./LanguageSection.module.scss";
 import useWebsiteTitle from "../../hooks/useWebsiteTitle";
-
-
+import { useApiJson } from "../../config/api";
+import { useUser } from "../../context/UserContext";
+import { toast } from "react-toastify";
 
 const LanguageSection: React.FC = () => {
   const { t, i18n } = useTranslation();
   useWebsiteTitle(t("language-settings"));
+  const api = useApiJson();
+  const userHook = useUser();
 
   const setLang = (lang: Lang) => {
     i18n.changeLanguage(lang);
-    localStorage.setItem('appLanguage', lang);
+    localStorage.setItem("appLanguage", lang);
+
+    api
+      .post("settings", {
+        userId: userHook.user?._id,
+        type: "json",
+        data: { lang },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((_err) => {
+        toast.error(t("error"));
+      });
   };
 
   useEffect(() => {
-    const savedLang = localStorage.getItem('appLanguage') as Lang;
+    const savedLang = localStorage.getItem("appLanguage") as Lang;
     if (savedLang) {
       i18n.changeLanguage(savedLang);
     }
   }, []);
   return (
-    
     <div className={styles.languageSection}>
       <h2>{t("language-settings")}</h2>
       <div className={styles.languageOptions}>

@@ -27,6 +27,15 @@ export class SettingsRepository {
     return this.settingModel.find({ userId }).exec();
   }
 
+  async updateByUserId(
+    userId: string,
+    updateData: any,
+  ): Promise<Setting | null> {
+    return this.settingModel
+      .findOneAndUpdate({ userId }, { $set: updateData }, { new: true })
+      .exec();
+  }
+
   async update(
     id: string,
     updateData: Partial<Setting>,
