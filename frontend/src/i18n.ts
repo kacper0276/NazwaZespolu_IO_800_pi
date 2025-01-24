@@ -16,11 +16,14 @@ const resources = {
   },
 };
 
-const savedLang = localStorage.getItem("appLanguage");
+const savedLang = localStorage.getItem("appLanguage") ?? "";
+
+const availableLanguages = ["en", "pl", "jp"];
+const language = availableLanguages.includes(savedLang) ? savedLang : "pl";
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: savedLang || "pl",
+  lng: language || "pl",
   fallbackLng: "pl",
   interpolation: {
     escapeValue: false,
