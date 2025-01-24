@@ -159,7 +159,7 @@ export class PaymentsService {
 
     const htmlTemplate = `
    <!doctype html>
-  <html lang="pl">
+<html lang="pl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -174,22 +174,17 @@ export class PaymentsService {
       }
 
       .email-container {
-        max-width: 600px;
-        margin: 20px auto;
+        width: 100%;
+        height: 100%;
         background-color: #ffffff;
         border: 1px solid #e0e0e0;
-        border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease;
       }
 
-      .email-container:hover {
-        transform: scale(1.02);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-
       .email-header {
+        height: 5vh;
         background: linear-gradient(90deg, #45c032, #00957f);
         color: #ffffff;
         text-align: center;
@@ -198,6 +193,7 @@ export class PaymentsService {
       }
 
       .email-body {
+        height: 74vh;
         padding: 20px;
       }
 
@@ -227,7 +223,9 @@ export class PaymentsService {
         border-radius: 4px;
         font-size: 16px;
         margin-top: 20px;
-        transition: background 0.3s ease, transform 0.3s ease;
+        transition:
+          background 0.3s ease,
+          transform 0.3s ease;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         text-align: center;
       }
@@ -239,6 +237,7 @@ export class PaymentsService {
       }
 
       .email-footer {
+        height: 5vh;
         background-color: #f1f1f1;
         text-align: center;
         padding: 10px;
@@ -249,9 +248,7 @@ export class PaymentsService {
   </head>
   <body>
     <div class="email-container">
-      <div class="email-header">
-        Potwierdzenie Płatności
-      </div>
+      <div class="email-header">Potwierdzenie Płatności</div>
       <div class="email-body">
         <p>Witaj, ${name}</p>
         <p>
@@ -266,14 +263,16 @@ export class PaymentsService {
         </div>
         <p>Jeśli masz jakiekolwiek pytania, skontaktuj się z nami.</p>
         <p>Pozdrawiamy,<br />Zespół Administracji Serwisu</p>
-        <a href="mailto:support@example.com" class="cta">Skontaktuj się z nami</a>
+        <a href="mailto:support@example.com" class="cta"
+          >Skontaktuj się z nami</a
+        >
       </div>
       <div class="email-footer">
         &copy; 2024 TheForest. Wszelkie prawa zastrzeżone.
       </div>
-      </div>
-    </body>
-  </html>
+    </div>
+  </body>
+</html>
   `;
 
     await page.setContent(htmlTemplate, { waitUntil: 'load' });
