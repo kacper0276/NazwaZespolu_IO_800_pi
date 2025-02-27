@@ -1,9 +1,6 @@
 # Nazwa zespołu - TheForest; aplikacja który pomaga utrzymać postanowienia
 Kacper Renkel (Szef), Nikodem Gronowski, Tomasz Milanowski, Maciej Dylak
 
-
-# Hotel reservation management
-
 [![License](https://img.shields.io/static/v1?label=License&message=MIT&color=blue&?style=plastic&logo=appveyor)](https://opensource.org/license/MIT)
 
 ## Table Of Content
