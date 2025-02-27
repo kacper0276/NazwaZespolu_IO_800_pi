@@ -15,7 +15,7 @@ Kacper Renkel (Szef), Nikodem Gronowski, Tomasz Milanowski, Maciej Dylak
 The motivation was to learn something new in React and NestJS and create a functional website that allows you to track your own progress in resolutions and sharing your progress with other users
 
 <p align="center">
-  <img alt="Main page" [Screenshot] src="./screenshots/MainPage"><br>
+  <img alt="Main page" [Screenshot] src="./screenshots/MainPage.png"><br>
 Main Page
 </p>
 <p align="center">
